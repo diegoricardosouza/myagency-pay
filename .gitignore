@@ -1,0 +1,3 @@
+/api/app-laravel/.docker
+/api/app-laravel/.env
+/api/app-laravel/vendor
