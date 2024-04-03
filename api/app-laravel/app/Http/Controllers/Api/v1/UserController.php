@@ -7,12 +7,26 @@ use App\Http\Requests\Api\StoreUpdateUserRequest;
 use App\Http\Resources\Api\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    protected $userLogged;
+
     public function __construct(
         protected UserService $repository,
     ) {
+        $this->middleware(function ($request, $next) {
+            $this->userLogged = Auth::user();
+
+            if ($this->userLogged->level != 'ADMIN') {
+                return response()->json([
+                    'error' => 'Unauthorized'
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+
+            return $next($request);
+        });
     }
 
     /**
@@ -36,8 +50,9 @@ class UserController extends Controller
      */
     public function store(StoreUpdateUserRequest $request)
     {
-        $user = $this->repository->createNew($request->all());
+        // $this->verifyUserLogged();
 
+        $user = $this->repository->createNew($request->all());
         return new UserResource($user);
     }
 
