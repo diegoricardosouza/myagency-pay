@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -16,16 +18,22 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Authorized',
                 'token' => $request->user()->createToken('myagency')->plainTextToken
-            ], 200);
+            ], Response::HTTP_OK);
         }
 
-        return response()->json(['message' => 'Unauthorized'], 401);
+        return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function me()
+    {
+        $user = Auth::user();
+        return new UserResource($user);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $request->user()->tokens()->delete();
 
-        return response()->json(['message' => 'Token Revoked'], 200);
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
