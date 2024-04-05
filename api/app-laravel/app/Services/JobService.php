@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Mail\CreateJobMail;
 use App\Models\File;
 use App\Models\Job;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class JobService
@@ -13,11 +16,25 @@ class JobService
     ) {
     }
 
+    public function findById($id, $userLogged = null)
+    {
+        if (!empty($userLogged) && $userLogged->level == 'CLIENTE') {
+            return $this->job->where('user_id', $userLogged->id)
+                ->findOrFail($id);
+        }
+        return $this->job->findOrFail($id);
+    }
+
     public function getAll($user = null, $startDate = null, $endDate = null, $perPage = 10)
     {
+        // $a = $this->job->with('files')
+        //     ->paginate($perPage);
+
+        //     dd($a);
+
         if ($user->level == 'CLIENTE') {
             if($startDate && !empty($endDate)) {
-                return $this->job->where('user_id', $user->id)
+                return $this->job->with('files')->where('user_id', $user->id)
                                 ->whereBetween('created_at', [$startDate, $endDate])
                                 ->paginate($perPage);
             }
@@ -46,16 +63,10 @@ class JobService
             }
         }
 
-        return $jobCreated;
-    }
+        $jobAfterCreation = $this->job->with(['user', 'files'])->where('id', $jobCreated->id)->first();
+        $this->sendMail($jobAfterCreation);
 
-    public function findById($id, $userLogged = null)
-    {
-        if(!empty($userLogged) && $userLogged->level == 'CLIENTE') {
-            return $this->job->where('user_id', $userLogged->id)
-                            ->findOrFail($id);
-        }
-        return $this->job->findOrFail($id);
+        return $jobCreated;
     }
 
     public function update($data, $id)
@@ -79,5 +90,27 @@ class JobService
         $job->files()->delete();
 
         $job->delete();
+    }
+
+    public function sendMail($job)
+    {
+        $urlFile = [];
+        foreach($job->files as $file){
+            $urlFile[] = url("storage/{$file->name}");
+        }
+
+        Mail::to('diegoricardoweb@gmail.com')->send(new CreateJobMail([
+            'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
+            'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
+            'formatos' => $job->format,
+            'outros_formatos' => $job->other_formats,
+            'frase_destaque' => $job->phrase,
+            'informacoes' => $job->content,
+            'observacoes' => $job->obs,
+            'responsavel' => $job->user->responsible,
+            'email' => $job->user->email,
+            'whatsapp' => $job->user->whatsapp,
+            'files' => implode("\n", $urlFile),
+        ]));
     }
 }
