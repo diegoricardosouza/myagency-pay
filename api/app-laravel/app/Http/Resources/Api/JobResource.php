@@ -28,6 +28,7 @@ class JobResource extends JsonResource
             'created' => $this->created_at,
             'user_id' => $this->user_id,
             'files' => FileResource::collection($this->files),
+            'comments' => CommentResource::collection($this->comments),
 
             // 'logo' => url("storage/{$this->logo}"),
             // 'plan' => new PlanResource($this->plan)
