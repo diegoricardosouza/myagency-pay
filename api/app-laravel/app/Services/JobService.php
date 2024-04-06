@@ -27,28 +27,23 @@ class JobService
 
     public function getAll($user = null, $startDate = null, $endDate = null, $perPage = 10)
     {
-        // $a = $this->job->with('files')
-        //     ->paginate($perPage);
-
-        //     dd($a);
-
         if ($user->level == 'CLIENTE') {
             if($startDate && !empty($endDate)) {
-                return $this->job->with('files')->where('user_id', $user->id)
+                return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
                                 ->whereBetween('created_at', [$startDate, $endDate])
                                 ->paginate($perPage);
             }
 
-            return $this->job->where('user_id', $user->id)
+            return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
                             ->paginate($perPage);
         }
 
         if (!empty($startDate) && !empty($endDate)) {
-            return $this->job->whereBetween('created_at', [$startDate, $endDate])
+            return $this->job->with(['files', 'comments'])->whereBetween('created_at', [$startDate, $endDate])
                             ->paginate($perPage);
         }
 
-        return $this->job->paginate($perPage);
+        return $this->job->with(['files', 'comments'])->paginate($perPage);
     }
 
     public function createNew($data)
