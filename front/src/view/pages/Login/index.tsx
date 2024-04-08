@@ -3,6 +3,7 @@ import { Input } from "@/view/components/ui/input";
 import { Label } from "@/view/components/ui/label";
 
 import illustration from "@/assets/placeholder.svg";
+import { Logo } from "@/view/components/Logo";
 import { useLoginController } from "./useLoginController";
 
 export function Login() {
@@ -12,7 +13,9 @@ export function Login() {
     <div className="w-full h-screen lg:grid lg:min-h-[600px] lg:grid-cols-2">
       <div className="flex h-screen items-center justify-center py-12 px-5">
         <div className="mx-auto grid w-[350px] gap-6">
-          <div className="grid gap-2 text-center">
+          <div className="flex flex-col gap-2 text-center">
+            <Logo className="w-[168px] ml-auto mr-auto" />
+
             <h1 className="text-3xl font-bold">Entrar</h1>
             <p className="text-balance text-muted-foreground">
               Digite seu e-mail abaixo para fazer login
