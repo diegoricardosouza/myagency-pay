@@ -16,7 +16,6 @@ class AuthController extends Controller
             $request->user()->tokens()->delete();
 
             return response()->json([
-                'message' => 'Authorized',
                 'token' => $request->user()->createToken('myagency')->plainTextToken
             ], Response::HTTP_OK);
         }
