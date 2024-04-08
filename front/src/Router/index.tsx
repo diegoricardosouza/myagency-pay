@@ -1,3 +1,4 @@
+import { DashboardLayout } from "@/view/layouts/DashboardLayout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Dashboard } from "../view/pages/Dashboard";
 import { Login } from "../view/pages/Login";
@@ -15,7 +16,9 @@ export function Router() {
         </Route>
 
         <Route element={<AuthGuard isPrivate />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/" element={<Dashboard />} />
+          </Route>
         </Route>
 
       </Routes>
