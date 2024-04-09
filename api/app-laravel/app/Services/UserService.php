@@ -12,9 +12,12 @@ class UserService
     ) {
     }
 
-    public function getAll($perPage = 10)
+    public function getAll($authUserId, $perPage = 10)
     {
-        return $this->user->with('plan')->paginate($perPage);
+        return $this->user
+                    ->with('plan')
+                    ->where('id', '!=', $authUserId)
+                    ->paginate($perPage);
     }
 
     public function createNew($data)

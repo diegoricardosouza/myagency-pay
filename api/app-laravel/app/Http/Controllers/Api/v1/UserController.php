@@ -34,7 +34,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection($this->repository->getAll());
+        return UserResource::collection($this->repository->getAll($this->userLogged->id));
     }
 
     /**
@@ -109,6 +109,12 @@ class UserController extends Controller
             return response()->json([
                 'error' => 'Not Found'
             ], Response::HTTP_NOT_FOUND);
+        }
+
+        if($this->userLogged->id == $id) {
+            return response()->json([
+                'error' => 'Action not allowed'
+            ], Response::HTTP_NOT_ACCEPTABLE);
         }
 
         $this->repository->delete($id);
