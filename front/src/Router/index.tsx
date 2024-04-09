@@ -1,4 +1,5 @@
 import { DashboardLayout } from "@/view/layouts/DashboardLayout";
+import { Help } from "@/view/pages/Help";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Dashboard } from "../view/pages/Dashboard";
 import { Login } from "../view/pages/Login";
@@ -18,6 +19,7 @@ export function Router() {
         <Route element={<AuthGuard isPrivate />}>
           <Route element={<DashboardLayout />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/ajuda" element={<Help />} />
           </Route>
         </Route>
 

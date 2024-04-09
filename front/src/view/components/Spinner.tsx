@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 
-
 interface SpinnerProps {
   className?: string;
 }
