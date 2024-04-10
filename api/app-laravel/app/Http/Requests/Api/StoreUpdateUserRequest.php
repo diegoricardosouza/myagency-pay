@@ -74,4 +74,15 @@ class StoreUpdateUserRequest extends FormRequest
 
         return $rules;
     }
+
+    public function messages()
+    {
+        return [
+            'email.required'     => 'O campo email é de preenchimento obrigatório.',
+            'email.email'        => 'O e-mail informato tem o formato inválido.',
+            'email.unique'       => 'O e-mail informato já está sendo usado.',
+            'password.required'  => 'O campo senha é de preenchimento obrigatório.',
+            'password.min'       => 'A senha precisa ter no minimo 6 caracteres.',
+        ];
+    }
 }
