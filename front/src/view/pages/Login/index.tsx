@@ -4,6 +4,7 @@ import { Label } from "@/view/components/ui/label";
 
 import illustration from "@/assets/placeholder.svg";
 import { Logo } from "@/view/components/Logo";
+import { Loader2 } from "lucide-react";
 import { useLoginController } from "./useLoginController";
 
 export function Login() {
@@ -50,6 +51,7 @@ export function Login() {
             </div>
 
             <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Login
             </Button>
           </form>
