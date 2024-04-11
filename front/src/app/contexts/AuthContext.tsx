@@ -3,12 +3,33 @@ import { useQuery } from "@tanstack/react-query";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { localStoragekeys } from "../config/localStorageKeys";
-import { User } from "../entities/User";
 import { usersService } from "../services/usersService";
+
+interface UserMe {
+  data: {
+    id: string;
+    name: string;
+    company: string;
+    responsible: string;
+    email: string;
+    level: string;
+    whatsapp: string;
+    day: number;
+    logo: string;
+    plan: {
+      id: string;
+      name: string;
+      updates: string;
+      digital_midia: string;
+      printed: string;
+      presentations: string;
+    }
+  }
+}
 
 interface AuthContextValue {
   signedIn: boolean;
-  user: User | undefined;
+  user: UserMe | undefined;
   signin(token: string): void;
   signout(): void;
 }
@@ -22,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return !!storedToken;
   });
 
-  const { isError, isFetching, isSuccess, data } = useQuery({
+  const { isError, isSuccess, data, isLoading } = useQuery({
     queryKey: ['users', 'me'],
     queryFn: () => usersService.me(),
     enabled: signedIn,
@@ -57,9 +78,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signout
       }}
     >
-      <LaunchScreen isLoading={isFetching} />
+      <LaunchScreen isLoading={isLoading} />
 
-      {!isFetching && children}
+      {!isLoading && children}
     </AuthContext.Provider>
   )
 }
