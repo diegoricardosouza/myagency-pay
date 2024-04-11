@@ -31,19 +31,24 @@ class JobService
             if($startDate && !empty($endDate)) {
                 return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
                                 ->whereBetween('created_at', [$startDate, $endDate])
+                                ->orderBy('created_at', 'desc')
                                 ->paginate($perPage);
             }
 
             return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
+                            ->orderBy('created_at', 'desc')
                             ->paginate($perPage);
         }
 
         if (!empty($startDate) && !empty($endDate)) {
             return $this->job->with(['files', 'comments'])->whereBetween('created_at', [$startDate, $endDate])
+                            ->orderBy('created_at', 'desc')
                             ->paginate($perPage);
         }
 
-        return $this->job->with(['files', 'comments'])->paginate($perPage);
+        return $this->job->with(['files', 'comments'])
+                        ->orderBy('created_at', 'desc')
+                        ->paginate($perPage);
     }
 
     public function createNew($data)

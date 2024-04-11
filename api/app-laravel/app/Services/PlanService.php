@@ -13,7 +13,9 @@ class PlanService
 
     public function getAll($perPage = 10)
     {
-        return $this->repository->paginate($perPage);
+        return $this->repository
+                    ->orderBy('created_at', 'desc')
+                    ->paginate($perPage);
     }
 
     public function new($data)
