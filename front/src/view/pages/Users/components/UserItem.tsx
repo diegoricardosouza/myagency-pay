@@ -21,20 +21,25 @@ export function UserItem({ id, company, email, responsible, logo, level, plan, d
     <>
       <TableRow>
         <TableCell className="hidden sm:table-cell">
-          <img
-            alt="Product image"
-            className="aspect-square rounded-md object-contain"
-            height="64"
-            src={logo}
-            width="64"
-          />
+          <div className="flex items-center gap-4">
+            <img
+              alt="Product image"
+              className="aspect-square rounded-md object-contain"
+              height="64"
+              src={logo}
+              width="64"
+            />
+            <div className="grid gap-1">
+              <p className="text-sm font-medium leading-none">
+                {company}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {email}
+              </p>
+            </div>
+          </div>
         </TableCell>
-        <TableCell className="font-medium">
-          {company}
-        </TableCell>
-        <TableCell className="font-medium">
-          {email}
-        </TableCell>
+
         <TableCell className="font-medium">
           {responsible}
         </TableCell>
@@ -46,7 +51,7 @@ export function UserItem({ id, company, email, responsible, logo, level, plan, d
         </TableCell>
         <TableCell>
           <div className="flex gap-4">
-            <Link to={`/usuarios/${id}`}>
+            <Link to={`/usuarios/edit/${id}`}>
               <Edit className="w-4 h-4" />
             </Link>
 
