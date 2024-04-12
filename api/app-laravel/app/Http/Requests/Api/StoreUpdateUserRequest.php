@@ -56,7 +56,7 @@ class StoreUpdateUserRequest extends FormRequest
             ],
         ];
 
-        if ($this->method() === 'PATCH') {
+        if ($this->method() === 'PATCH' || $this->method() === 'POST') {
             // $rules['email'] = [
             //     'required',
             //     'email',

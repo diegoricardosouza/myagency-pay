@@ -17,6 +17,7 @@ Route::prefix('v1')->group(function() {
         Route::get("/users/me/", [AuthController::class, 'me']);
         Route::apiResource('/plans', PlanController::class);
         Route::apiResource('/users', UserController::class);
+        Route::post("/users/{id}", [UserController::class, 'update']);
         Route::apiResource('/jobs', JobController::class);
         Route::apiResource('/files', FileController::class);
         Route::apiResource('/comments', CommentController::class);
