@@ -12,7 +12,7 @@ import { UserItem } from "./components/UserItem"
 import { useUserController } from "./useUserController"
 
 export default function User() {
-  const { users, handleDeleteUser, isLoadingDelete, pagination } = useUserController();
+  const { users, handleDeleteUser, isLoadingDelete, pagination, isLoading } = useUserController();
 
   const pages = useMemo(() => {
     return generateEllipsisPagination(pagination.currentPage, pagination.totalPages);
@@ -34,26 +34,22 @@ export default function User() {
           </Button>
         </div>
 
-        <Card>
+        <Card className="min-h-[700px] relative">
+          {isLoadingDelete || isLoading && (
+            <div className="w-full h-full flex justify-center items-center absolute top-0 left-0">
+              <Spinner className="w-6 h-6 fill-primary" />
+            </div>
+          )}
+
           <CardHeader>
             <CardTitle>Usuários</CardTitle>
           </CardHeader>
           <CardContent>
-            {isLoadingDelete && (
-              <div className="w-full h-full flex justify-center items-center min-h-[400px]">
-                <Spinner className="w-6 h-6 fill-primary" />
-              </div>
-            )}
-
             {!isLoadingDelete && (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="hidden w-[100px] sm:table-cell">
-                      <span className="sr-only">Image</span>
-                    </TableHead>
                     <TableHead>Empresa</TableHead>
-                    <TableHead>Email</TableHead>
                     <TableHead>Responsável</TableHead>
                     <TableHead>Nível</TableHead>
                     <TableHead className="hidden md:table-cell">Plano</TableHead>
@@ -72,51 +68,53 @@ export default function User() {
             )}
           </CardContent>
 
-          <CardFooter className="justify-center">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    className="cursor-pointer"
-                    onClick={pagination.previousPage}
-                    disabled={!pagination.hasPreviousPage}
-                  />
-                </PaginationItem>
+          {pagination.totalPages > 1 && (
+            <CardFooter className="justify-center">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      className="cursor-pointer"
+                      onClick={pagination.previousPage}
+                      disabled={!pagination.hasPreviousPage}
+                    />
+                  </PaginationItem>
 
-                {pages.map(page => {
-                  const isEllipsisPosition = typeof page === 'string';
+                  {pages.map(page => {
+                    const isEllipsisPosition = typeof page === 'string';
 
-                  if (isEllipsisPosition) {
+                    if (isEllipsisPosition) {
+                      return (
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      )
+                    }
+
                     return (
-                      <PaginationItem>
-                        <PaginationEllipsis />
+                      <PaginationItem key={page}>
+                        <PaginationButton
+                          className="cursor-pointer"
+                          isActive={pagination.currentPage === page}
+                          onClick={() => pagination.setPage(page)}
+                        >
+                          {page}
+                        </PaginationButton>
                       </PaginationItem>
                     )
-                  }
+                  })}
 
-                  return (
-                    <PaginationItem key={page}>
-                      <PaginationButton
-                        className="cursor-pointer"
-                        isActive={pagination.currentPage === page}
-                        onClick={() => pagination.setPage(page)}
-                      >
-                        {page}
-                      </PaginationButton>
-                    </PaginationItem>
-                  )
-                })}
-
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={pagination.nextPage}
-                    className="cursor-pointer"
-                    disabled={!pagination.hasNextPage}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </CardFooter>
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={pagination.nextPage}
+                      className="cursor-pointer"
+                      disabled={!pagination.hasNextPage}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </CardFooter>
+          )}
         </Card>
       </div>
     </>

@@ -8,7 +8,7 @@ export function useUserController(perPage = 6) {
 
   const queryClient = useQueryClient();
 
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, isLoading } = useQuery({
     queryKey: ['users', { page: pagination.currentPage, perPage}],
     staleTime: 0,
     queryFn: async () => {
@@ -31,7 +31,6 @@ export function useUserController(perPage = 6) {
 
   async function handleDeleteUser(id: string) {
     try {
-      // console.log(id);
       await removeUser(id);
 
       queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -46,6 +45,7 @@ export function useUserController(perPage = 6) {
     isFetching,
     handleDeleteUser,
     isLoadingDelete,
-    pagination
+    pagination,
+    isLoading
   };
 }
