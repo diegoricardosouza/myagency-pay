@@ -17,10 +17,10 @@ class PlanResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'updates' => $this->updates === -1 ? 'ilimitado' : $this->updates,
-            'digital_midia' => $this->digital_midia === -1 ? 'ilimitado' : $this->digital_midia,
-            'printed' => $this->printed === -1 ? 'ilimitado' : $this->printed,
-            'presentations' => $this->presentations === -1 ? 'ilimitado' : $this->presentations
+            'updates' => $this->updates,
+            'digital_midia' => $this->digital_midia,
+            'printed' => $this->printed,
+            'presentations' => $this->presentations
         ];
     }
 }
