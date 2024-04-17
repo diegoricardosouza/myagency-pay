@@ -16,7 +16,7 @@ export function LaunchScreen({ isLoading }: LaunchScreenProps) {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className="bg-primary fixed top-0 left-0 w-full h-full grid place-items-center">
+      <div className="bg-primary fixed top-0 left-0 w-full h-full grid place-items-center z-[999]">
         <div className="flex flex-col items-center gap-4">
           <Spinner className="text-primary fill-white" />
         </div>
