@@ -83,9 +83,20 @@ class JobController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreUpdateJobRequest $request, string $id)
     {
-        //
+        $job = $this->repository->update($request->all(), $id);
+
+        // $plan = $this->repository->findOrFail($id);
+        // // return $plan->update($data);
+
+        if (!$job) {
+            return response()->json([
+                'error' => 'Not Found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return new JobResource($job);
     }
 
     /**

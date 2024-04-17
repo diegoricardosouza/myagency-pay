@@ -23,6 +23,7 @@ class StoreUpdateCommentRequest extends FormRequest
     {
         return [
             'content' => 'required',
+            'user_id' => 'required',
         ];
     }
 }

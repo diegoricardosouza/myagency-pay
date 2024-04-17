@@ -27,6 +27,13 @@ class JobService
 
     public function getAll($user = null, $startDate = null, $endDate = null, $perPage = 10)
     {
+        if($startDate) {
+            $startDate = $startDate. "T00:00:00.000000Z";
+        }
+        if($endDate) {
+            $endDate = $endDate. "T23:59:59.000000Z";
+        }
+
         if ($user->level == 'CLIENTE') {
             if($startDate && !empty($endDate)) {
                 return $this->job->with(['files', 'comments'])->where('user_id', $user->id)

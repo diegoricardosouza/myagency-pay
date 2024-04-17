@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('job_id');
+            $table->uuid('user_id');
             $table->text('content')->nullable();
             $table->timestamps();
 
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

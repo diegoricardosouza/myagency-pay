@@ -18,6 +18,7 @@ class Comment extends Model
     protected $fillable = [
         'content',
         'job_id',
+        'user_id',
     ];
 
     public function job()
