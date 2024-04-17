@@ -27,7 +27,8 @@ const schema = z.object({
   password: z.string()
     .min(3, "A senha deve conter pelo menos 3 dígitos")
     .optional()
-    .or(z.literal('')),
+    .nullable()
+    .or(z.literal(null)),
   logo: z.instanceof(FileList)
     .transform(list => list.length > 0 ? list.item(0) : null)
     .refine((file) => {
@@ -97,6 +98,7 @@ export function useEditUserController() {
       setValue("responsible", userEditData?.data?.responsible);
       setValue("whatsapp", userEditData?.data?.whatsapp);
       setValue("plan_id", planId);
+      setValue("password", null);
       setLogoTemp(userEditData?.data.logo);
     }
   }, [userEditData, setValue, planId]);
