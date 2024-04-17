@@ -34,3 +34,11 @@ export function generateEllipsisPagination(
 
   return pages;
 }
+
+export function formatedDate(date: string) {
+  const getDate = date.split("-")
+  const day = getDate[2].split("T")
+  const dateFormated = getDate[0] + '-' + getDate[1] + '-' + day[0];
+
+  return dateFormated;
+}
