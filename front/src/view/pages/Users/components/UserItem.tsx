@@ -47,7 +47,7 @@ export function UserItem({ id, company, email, responsible, logo, level, plan, d
           <Badge variant="outline">{level}</Badge>
         </TableCell>
         <TableCell className="hidden md:table-cell">
-          {plan.name}
+          {plan?.name}
         </TableCell>
         <TableCell>
           <div className="flex gap-4">
