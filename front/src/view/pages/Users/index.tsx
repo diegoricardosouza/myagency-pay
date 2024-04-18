@@ -1,8 +1,8 @@
 import { generateEllipsisPagination } from "@/lib/utils"
+import { CustomPagination } from "@/view/components/CustomPagination"
 import { Spinner } from "@/view/components/Spinner"
 import { Button } from "@/view/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/view/components/ui/card"
-import { Pagination, PaginationButton, PaginationContent, PaginationEllipsis, PaginationItem, PaginationNext, PaginationPrevious } from "@/view/components/ui/pagination"
+import { Card, CardContent, CardHeader, CardTitle } from "@/view/components/ui/card"
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/view/components/ui/table"
 import { PlusCircle } from "lucide-react"
 import { useMemo } from "react"
@@ -69,51 +69,7 @@ export default function User() {
           </CardContent>
 
           {pagination.totalPages > 1 && (
-            <CardFooter className="justify-center">
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      className="cursor-pointer"
-                      onClick={pagination.previousPage}
-                      disabled={!pagination.hasPreviousPage}
-                    />
-                  </PaginationItem>
-
-                  {pages.map(page => {
-                    const isEllipsisPosition = typeof page === 'string';
-
-                    if (isEllipsisPosition) {
-                      return (
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                      )
-                    }
-
-                    return (
-                      <PaginationItem key={page}>
-                        <PaginationButton
-                          className="cursor-pointer"
-                          isActive={pagination.currentPage === page}
-                          onClick={() => pagination.setPage(page)}
-                        >
-                          {page}
-                        </PaginationButton>
-                      </PaginationItem>
-                    )
-                  })}
-
-                  <PaginationItem>
-                    <PaginationNext
-                      onClick={pagination.nextPage}
-                      className="cursor-pointer"
-                      disabled={!pagination.hasNextPage}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </CardFooter>
+            <CustomPagination pages={pages} pagination={pagination} />
           )}
         </Card>
       </div>
