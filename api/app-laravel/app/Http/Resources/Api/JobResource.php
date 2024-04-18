@@ -26,7 +26,7 @@ class JobResource extends JsonResource
             'type' => $this->type,
             'status' => $this->status,
             'created' => $this->created_at,
-            'user_id' => $this->user_id,
+            'user' => new UserResource($this->user),
             'files' => FileResource::collection($this->files),
             'comments' => CommentResource::collection($this->comments),
 

@@ -25,7 +25,7 @@ class JobService
         return $this->job->findOrFail($id);
     }
 
-    public function getAll($user = null, $startDate = null, $endDate = null, $perPage = 10)
+    public function getAll($user = null, $startDate = null, $endDate = null, $perPage = 6)
     {
         if($startDate) {
             $startDate = $startDate. "T00:00:00.000000Z";
