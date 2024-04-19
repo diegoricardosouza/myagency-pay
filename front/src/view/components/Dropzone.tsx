@@ -9,9 +9,10 @@ interface FileWithPreview extends File {
 
 interface DropzoneProps {
   onChange: (files: File[]) => void;
+  className?: string;
 }
 
-export function Dropzone({ onChange }: DropzoneProps) {
+export function Dropzone({ onChange, className }: DropzoneProps) {
   const [file, setFile] = useState<FileWithPreview[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -73,7 +74,7 @@ export function Dropzone({ onChange }: DropzoneProps) {
 
   return (
     <>
-      <InputDropzone dropzone={dropzone} />
+      <InputDropzone dropzone={dropzone} className={className} />
 
       <div>
         {file?.length > 0 && (
