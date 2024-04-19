@@ -1,14 +1,10 @@
+import { Comments } from "./Comments";
 import { User } from "./User";
 
-interface Files {
+export interface Files {
   id: string;
+  name: string;
   url: string;
-}
-
-interface Comments {
-  id: string;
-  content: string;
-  files?: Files[]
 }
 
 export interface Jobs {
@@ -19,7 +15,7 @@ export interface Jobs {
   other_formats: string;
   phrase: string;
   content: string;
-  obs: number;
+  obs: string;
   type: string;
   status: string;
   created: string;
