@@ -16,6 +16,7 @@ class FileCommentResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->url,
             'url' => url("storage/{$this->url}"),
         ];
     }

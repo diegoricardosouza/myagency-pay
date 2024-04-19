@@ -18,7 +18,7 @@ class CommentService
 
     public function getAll()
     {
-        return $this->comment->with('files')->get();
+        return $this->comment->with('files')->orderBy('created_at', 'desc')->get();
     }
 
     public function findById($id)

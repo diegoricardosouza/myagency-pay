@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\CreateJobMail;
+use App\Models\Comment;
 use App\Models\File;
 use App\Models\Job;
 use Carbon\Carbon;
@@ -13,6 +14,7 @@ class JobService
 {
     public function __construct(
         protected Job $job,
+        protected Comment $comment,
     ) {
     }
 
@@ -86,7 +88,7 @@ class JobService
 
     public function delete($id)
     {
-        $job = $this->job->with('files')->findOrFail($id);
+        $job = $this->job->with(['files', 'comments'])->findOrFail($id);
 
         foreach ($job->files as $file) {
             if ($file->name && Storage::exists($file->name)) {
@@ -96,7 +98,27 @@ class JobService
 
         $job->files()->delete();
 
+        //Comentários
+        $comments = $job->comments()->with('files')->get();
+
+        foreach ($comments as $fileC) {
+            $this->deleteCommentsAndFiles($fileC->id);
+        }
+        $job->comments()->delete();
+
         $job->delete();
+    }
+
+    public function deleteCommentsAndFiles($id) {
+        $comments = $this->comment->with('files')->findOrFail($id);
+
+        foreach ($comments->files as $file) {
+            if ($file->url && Storage::exists($file->url)) {
+                Storage::delete($file->url);
+            }
+        }
+
+        $comments->files()->delete();
     }
 
     public function sendMail($job)

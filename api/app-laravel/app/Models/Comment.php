@@ -30,4 +30,9 @@ class Comment extends Model
     {
         return $this->hasMany(FileComment::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

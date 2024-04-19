@@ -17,6 +17,7 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
+            'user' => new UserResource($this->user),
             'files' => FileCommentResource::collection($this->files),
         ];
     }
