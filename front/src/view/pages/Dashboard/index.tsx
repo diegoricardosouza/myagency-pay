@@ -1,9 +1,24 @@
+import { BreadcrumbDashboard } from "./components/BreadcrumbDashboard";
+import { FormatsDashboard } from "./components/Formats";
+import { useDashboardController } from "./useDashboardController";
 
 
 export function Dashboard() {
+  const { user } = useDashboardController();
+
   return (
     <>
-      <h1>Dashboard Page</h1>
+      <BreadcrumbDashboard />
+
+      {user?.data.level === 'CLIENTE' && (
+        <FormatsDashboard />
+      )}
+
+      {user?.data.level !== 'CLIENTE' && (
+        <div>
+          <p>Dashboard Admin</p>
+        </div>
+      )}
     </>
   )
 }
