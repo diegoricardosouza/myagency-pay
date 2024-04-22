@@ -11,6 +11,7 @@
 <body>
     <p>
         <b>SOLICITAÇÃO</b><br>
+        Ref: {{ $data['ref'] }}<br>
         Data: {{ $data['data'] }}<br>
         Hora: {{ $data['hora'] }}<br>
         Formatos: {{ $data['formatos'] }}<br>

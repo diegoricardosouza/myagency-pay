@@ -129,6 +129,7 @@ class JobService
         }
 
         Mail::to('diegoricardoweb@gmail.com')->send(new CreateJobMail([
+            'ref' => Carbon::parse($job->created_at)->format('Y').$job->ref,
             'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
             'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
             'formatos' => $job->format,

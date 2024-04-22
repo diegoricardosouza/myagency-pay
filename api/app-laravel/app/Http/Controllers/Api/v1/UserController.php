@@ -19,7 +19,7 @@ class UserController extends Controller
         $this->middleware(function ($request, $next) {
             $this->userLogged = Auth::user();
 
-            if ($this->userLogged->level != 'ADMIN') {
+            if ($this->userLogged && $this->userLogged->level != 'ADMIN') {
                 return response()->json([
                     'error' => 'Unauthorized'
                 ], Response::HTTP_UNAUTHORIZED);
