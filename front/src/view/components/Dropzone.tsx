@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { HasFile } from "./HasFile";
 import { InputDropzone } from "./InputDropzone";
@@ -10,9 +10,10 @@ interface FileWithPreview extends File {
 interface DropzoneProps {
   onChange: (files: File[]) => void;
   className?: string;
+  clearFiles?: boolean;
 }
 
-export function Dropzone({ onChange, className }: DropzoneProps) {
+export function Dropzone({ onChange, className, clearFiles }: DropzoneProps) {
   const [file, setFile] = useState<FileWithPreview[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -57,20 +58,14 @@ export function Dropzone({ onChange, className }: DropzoneProps) {
     maxSize: 3242880,
   });
 
-  // const a = [];
-  // if (dropzone.fileRejections.length > 0) {
-  //   console.log('erro file', dropzone.fileRejections);
-  //   setFile([]);
-  // }
-
-
-  // if (dropzone.fileRejections.length > 0) {
-  //   console.log('erro file', dropzone.fileRejections);
-  //   // setFile([]);
-  // }
-
-  // console.log(a);
-
+  useEffect(() => {
+    if (clearFiles) {
+      setFile([]);
+    }
+    if (dropzone.fileRejections.length > 0) {
+      setFile([]);
+    }
+  }, [clearFiles, dropzone.fileRejections]);
 
   return (
     <>

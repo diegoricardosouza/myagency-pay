@@ -24,7 +24,9 @@ export function FileViewJob({ id, url, name }: FileViewJobProps) {
             <FileCheck2 className="w-4 h-4" />
           </div>
 
-          <span className="text-xs text-gray-500 ml-0">{nameTrated}</span>
+          <span className="text-xs text-gray-500 ml-0 break-all my-3">
+            {nameTrated}
+          </span>
         </div>
 
         <Link to={url} download target="_blank">
