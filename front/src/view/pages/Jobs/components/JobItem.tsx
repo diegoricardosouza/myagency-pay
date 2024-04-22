@@ -2,7 +2,7 @@ import { User } from "@/app/entities/User";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/view/components/ui/alert-dialog";
 import { TableCell, TableRow } from "@/view/components/ui/table";
 import { format } from "date-fns";
-import { CalendarClock, CircleCheck, EyeIcon, FileClock, Timer, Trash2 } from "lucide-react";
+import { CircleCheck, EyeIcon, FileClock, NotebookPen, Timer, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface UserJobProps {
@@ -18,14 +18,18 @@ interface JobItemProps {
   deleteItem(id: string): void;
   user?: UserJobProps;
   jobuser?: User;
+  referencia?: string;
 }
 
-export function JobItem({ id, created, format: formats, type, status, deleteItem, user, jobuser }: JobItemProps) {
+export function JobItem({ id, created, format: formats, type, status, deleteItem, user, jobuser, referencia }: JobItemProps) {
   const dataCreated = new Date(created);
 
   return (
     <>
       <TableRow>
+        <TableCell className="font-normal">
+          {referencia}
+        </TableCell>
         <TableCell className="font-normal">
           {format(dataCreated, "dd/MM/yyyy")}
         </TableCell>
@@ -41,10 +45,10 @@ export function JobItem({ id, created, format: formats, type, status, deleteItem
           {phrase}
         </TableCell> */}
         <TableCell className="font-normal">
-          {formats}
+          {type}
         </TableCell>
         <TableCell className="font-normal">
-          {type}
+          {formats}
         </TableCell>
         <TableCell className="font-normal">
           {status === 'pending' && (
@@ -58,7 +62,7 @@ export function JobItem({ id, created, format: formats, type, status, deleteItem
           {status === 'approving' && (
             <div className="flex items-center">
               <div className="w-7 flex justify-center items-center">
-                <CalendarClock className="w-5 h-5" />
+                <NotebookPen className="w-5 h-5" />
               </div>
               Em Aprovação
             </div>
