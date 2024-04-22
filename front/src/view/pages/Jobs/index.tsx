@@ -73,18 +73,24 @@ export function Jobs() {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            {jobs.length <= 0 && (
+              <span className="text-center block mt-5">
+                Ainda não possui solicitações.
+              </span>
+            )}
             {!isLoadingDelete && (
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-[115px]">Referência</TableHead>
                     <TableHead className="w-[115px]">Data</TableHead>
                     <TableHead>Hora</TableHead>
                     {user?.data.level !== 'CLIENTE' && (
                       <TableHead>Empresa</TableHead>
                     )}
                     {/* <TableHead>Frase</TableHead> */}
-                    <TableHead>Formatos</TableHead>
                     <TableHead>Tipo</TableHead>
+                    <TableHead>Formatos</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="w-[100px]"></TableHead>
                   </TableRow>
