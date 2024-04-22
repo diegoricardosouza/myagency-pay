@@ -30,7 +30,7 @@ class CommentService
     {
         $commentCreated = $this->comment->create($data);
 
-        if ($data['files']) {
+        if (!empty($data['files'])) {
             foreach ($data['files'] as $file) {
                 $dataFile['comment_id'] = $commentCreated->id;
                 $dataFile['url'] = $file->storeAs('comments', $file->hashName());
