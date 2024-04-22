@@ -56,15 +56,6 @@ export function useJobController(perPage = 6) {
     },
   });
 
-
-  // const { data: cliente } = useQuery({
-  //   queryKey: ['users'],
-  //   staleTime: 0,
-  //   queryFn: async () => {
-  //     return usersService.getById(id);
-  //   },
-  // });
-
   const {
     isPending: isLoadingDelete,
     mutateAsync: removeJob
