@@ -56,8 +56,6 @@ export function useNewFormatsController() {
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
-      console.log('ok', data);
-
       await mutateAsync({
         ...data,
         type: formats === 'atualizacoes' ? 'Atualizações' : (formats === 'midia-digital' ? 'Mídia Digital' : 'Impresso')
