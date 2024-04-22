@@ -3,6 +3,7 @@ import { Help } from "@/view/pages/Help";
 import { Jobs } from "@/view/pages/Jobs";
 import { FormatsJob } from "@/view/pages/Jobs/components/Formats";
 import { NewFormats } from "@/view/pages/Jobs/components/Formats/NewFormats";
+import { ViewJob } from "@/view/pages/Jobs/components/ViewJob";
 import Plans from "@/view/pages/Plans";
 import { EditPlan } from "@/view/pages/Plans/components/EditPlan";
 import { NewPlan } from "@/view/pages/Plans/components/NewPlan";
@@ -37,6 +38,7 @@ export function Router() {
             <Route path="/solicitacoes" element={<Jobs />} />
             <Route path="/solicitacoes/novo" element={<FormatsJob />} />
             <Route path="/solicitacoes/:formats" element={<NewFormats />} />
+            <Route path="/solicitacoes/detalhes/:id" element={<ViewJob />} />
             <Route path="/ajuda" element={<Help />} />
           </Route>
         </Route>
