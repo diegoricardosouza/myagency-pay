@@ -60,6 +60,12 @@ class JobService
                         ->paginate($perPage);
     }
 
+    public function getAllNoPagination()
+    {
+        return $this->job->orderBy('created_at', 'desc')
+                        ->get();
+    }
+
     public function createNew($data)
     {
         $jobCreated = $this->job->create($data);
