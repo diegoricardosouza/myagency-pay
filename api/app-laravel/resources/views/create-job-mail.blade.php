@@ -21,12 +21,12 @@
     <p>
         <b>CONTEÚDOS DA ARTE</b><br>
         Frase Destaque: {{ $data['frase_destaque'] }}<br>
-        {{ $data['informacoes'] }}
+        {!! $data['informacoes'] !!}
     </p>
 
     <p>
         <b>OBSERVAÇÕES</b><br>
-        {{ $data['observacoes'] }}
+        {!! $data['observacoes'] !!}
     </p>
 
     <p>
