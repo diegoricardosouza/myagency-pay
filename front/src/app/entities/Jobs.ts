@@ -9,6 +9,7 @@ export interface Files {
 
 export interface Jobs {
   id: string;
+  referencia: string;
   site: string;
   page: string;
   format: string;
