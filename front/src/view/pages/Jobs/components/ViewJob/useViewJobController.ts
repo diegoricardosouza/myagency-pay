@@ -54,7 +54,7 @@ export function useViewJobController() {
         id: id!,
         status: "changing"
       });
-      queryClient.invalidateQueries({ queryKey: ['viewjob'] });
+      queryClient.invalidateQueries({ queryKey: ['viewjob', 'jobs-all'] });
       toast.success('Enviado para alteração!');
       setChangingStatus(false);
     } catch (error) {
@@ -69,7 +69,7 @@ export function useViewJobController() {
         id: id!,
         status: "approving"
       });
-      queryClient.invalidateQueries({ queryKey: ['viewjob'] });
+      queryClient.invalidateQueries({ queryKey: ['viewjob', 'jobs-all'] });
       toast.success('Enviado para aprovação!');
       setApprovingStatus(false);
     } catch (error) {
@@ -84,7 +84,7 @@ export function useViewJobController() {
         id: id!,
         status: "approved"
       });
-      queryClient.invalidateQueries({ queryKey: ['viewjob'] });
+      queryClient.invalidateQueries({ queryKey: ['viewjob', 'jobs-all'] });
       toast.success('Solicitação aprovada!');
       setApprovedStatus(false);
     } catch (error) {

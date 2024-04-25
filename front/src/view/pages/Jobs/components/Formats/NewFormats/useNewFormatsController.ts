@@ -58,7 +58,7 @@ export function useNewFormatsController() {
     try {
       await mutateAsync({
         ...data,
-        type: formats === 'atualizacoes' ? 'Atualizações' : (formats === 'midia-digital' ? 'Mídia Digital' : 'Impresso')
+        type: formats === 'atualizacoes' ? 'Atualizações' : (formats === 'midia-digital' ? 'Mídia Digital' : (formats === 'apresentacoes' ? 'Apresentações' : 'Impresso'))
       });
 
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
