@@ -1,6 +1,6 @@
 import { Button } from "@/view/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/view/components/ui/card";
-import { NotebookText, RefreshCcw, Share2 } from "lucide-react";
+import { NotebookText, Presentation, RefreshCcw, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function FormatsDashboard() {
@@ -35,6 +35,13 @@ export function FormatsDashboard() {
               <Link to="/solicitacoes/impresso">
                 <NotebookText className="w-5 h-5 mr-1" />
                 IMPRESSO
+              </Link>
+            </Button>
+
+            <Button type="submit" size="sm" asChild>
+              <Link to="/solicitacoes/apresentacoes">
+                <Presentation className="w-5 h-5 mr-1" />
+                APRESENTAÇÕES
               </Link>
             </Button>
           </CardContent>
