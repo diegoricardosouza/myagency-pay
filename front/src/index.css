@@ -111,6 +111,10 @@
   margin-bottom: var(--ck-spacing-large);
 }
 
+.ck-balloon-panel {
+  display: none !important;
+}
+
 @layer base {
   * {
     @apply border-border;
