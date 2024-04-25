@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('phrase')->nullable();
             $table->text('content')->nullable();
             $table->text('obs')->nullable();
-            $table->string('type')->nullable(); //Atualizações - Mídia Digital - Impresso
+            $table->string('type')->nullable(); //Atualizações - Mídia Digital - Impresso - Apresentações
             $table->enum('status', ['pending', 'approving', 'changing', 'approved'])->default('pending');
             $table->timestamps();
 
