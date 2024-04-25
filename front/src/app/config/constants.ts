@@ -52,6 +52,17 @@ export const FORMATS_PRINTED = [
   }
 ];
 
+export const FORMATS_PRESENTATION = [
+  {
+    value: "Impresso",
+    label: "Impresso"
+  },
+  {
+    value: "Digital",
+    label: "Digital"
+  }
+];
+
 export const MAX_FILE_SIZE = 1024 * 1024 * 3;
 
 export const ACCEPTED_IMAGE_MIME_TYPES = [
