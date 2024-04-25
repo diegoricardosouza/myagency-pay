@@ -7,9 +7,9 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/view/compo
 import { PlusCircle } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { Search } from "../../components/Search";
 import { BreadcrumbJob } from "./components/BreadcrumbJob";
 import { JobItem } from "./components/JobItem";
-import { Search } from "./components/Search";
 import { useJobController } from "./useJobController";
 
 export function Jobs() {
@@ -78,7 +78,7 @@ export function Jobs() {
                 Ainda não possui solicitações.
               </span>
             )}
-            {!isLoadingDelete && (
+            {(!isLoadingDelete && jobs.length > 0) && (
               <Table>
                 <TableHeader>
                   <TableRow>
