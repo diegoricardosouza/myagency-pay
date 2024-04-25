@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     queryKey: ['users', 'me'],
     queryFn: () => usersService.me(),
     enabled: signedIn,
-    staleTime: Infinity,
+    staleTime: 0,
   });
 
   const signin = useCallback((token: string) => {
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signout = useCallback(() => {
     localStorage.removeItem(localStoragekeys.TOKEN);
-    queryClient.invalidateQueries({ queryKey: ['users', 'me'] });
+    queryClient.invalidateQueries({ queryKey: ['users', 'jobs-all'] });
 
     setSignedIn(false);
   }, [queryClient]);
