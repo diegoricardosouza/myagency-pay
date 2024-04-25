@@ -36,9 +36,12 @@ class JobController extends Controller
         return JobResource::collection($this->repository->getAll($this->userLogged, $startDate, $endDate));
     }
 
-    public function showAll()
+    public function showAll(Request $request)
     {
-        return JobResource::collection($this->repository->getAllNoPagination());
+        $startDate = $request->get('startDate');
+        $endDate = $request->get('endDate');
+
+        return JobResource::collection($this->repository->getAllNoPagination($this->userLogged, $startDate, $endDate));
     }
 
     /**
