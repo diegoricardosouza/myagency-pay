@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/view/components/ui/card";
 import { Input } from "@/view/components/ui/input";
 import { Label } from "@/view/components/ui/label";
 
-import { FORMATS_DIGITAL_MIDIA, FORMATS_PRINTED, LevelProps } from "@/app/config/constants";
+import { FORMATS_DIGITAL_MIDIA, FORMATS_PRESENTATION, FORMATS_PRINTED, LevelProps } from "@/app/config/constants";
 import { Dropzone } from "@/view/components/Dropzone";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/view/components/ui/select";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -85,11 +85,11 @@ export function NewFormats() {
                           <Controller
                             control={control}
                             name="format"
-                            defaultValue={formats === 'midia-digital' ? 'Feed' : 'A3 (29,7x42cm)'}
+                            defaultValue={formats === 'midia-digital' ? 'Feed' : (formats === 'apresentacoes' ? 'Impresso' : 'A3 (29,7x42cm)')}
                             render={({ field: { onChange, value } }) => (
                               <Select
                                 onValueChange={onChange}
-                                value={value}
+                                value={value === null ? undefined : value}
                               >
                                 <SelectTrigger
                                   aria-label="Selecione o formato"
@@ -108,6 +108,11 @@ export function NewFormats() {
                                       <SelectItem key={level.value} value={level.value}>{level.label}</SelectItem>
                                     ))
                                   )}
+                                  {formats === 'apresentacoes' && (
+                                    FORMATS_PRESENTATION.map((level: LevelProps) => (
+                                      <SelectItem key={level.value} value={level.value}>{level.label}</SelectItem>
+                                    ))
+                                  )}
                                 </SelectContent>
 
                                 {errors?.format?.message && (
@@ -121,14 +126,51 @@ export function NewFormats() {
                         </div>
 
                         <div className="gap-3">
-                          <Label htmlFor="other_formats">Outros Formatos</Label>
-                          <Input
-                            id="other_formats"
-                            type="text"
-                            className="w-full"
-                            {...register('other_formats')}
-                            error={errors?.other_formats?.message}
-                          />
+                          {formats === 'apresentacoes' && (
+                            <>
+                              <Label htmlFor="other_formats">Orientação</Label>
+                              <Controller
+                                control={control}
+                                name="other_formats"
+                                defaultValue="Horizontal"
+                                render={({ field: { onChange, value } }) => (
+                                  <Select
+                                    onValueChange={onChange}
+                                    value={value === null ? undefined : value}
+                                  >
+                                    <SelectTrigger
+                                      aria-label="Selecione a orientação"
+                                      id="other_formats"
+                                    >
+                                      <SelectValue placeholder="Selecione a orientação" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="Horizontal">Horizontal</SelectItem>
+                                      <SelectItem value="Vertical">Vertical</SelectItem>
+                                    </SelectContent>
+
+                                    {errors?.other_formats?.message && (
+                                      <div className="flex gap-2 items-center text-red-700">
+                                        <span className="text-xs">{errors?.other_formats?.message}</span>
+                                      </div>
+                                    )}
+                                  </Select>
+                                )}
+                              />
+                            </>
+                          )}
+                          {formats !== 'apresentacoes' && (
+                            <>
+                              <Label htmlFor="other_formats">Outros Formatos</Label>
+                              <Input
+                                id="other_formats"
+                                type="text"
+                                className="w-full"
+                                {...register('other_formats')}
+                                error={errors?.other_formats?.message}
+                              />
+                            </>
+                          )}
                         </div>
 
                         <div className="gap-3">
