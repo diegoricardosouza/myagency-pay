@@ -55,7 +55,7 @@ export function ViewJob() {
             </div>
 
             <div className="flex flex-col gap-1 lg:flex-row">
-              {(buttonsRuleNotApproved && buttonsRuleChanging && userNotBelongsJob) && (
+              {(buttonsRuleNotApproved && buttonsRuleChanging && userNotBelongsJob && userRoleNotClient) && (
                 <form
                   onSubmit={handleChangingStatus}
                 >
