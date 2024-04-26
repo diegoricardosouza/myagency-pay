@@ -8,7 +8,7 @@ export function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="icon" className="rounded-full">
+        <Button variant="secondary" size="icon" className="rounded-full overflow-hidden">
           <img src={user?.data.logo} alt="" />
           <span className="sr-only">Toggle user menu</span>
         </Button>
