@@ -1,3 +1,4 @@
+import { Comments } from "@/app/entities/Comments";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -41,4 +42,26 @@ export function formatedDate(date: string) {
   const dateFormated = getDate[0] + '-' + getDate[1] + '-' + day[0];
 
   return dateFormated;
+}
+
+export function getImageCommentAdmin(comments: Comments[], userId: string, level: string){
+  if (level === 'CLIENTE') {
+    const commentFiltered = comments?.filter(c => c.user.id !== userId)
+
+    if (commentFiltered && commentFiltered?.length > 0) {
+      if (commentFiltered[0].files) {
+        return commentFiltered[0]?.files[0].url;
+      }
+    }
+  }
+
+  if (level !== 'CLIENTE') {
+    const commentFiltered = comments?.filter(c => c.user.id === userId)
+
+    if (commentFiltered && commentFiltered?.length > 0) {
+      if (commentFiltered[0].files) {
+        return commentFiltered[0]?.files[0].url;
+      }
+    }
+  }
 }
