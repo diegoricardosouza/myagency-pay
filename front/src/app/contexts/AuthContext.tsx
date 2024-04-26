@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signout = useCallback(() => {
     localStorage.removeItem(localStoragekeys.TOKEN);
-    queryClient.invalidateQueries({ queryKey: ['users', 'jobs-all'] });
+    queryClient.invalidateQueries({ queryKey: ['users','me', 'jobs-all'] });
 
     setSignedIn(false);
   }, [queryClient]);
