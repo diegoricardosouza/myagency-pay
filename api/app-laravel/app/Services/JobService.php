@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\Mail\CreateJobMail;
 use App\Mail\createJobMailAtt;
+use App\Mail\NoticeJobsExceeded;
 use App\Models\Comment;
 use App\Models\File;
 use App\Models\Job;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -16,6 +18,7 @@ class JobService
     public function __construct(
         protected Job $job,
         protected Comment $comment,
+        protected User $user,
     ) {
     }
 
@@ -93,7 +96,7 @@ class JobService
                         ->get();
     }
 
-    public function createNew($data)
+    public function createNew($data, $id = null)
     {
         $jobCreated = $this->job->create($data);
 
@@ -108,12 +111,59 @@ class JobService
         $jobAfterCreation = $this->job->with(['user', 'files'])->where('id', $jobCreated->id)->first();
 
         if($jobAfterCreation->type == "Atualizações") {
-            $this->sendMailAtt($jobAfterCreation, 'diegoricardoweb@outlook.com');
+            $this->sendMailAtt($jobAfterCreation, env('EMAIL_ATUALIZACOES'));
         } else {
-            $this->sendMail($jobAfterCreation, 'diegoricardoweb@gmail.com');
+            $this->sendMail($jobAfterCreation, env('EMAIL_SOLICITACOES'));
         }
 
+        $this->verifyQtdJobs($id, $jobCreated);
+
         return $jobCreated;
+    }
+
+    public function verifyQtdJobs($userId, $job)
+    {
+        $user = $this->user->with(['plan'])->where('id', $userId)->first();
+
+        $month = date('m');
+        $year = date('Y');
+        $dataCorte = $year."-". $month."-". $user->day;
+        $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
+        $dateStart = $year."-". $month."-". $user->day . "T00:00:00.000000Z";
+        $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
+
+        if($job->type == "Atualizações") {
+            $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id, $dateStart, $dateEnd);
+        }
+
+        if($job->type == "Mídia Digital") {
+            $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id, $dateStart, $dateEnd);
+        }
+
+        if($job->type == "Impresso") {
+            $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id, $dateStart, $dateEnd);
+        }
+
+        if($job->type == "Apresentações") {
+            $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id, $dateStart, $dateEnd);
+        }
+    }
+
+    private function countJobs($job, $type, $qtdPlan, $userId, $dateStart, $dateEnd)
+    {
+        if ($qtdPlan != -1) {
+            // Obter o número de solicitações de atualizações para o próximo mês
+            $numAtualizacoes = $this->job->where('user_id', $userId)
+                                        ->where('type', $type)
+                                        ->whereBetween('created_at', [$dateStart, $dateEnd])
+                                        ->count();
+
+            // Verificar se excede a quantidade permitida
+            if ($numAtualizacoes > $qtdPlan) {
+                // Enviar e-mail de aviso $job, $emails, $type
+                $this->sendExceededJob($job, env('EMAIL_FINANCEIRO'), $type);
+            }
+        }
     }
 
     public function update($data, $id)
@@ -159,6 +209,25 @@ class JobService
         $comments->files()->delete();
     }
 
+    public function countNumberJobs($userId, $type)
+    {
+        $user = $this->user->with(['plan'])->where('id', $userId)->first();
+
+        $month = date('m');
+        $year = date('Y');
+        $dataCorte = $year . "-" . $month . "-" . $user->day;
+        $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
+        $dateStart = $year . "-" . $month . "-" . $user->day . "T00:00:00.000000Z";
+        $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
+
+        $numAtualizacoes = $this->job->where('user_id', $userId)
+                                ->where('type', $type)
+                                ->whereBetween('created_at', [$dateStart, $dateEnd])
+                                ->count();
+
+        return $numAtualizacoes;
+    }
+
     public function sendMail($job, $emails)
     {
         $urlFile = [];
@@ -200,6 +269,32 @@ class JobService
             'informacoes' => $job->content,
             'observacoes' => $job->obs,
             'responsavel' => $job->user->responsible,
+            'email' => $job->user->email,
+            'whatsapp' => $job->user->whatsapp,
+            'files' => implode("\n", $urlFile),
+        ]));
+    }
+
+    private function sendExceededJob($job, $emails, $type)
+    {
+        $urlFile = [];
+        foreach ($job->files as $file) {
+            $urlFile[] = url("storage/{$file->name}");
+        }
+
+        Mail::to($emails)->send(new NoticeJobsExceeded([
+            'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . $job->id,
+            'ref' => Carbon::parse($job->created_at)->format('Y') . $job->ref,
+            'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
+            'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
+            'formatos' => $job->format,
+            'outros_formatos' => $job->other_formats,
+            'frase_destaque' => $job->phrase,
+            'informacoes' => $job->content,
+            'observacoes' => $job->obs,
+            'responsavel' => $job->user->responsible,
+            'company' => $job->user->company,
+            'type' => $type,
             'email' => $job->user->email,
             'whatsapp' => $job->user->whatsapp,
             'files' => implode("\n", $urlFile),

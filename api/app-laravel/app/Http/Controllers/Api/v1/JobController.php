@@ -60,7 +60,7 @@ class JobController extends Controller
         // return $request->all();
         $data = $request->all();
         $data['user_id'] = !empty($data['user_id']) ? $data['user_id'] : $this->userLogged->id;
-        $job = $this->repository->createNew($data);
+        $job = $this->repository->createNew($data, $this->userLogged->id);
         return new JobResource($job);
     }
 
@@ -121,5 +121,12 @@ class JobController extends Controller
         $this->repository->delete($id);
 
         return response()->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    public function count(Request $request)
+    {
+        $type = $request->get('type');
+
+        return $this->repository->countNumberJobs($this->userLogged->id, $type);
     }
 }

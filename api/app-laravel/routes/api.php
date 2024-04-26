@@ -20,6 +20,7 @@ Route::prefix('v1')->group(function() {
         Route::post("/users/{id}", [UserController::class, 'update']);
         Route::apiResource('/jobs', JobController::class);
         Route::get("/jobs-all", [JobController::class, 'showAll']);
+        Route::get("/jobs-count", [JobController::class, 'count']);
         Route::apiResource('/files', FileController::class);
         Route::apiResource('/comments', CommentController::class);
         Route::apiResource('/files-comments', FileCommentController::class);
