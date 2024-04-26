@@ -1,7 +1,9 @@
+import { useAuth } from "@/app/hooks/useAuth";
 import { jobsService } from "@/app/services/jobs";
 import { JobParams } from "@/app/services/jobs/create";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -34,9 +36,19 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function useNewFormatsController() {
+  const [exceeded, setExceeded] = useState(false);
+  const [nJobsAvailable, setNJobsAvailable] = useState<number | string | undefined>();
+  const { user } = useAuth();
   const { formats } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const atualizacoes = user?.data.plan?.updates;
+  const midiaDigital = user?.data.plan?.digital_midia;
+  const impresso = user?.data.plan?.printed;
+  const apresentacoes = user?.data.plan?.presentations;
+
+  const typeFormat = formats === 'atualizacoes' ? 'Atualizações' : (formats === 'midia-digital' ? 'Mídia Digital' : (formats === 'apresentacoes' ? 'Apresentações' : 'Impresso'));
+  const typeFormatJob = formats === 'atualizacoes' ? atualizacoes : (formats === 'midia-digital' ? midiaDigital : (formats === 'apresentacoes' ? apresentacoes : impresso));
 
   const {
     register,
@@ -48,6 +60,27 @@ export function useNewFormatsController() {
     resolver: zodResolver(schema)
   });
 
+  const { data: jobsCount, isFetching: isLoadingJobsCount } = useQuery({
+    queryKey: ['jobs-count', typeFormat],
+    staleTime: 0,
+    queryFn: async () => {
+      const response = await jobsService.countByType(typeFormat);
+
+      return response;
+    },
+  });
+
+  useEffect(() => {
+    function numberJobs(typePlan: string | number | undefined) {
+      if ((Number(typePlan) != -1) && (jobsCount! >= Number(typePlan))) {
+        setExceeded(true);
+      }
+      setNJobsAvailable(Number(typeFormatJob) - Number(jobsCount))
+    }
+    numberJobs(typeFormatJob);
+
+  }, [exceeded, jobsCount, typeFormatJob])
+
   const { isPending, mutateAsync } = useMutation({
     mutationFn: async (data: JobParams) => {
       return jobsService.create(data);
@@ -58,10 +91,10 @@ export function useNewFormatsController() {
     try {
       await mutateAsync({
         ...data,
-        type: formats === 'atualizacoes' ? 'Atualizações' : (formats === 'midia-digital' ? 'Mídia Digital' : (formats === 'apresentacoes' ? 'Apresentações' : 'Impresso'))
+        type: typeFormat
       });
 
-      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      queryClient.invalidateQueries({ queryKey: ['jobs', 'jobs-count'] });
       toast.success('Solicitação cadastrada com sucesso!');
       reset();
       navigate("/solicitacoes");
@@ -77,6 +110,11 @@ export function useNewFormatsController() {
     errors,
     handleSubmit,
     formats,
-    isPending
+    isPending,
+    jobsCount,
+    exceeded,
+    nJobsAvailable,
+    user,
+    isLoadingJobsCount
   }
 }
