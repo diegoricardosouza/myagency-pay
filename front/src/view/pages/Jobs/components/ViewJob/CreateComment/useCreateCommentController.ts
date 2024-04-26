@@ -1,6 +1,8 @@
 import { useAuth } from "@/app/hooks/useAuth";
 import { commentsService } from "@/app/services/commentsService";
 import { CommentsParams } from "@/app/services/commentsService/create";
+import { jobsService } from "@/app/services/jobs";
+import { UpdateJobParams } from "@/app/services/jobs/update";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -39,8 +41,25 @@ export function useCreateCommentController() {
     }
   });
 
+  const {
+    mutateAsync: mutateChangeStatus
+  } = useMutation({
+    mutationFn: async (data: UpdateJobParams) => {
+      return jobsService.update(data);
+    }
+  });
+
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
+      if(user?.data.level === 'CLIENTE') {
+        await mutateChangeStatus({
+          id: id!,
+          status: "changing"
+        });
+        queryClient.invalidateQueries({ queryKey: ['viewjob'] });
+        reset();
+      }
+
       await mutateAsync({
         ...data,
         job_id: id!,
