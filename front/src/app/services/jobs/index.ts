@@ -1,3 +1,4 @@
+import { countByType } from "./countByType";
 import { create } from "./create";
 import { getAll } from "./getAll";
 import { getAllNoPagination } from "./getAllNoPagination";
@@ -12,4 +13,5 @@ export const jobsService = {
   getById,
   update,
   getAllNoPagination,
+  countByType
 }
