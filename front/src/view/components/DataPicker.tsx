@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -9,9 +10,17 @@ interface DatePickerProps {
   value: Date;
   onChange?(date: Date): void;
   label?: string;
+  className?: string;
 }
 
-export function DataPicker({ value, onChange, label }: DatePickerProps) {
+export function DataPicker({ value, onChange, label, className }: DatePickerProps) {
+  const [selectedDate, setSelectedDate] = useState(value ?? new Date())
+
+  function handleChangeDate(date: Date) {
+    setSelectedDate(date);
+    onChange?.(date);
+  }
+
   return (
     <>
       <span
@@ -38,10 +47,9 @@ export function DataPicker({ value, onChange, label }: DatePickerProps) {
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
-            mode="single"
-            selected={value}
-            onSelect={(date) => onChange?.(date ?? new Date())}
-            initialFocus
+            value={selectedDate}
+            onChange={handleChangeDate}
+            className={className}
           />
         </PopoverContent>
       </Popover>

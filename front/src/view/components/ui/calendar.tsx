@@ -9,16 +9,21 @@ import { buttonVariants } from "./button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
+interface DatePickerProps {
+  value: Date;
+  onChange?(date: Date): void;
+  className?: string;
+}
+
 function Calendar({
-  className,
-  classNames,
-  showOutsideDays = true,
-  ...props
-}: CalendarProps) {
+  value, onChange, className
+}: DatePickerProps) {
   return (
     <DayPicker
       locale={ptBR}
-      showOutsideDays={showOutsideDays}
+      selected={value}
+      mode="single"
+      onSelect={(date) => onChange?.(date ?? new Date())}
       className={cn("p-3", className)}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
@@ -52,13 +57,11 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
-        ...classNames,
       }}
       components={{
         IconLeft: () => <ChevronLeft className="h-4 w-4" />,
         IconRight: () => <ChevronRight className="h-4 w-4" />,
       }}
-      {...props}
     />
   )
 }
