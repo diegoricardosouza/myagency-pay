@@ -7,6 +7,7 @@ import { ViewJob } from "@/view/pages/Jobs/components/ViewJob";
 import Plans from "@/view/pages/Plans";
 import { EditPlan } from "@/view/pages/Plans/components/EditPlan";
 import { NewPlan } from "@/view/pages/Plans/components/NewPlan";
+import { Profile } from "@/view/pages/Profile";
 import User from "@/view/pages/Users";
 import { EditUser } from "@/view/pages/Users/components/EditUser";
 import { NewUser } from "@/view/pages/Users/components/NewUser";
@@ -39,6 +40,7 @@ export function Router() {
             <Route path="/solicitacoes/novo" element={<FormatsJob />} />
             <Route path="/solicitacoes/:formats" element={<NewFormats />} />
             <Route path="/solicitacoes/detalhes/:id" element={<ViewJob />} />
+            <Route path="/perfil" element={<Profile />} />
             <Route path="/ajuda" element={<Help />} />
           </Route>
         </Route>
