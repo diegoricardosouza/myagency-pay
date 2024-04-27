@@ -1,9 +1,9 @@
 import { Files } from "@/app/entities/Jobs";
 import { cn } from "@/lib/utils";
 import { FileViewJob } from "@/view/components/FileViewJob";
+import { Avatar, AvatarImage } from "@/view/components/ui/avatar";
 import { Card, CardContent } from "@/view/components/ui/card";
 import { Label } from "@/view/components/ui/label";
-import { CircleUser } from "lucide-react";
 
 interface CommentsProps {
   id: string;
@@ -11,16 +11,20 @@ interface CommentsProps {
   content: string;
   files?: Files[];
   userId: string;
+  logo: string;
 }
 
-export function Comments({ id, company, content, files, userId }: CommentsProps) {
+export function Comments({ id, company, content, files, userId, logo }: CommentsProps) {
   return (
     <div className="mt-4">
       <h3 className={cn(
-        "font-semibold flex items-center gap-1 mb-2",
+        "font-semibold flex items-center gap-2 mb-2 text-sm lg:text-base",
         id !== userId && "justify-end"
       )}>
-        <CircleUser className="w-5 h-5" />
+        {/* <CircleUser className="w-5 h-5" /> */}
+        <Avatar className="h-9 w-9 sm:flex border p-[6px]">
+          <AvatarImage src={logo} alt={company} className="object-contain" />
+        </Avatar>
         {company}
       </h3>
       <Card x-chunk="dashboard-07-chunk-3" className={cn(
