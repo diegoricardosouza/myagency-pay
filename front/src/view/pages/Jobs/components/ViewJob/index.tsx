@@ -96,56 +96,58 @@ export function ViewJob() {
               <Card x-chunk="dashboard-07-chunk-0" className="pt-6">
                 <CardContent>
                   <div className="grid gap-6">
-                    <div className="grid gap-3">
+                    <div className="grid gap-1">
                       <Label>Cliente:</Label>
-                      <p>{jobData?.user.company}</p>
+                      <p className="text-muted-foreground text-sm">{jobData?.user.company}</p>
                     </div>
 
                     <div className="grid gap-6">
                       {jobData?.type === 'Atualizações' && (
                         <>
-                          <div className="grid gap-3">
+                          <div className="grid gap-1">
                             <Label>Site:</Label>
-                            <p>{jobData?.site}</p>
+                            <p className="text-muted-foreground text-sm">{jobData?.site}</p>
                           </div>
 
-                          <div className="grid gap-3">
+                          <div className="grid gap-1">
                             <Label>Página que deseja atualizar:</Label>
-                            <p>{jobData?.page}</p>
+                            <p className="text-muted-foreground text-sm">{jobData?.page}</p>
                           </div>
                         </>
                       )}
 
                       {jobData?.type !== 'Atualizações' && (
                         <>
-                          <div className="grid gap-3">
+                          <div className="grid gap-1">
                             <Label>Formato:</Label>
-                            <p>{jobData?.format}</p>
+                            <p className="text-muted-foreground text-sm">{jobData?.format}</p>
                           </div>
 
-                          <div className="grid gap-3">
+                          <div className="grid gap-1">
                             <Label>Outros Formatos:</Label>
-                            <p>{jobData?.other_formats}</p>
+                            <p className="text-muted-foreground text-sm">{jobData?.other_formats}</p>
                           </div>
 
-                          <div className="grid gap-3">
+                          <div className="grid gap-1">
                             <Label>Frase:</Label>
-                            <p>{jobData?.phrase}</p>
+                            <p className="text-muted-foreground text-sm">{jobData?.phrase}</p>
                           </div>
                         </>
                       )}
                     </div>
 
                     <div className="grid gap-6">
-                      <div className="grid gap-3">
+                      <div className="grid gap-1">
                         <Label>Conteúdos:</Label>
                         <div
+                          className="text-muted-foreground text-sm"
                           dangerouslySetInnerHTML={{ __html: jobData?.content as string }}
                         ></div>
                       </div>
-                      <div className="grid gap-3">
+                      <div className="grid gap-1">
                         <Label>Observações:</Label>
                         <div
+                          className="text-muted-foreground text-sm"
                           dangerouslySetInnerHTML={{ __html: jobData?.obs as string }}
                         ></div>
                       </div>
@@ -200,6 +202,7 @@ export function ViewJob() {
                     content={comment.content}
                     files={comment?.files}
                     userId={user!.data.id}
+                    logo={comment.user.logo}
                   />
                 ))}
               </ScrollArea>
