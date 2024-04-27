@@ -16,12 +16,16 @@ export function UserMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
-          <Link to="/perfil">
-            Meu Perfil
-          </Link>
-        </DropdownMenuItem>
+        {user?.data.level === 'CLIENTE' && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">
+              <Link to="/perfil">
+                Meu Perfil
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={signout} className="cursor-pointer">
           Sair
