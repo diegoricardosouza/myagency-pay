@@ -111,9 +111,16 @@ class JobService
         $jobAfterCreation = $this->job->with(['user', 'files'])->where('id', $jobCreated->id)->first();
 
         if($jobAfterCreation->type == "Atualizações") {
-            $this->sendMailAtt($jobAfterCreation, env('EMAIL_ATUALIZACOES'));
+            $users_temp = explode(',', env('EMAIL_ATUALIZACOES'));
+            foreach ($users_temp as $u) {
+                $this->sendMailAtt($jobAfterCreation, $u);
+            }
+
         } else {
-            $this->sendMail($jobAfterCreation, env('EMAIL_SOLICITACOES'));
+            $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
+            foreach ($users_temp as $u) {
+                $this->sendMail($jobAfterCreation, $u);
+            }
         }
 
         $this->verifyQtdJobs($id, $jobCreated);
@@ -249,7 +256,7 @@ class JobService
             'email' => $job->user->email,
             'whatsapp' => $job->user->whatsapp,
             'files' => implode("\n", $urlFile),
-        ]));
+        ], $job->user->company." - ". $job->phrase." (" . Carbon::parse($job->created_at)->format('Y').$job->ref . ")"));
     }
 
     public function sendMailAtt($job, $emails)

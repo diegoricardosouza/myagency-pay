@@ -39,7 +39,11 @@ class CommentService
         }
 
         $commentAfterCreation = $this->comment->with('files')->where('id', $commentCreated->id)->first();
-        $this->sendMail($commentAfterCreation);
+
+        $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
+        foreach($users_temp as $u) {
+            $this->sendMail($u, $commentAfterCreation);
+        }
 
         return $commentCreated;
     }
@@ -59,14 +63,14 @@ class CommentService
         $comment->delete();
     }
 
-    public function sendMail($comment)
+    public function sendMail($email, $comment)
     {
         $urlFile = [];
         foreach ($comment->files as $file) {
             $urlFile[] = url("storage/{$file->url}");
         }
 
-        Mail::to('diegoricardoweb@gmail.com')->send(new CreateCommentMail([
+        Mail::to($email)->send(new CreateCommentMail([
             'data' => Carbon::parse($comment->created_at)->format('d/m/Y'),
             'hora' => Carbon::parse($comment->created_at)->format('H:i:s'),
             'conteudo' => $comment->content,
