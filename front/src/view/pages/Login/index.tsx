@@ -2,7 +2,7 @@ import { Button } from "@/view/components/ui/button";
 import { Input } from "@/view/components/ui/input";
 import { Label } from "@/view/components/ui/label";
 
-import illustration from "@/assets/placeholder.svg";
+import illustration from "@/assets/img.jpg";
 import { Logo } from "@/view/components/Logo";
 import { Loader2 } from "lucide-react";
 import { useLoginController } from "./useLoginController";

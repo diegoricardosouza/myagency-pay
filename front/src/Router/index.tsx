@@ -4,6 +4,7 @@ import { Jobs } from "@/view/pages/Jobs";
 import { FormatsJob } from "@/view/pages/Jobs/components/Formats";
 import { NewFormats } from "@/view/pages/Jobs/components/Formats/NewFormats";
 import { ViewJob } from "@/view/pages/Jobs/components/ViewJob";
+import { NotFound } from "@/view/pages/NotFound";
 import Plans from "@/view/pages/Plans";
 import { EditPlan } from "@/view/pages/Plans/components/EditPlan";
 import { NewPlan } from "@/view/pages/Plans/components/NewPlan";
@@ -25,6 +26,7 @@ export function Router() {
 
         <Route element={<AuthGuard isPrivate={false} />}>
           <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         <Route element={<AuthGuard isPrivate />}>
@@ -42,6 +44,7 @@ export function Router() {
             <Route path="/solicitacoes/detalhes/:id" element={<ViewJob />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/ajuda" element={<Help />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
 
