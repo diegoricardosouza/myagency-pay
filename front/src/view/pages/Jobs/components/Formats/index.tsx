@@ -26,7 +26,7 @@ export function FormatsJob() {
               <Button type="submit" size="sm" asChild>
                 <Link to="/solicitacoes/atualizacoes">
                   <RefreshCcw className="w-5 h-5 mr-1" />
-                  ATUALIZAÇÕES
+                  ATUALIZAÇÕES SITE
                 </Link>
               </Button>
 
