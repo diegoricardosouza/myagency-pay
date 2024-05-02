@@ -1,8 +1,10 @@
 import { Search } from "@/view/components/Search";
 import { Spinner } from "@/view/components/Spinner";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/view/components/ui/accordion";
 import { Button } from "@/view/components/ui/button";
+import { Card } from "@/view/components/ui/card";
 import { ScrollArea } from "@/view/components/ui/scroll-area";
-import { PlusCircle } from "lucide-react";
+import { ListFilter, PlusCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ItemJobCard } from "./components/ItemJobCard";
 import { useDashboardController } from "./useDashboardController";
@@ -38,14 +40,28 @@ export function Dashboard() {
           </Button>
         </div>
 
-        <Search
-          isLoading={isLoading}
-          control={control}
-          dateEndCut={dateEndCut}
-          dateStartCut={dateStartCut}
-          handleSubmit={handleSubmit}
-          day={user?.data.day}
-        />
+        <Card className="px-6 mb-4">
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1" className="border-0">
+              <AccordionTrigger>
+                <div className="flex items-center gap-2">
+                  <ListFilter className="w-4 h-4" />
+                  Filtro
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <Search
+                  isLoading={isLoading}
+                  control={control}
+                  dateEndCut={dateEndCut}
+                  dateStartCut={dateStartCut}
+                  handleSubmit={handleSubmit}
+                  day={user?.data.day}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div>

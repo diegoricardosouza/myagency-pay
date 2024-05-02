@@ -1,10 +1,11 @@
 import { generateEllipsisPagination } from "@/lib/utils";
 import { CustomPagination } from "@/view/components/CustomPagination";
 import { Spinner } from "@/view/components/Spinner";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/view/components/ui/accordion";
 import { Button } from "@/view/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/view/components/ui/card";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/view/components/ui/table";
-import { PlusCircle } from "lucide-react";
+import { ListFilter, PlusCircle } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "../../components/Search";
@@ -46,14 +47,28 @@ export function Jobs() {
           </Button>
         </div>
 
-        <Search
-          isLoading={isLoading}
-          control={control}
-          dateEndCut={dateEndCut}
-          dateStartCut={dateStartCut}
-          handleSubmit={handleSubmit}
-          day={user?.data.day}
-        />
+        <Card className="px-6 mb-4">
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1" className="border-0">
+              <AccordionTrigger>
+                <div className="flex items-center gap-2">
+                  <ListFilter className="w-4 h-4" />
+                  Filtro
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <Search
+                  isLoading={isLoading}
+                  control={control}
+                  dateEndCut={dateEndCut}
+                  dateStartCut={dateStartCut}
+                  handleSubmit={handleSubmit}
+                  day={user?.data.day}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </Card>
 
         <Card className="min-h-[500px] relative">
           {isLoadingDelete && (
