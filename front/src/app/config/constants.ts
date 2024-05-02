@@ -73,3 +73,4 @@ export const ACCEPTED_IMAGE_MIME_TYPES = [
   "image/svg+xml",
   "image/gif"
 ];
+
