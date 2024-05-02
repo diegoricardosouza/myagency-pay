@@ -65,3 +65,15 @@ export function getImageCommentAdmin(comments: Comments[], userId: string, level
     }
   }
 }
+
+export function isImageUrl(url: string) {
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+
+  const urlLower = url.toLowerCase();
+  for (let i = 0; i < imageExtensions.length; i++) {
+    if (urlLower.endsWith(imageExtensions[i])) {
+      return true; // É uma imagem
+    }
+  }
+  return false; // Não é uma imagem
+}
