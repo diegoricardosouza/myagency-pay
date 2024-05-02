@@ -50,12 +50,12 @@ export const InputDropzone = ({ dropzone, className }: InputDropzoneProps) => {
       </div>
 
       <p className="text-xs text-gray-500 mt-2">
-        Arquivos permitidos (max: 3mb):<br />
+        Arquivos permitidos (max: 20mb):<br />
         JPG, JPEG, PNG, GIF, SVG, PDF, DOC, DOCX, TXT, CSV, XLS, XLSX, ZIP, RAR
       </p>
 
       {isDragReject && (
-        <p className="text-sm">"Arquivo Muito grande (maximo de 3Mb)!"</p>
+        <p className="text-sm">"Arquivo Muito grande (maximo de 20Mb)!"</p>
       )}
 
       {fileRejectionItems && (
