@@ -1,6 +1,8 @@
+import { ACCEPTED_IMAGE_MIME_TYPES } from "@/app/config/constants";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { HasFile } from "./HasFile";
+import { HasImage } from "./HasImage";
 import { InputDropzone } from "./InputDropzone";
 
 interface FileWithPreview extends File {
@@ -12,6 +14,8 @@ interface DropzoneProps {
   className?: string;
   clearFiles?: boolean;
 }
+
+
 
 export function Dropzone({ onChange, className, clearFiles }: DropzoneProps) {
   const [file, setFile] = useState<FileWithPreview[]>([]);
@@ -55,7 +59,7 @@ export function Dropzone({ onChange, className, clearFiles }: DropzoneProps) {
       'application/zip': [],
       'text/csv': [],
     },
-    maxSize: 3242880,
+    maxSize: 20971520,
   });
 
   useEffect(() => {
@@ -76,10 +80,14 @@ export function Dropzone({ onChange, className, clearFiles }: DropzoneProps) {
           <p className="font-bold mb-2 mt-2">Arquivos Selecionados</p>
         )}
 
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          {file?.map((file: File, index) => (
-            <HasFile key={file.name} file={file} removeFile={() => removeFile(index)} />
-          ))}
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+          {file?.map((file: FileWithPreview, index) => {
+            if (ACCEPTED_IMAGE_MIME_TYPES.indexOf(file?.type) === -1) {
+              return <HasFile key={index} file={file} removeFile={() => removeFile(index)} />
+            }
+
+            return <HasImage key={index} file={file} removeFile={() => removeFile(index)} />
+          })}
         </div>
       </div>
     </>
