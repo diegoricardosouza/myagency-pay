@@ -1,4 +1,5 @@
 import { ACCEPTED_IMAGE_MIME_TYPES } from "@/app/config/constants";
+import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { HasFile } from "./HasFile";
@@ -13,11 +14,12 @@ interface DropzoneProps {
   onChange: (files: File[]) => void;
   className?: string;
   clearFiles?: boolean;
+  columnsFiles?: 1 | 2 | 3
 }
 
 
 
-export function Dropzone({ onChange, className, clearFiles }: DropzoneProps) {
+export function Dropzone({ onChange, className, clearFiles, columnsFiles = 3 }: DropzoneProps) {
   const [file, setFile] = useState<FileWithPreview[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -80,7 +82,14 @@ export function Dropzone({ onChange, className, clearFiles }: DropzoneProps) {
           <p className="font-bold mb-2 mt-2">Arquivos Selecionados</p>
         )}
 
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+        <div className={
+          cn(
+            'grid grid-cols-2 gap-3',
+            columnsFiles === 1 && "md:grid-cols-1",
+            columnsFiles === 2 && "md:grid-cols-2",
+            columnsFiles === 3 && "md:grid-cols-3",
+          )
+        }>
           {file?.map((file: FileWithPreview, index) => {
             if (ACCEPTED_IMAGE_MIME_TYPES.indexOf(file?.type) === -1) {
               return <HasFile key={index} file={file} removeFile={() => removeFile(index)} />

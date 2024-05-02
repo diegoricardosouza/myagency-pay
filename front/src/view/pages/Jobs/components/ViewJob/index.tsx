@@ -80,7 +80,7 @@ export function ViewJob() {
                 <form
                   onSubmit={handleApprovedStatus}
                 >
-                  <Button name="approved" type="submit" size="sm" disabled={isChangeStatus}>
+                  <Button name="approved" type="submit" size="sm" disabled={isChangeStatus} className="bg-green-600 hover:bg-green-700">
                     {approvedStatus && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Aprovar
                   </Button>
@@ -91,15 +91,65 @@ export function ViewJob() {
 
           <StatusJob status={jobData?.status} />
 
-          <div className="grid gap-4 lg:grid-cols-2 lg:gap-5">
+          <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
             <div>
+              <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-1">
+                Comentários
+              </h2>
+              <ScrollArea className="h-full max-h-[543px] w-full rounded-md border bg-white p-6 flex flex-col gap-3 relative">
+                {isChangeStatus && (
+                  <div className="w-full h-full flex justify-center items-center absolute top-0 left-0 z-[9999] bg-white transition-all">
+                    <Spinner className="w-6 h-6 fill-primary" />
+                  </div>
+                )}
+
+
+                {// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                  jobData?.comments?.length! <= 0 && (
+                    <span className="text-center block">
+                      Ainda não possui comentários.
+                    </span>
+                  )}
+
+                {jobData?.comments?.map((comment) => (
+                  <Comments
+                    key={comment.id}
+                    id={comment.user.id}
+                    company={comment.user.company}
+                    content={comment.content}
+                    files={comment?.files}
+                    userId={user!.data.id}
+                    logo={comment.user.logo}
+                  />
+                ))}
+              </ScrollArea>
+            </div>
+
+            <div className="mt-8 lg:mt-0">
+              {jobData?.status !== "approved" && (
+                <>
+                  <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-1">
+                    Comentar
+                  </h2>
+                  <CreateComment />
+                </>
+              )}
+            </div>
+
+            <div>
+              <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-1">
+                Dados da solicitação
+              </h2>
+
               <Card x-chunk="dashboard-07-chunk-0" className="pt-6">
                 <CardContent>
                   <div className="grid gap-6">
-                    <div className="grid gap-1">
-                      <Label>Cliente:</Label>
-                      <p className="text-muted-foreground text-sm">{jobData?.user.company}</p>
-                    </div>
+                    {user?.data.level !== 'CLIENTE' && (
+                      <div className="grid gap-1">
+                        <Label>Cliente:</Label>
+                        <p className="text-muted-foreground text-sm">{jobData?.user.company}</p>
+                      </div>
+                    )}
 
                     <div className="grid gap-6">
                       {jobData?.type === 'Atualizações' && (
@@ -156,56 +206,19 @@ export function ViewJob() {
                 </CardContent>
               </Card>
 
-              {jobData?.status !== "approved" && (
-                <CreateComment />
-              )}
-            </div>
-
-            <div className="grid auto-rows-max items-start gap-4 lg:gap-5">
-              <Card x-chunk="dashboard-07-chunk-0" className="pt-6">
+              <Card x-chunk="dashboard-07-chunk-0" className="pt-6 mt-6">
                 <CardContent>
                   <div>
                     <Label>Arquivos:</Label>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    {jobData?.files?.map((file) => (
-                      <FileViewJob key={file.id} id={file.id} url={file.url} name={file.name} />
-                    ))}
+                  <div className="grid grid-cols-2 gap-2">
+                    {jobData?.files?.map((file) => {
+                      return <FileViewJob key={file.id} id={file.id} url={file.url} name={file.name} />
+                    })}
                   </div>
                 </CardContent>
               </Card>
-
-              <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-[-10px]">
-                Comentários
-              </h2>
-              <ScrollArea className="h-full max-h-[500px] w-full rounded-md border bg-white p-6 flex flex-col gap-3 relative">
-                {isChangeStatus && (
-                  <div className="w-full h-full flex justify-center items-center absolute top-0 left-0 z-[9999] bg-white transition-all">
-                    <Spinner className="w-6 h-6 fill-primary" />
-                  </div>
-                )}
-
-
-                {// eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-                jobData?.comments?.length! <= 0 && (
-                  <span className="text-center block">
-                    Ainda não possui comentários.
-                  </span>
-                )}
-
-                {jobData?.comments?.map((comment) => (
-                  <Comments
-                    key={comment.id}
-                    id={comment.user.id}
-                    company={comment.user.company}
-                    content={comment.content}
-                    files={comment?.files}
-                    userId={user!.data.id}
-                    logo={comment.user.logo}
-                  />
-                ))}
-              </ScrollArea>
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@ export function CreateComment() {
 
   return (
     <form
-      className="grid auto-rows-max items-start gap-4 lg:gap-5 mt-6"
+      className="grid auto-rows-max items-start gap-4 lg:gap-5"
       encType="multipart/form-data"
       onSubmit={handleSubmit}
     >
@@ -41,7 +41,7 @@ export function CreateComment() {
                 name="files"
                 defaultValue={null}
                 render={({ field: { onChange } }) => (
-                  <Dropzone onChange={onChange} className="min-h-[200px]" clearFiles={isLoadingCreateComment} />
+                  <Dropzone onChange={onChange} className="min-h-[200px]" clearFiles={isLoadingCreateComment} columnsFiles={2} />
                 )}
               />
             </div>
