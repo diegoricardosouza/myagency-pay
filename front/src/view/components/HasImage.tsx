@@ -17,7 +17,7 @@ export function HasImage({ file, removeFile }: HasImageProps) {
       <img src={file?.preview} alt="" className="w-full h-[92px] object-cover" />
 
       <div className="flex items-center justify-between mt-1">
-        <span className="text-xs text-gray-500 ml-0 flex-1">{file?.name}</span>
+        <span className="text-xs text-gray-500 ml-0 flex-1 break-all">{file?.name}</span>
 
         <button type="button" onClick={removeFile}>
           <X className="w-4 h-4" />
