@@ -15,9 +15,8 @@ export function Login() {
       <div className="flex h-screen items-center justify-center py-12 px-5">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="flex flex-col gap-2 text-center">
-            <Logo className="w-[168px] ml-auto mr-auto" />
+            <Logo className="w-[168px] ml-auto mr-auto mb-8" />
 
-            <h1 className="text-3xl font-bold">Entrar</h1>
             <p className="text-balance text-muted-foreground">
               Digite seu e-mail abaixo para fazer login
             </p>
