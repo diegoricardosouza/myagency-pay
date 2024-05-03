@@ -18,8 +18,8 @@ export function Comments({ id, company, content, files, userId, logo }: Comments
   return (
     <div className="mt-4">
       <h3 className={cn(
-        "font-semibold flex items-center gap-2 mb-2 text-sm lg:text-base",
-        id !== userId && "justify-end"
+        "font-semibold flex items-center gap-2 mb-2 text-sm lg:text-base justify-end",
+        id !== userId && "justify-start"
       )}>
         {/* <CircleUser className="w-5 h-5" /> */}
         <Avatar className="h-9 w-9 sm:flex border p-[6px]">
@@ -28,8 +28,8 @@ export function Comments({ id, company, content, files, userId, logo }: Comments
         {company}
       </h3>
       <Card x-chunk="dashboard-07-chunk-3" className={cn(
-          "pt-6",
-          id !== userId && "bg-gray-100/70"
+          "pt-6 bg-primary text-white",
+        id !== userId && "bg-muted text-gray-500"
         )
       }>
         <CardContent>
