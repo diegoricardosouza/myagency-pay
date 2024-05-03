@@ -1,14 +1,14 @@
 import { generateEllipsisPagination } from "@/lib/utils";
 import { CustomPagination } from "@/view/components/CustomPagination";
+import { Modal } from "@/view/components/Modal";
+import { ModalSearch } from "@/view/components/ModalSearch";
 import { Spinner } from "@/view/components/Spinner";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/view/components/ui/accordion";
 import { Button } from "@/view/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/view/components/ui/card";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/view/components/ui/table";
-import { ListFilter, PlusCircle } from "lucide-react";
+import { PlusCircle, Search } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Search } from "../../components/Search";
 import { BreadcrumbJob } from "./components/BreadcrumbJob";
 import { JobItem } from "./components/JobItem";
 import { useJobController } from "./useJobController";
@@ -24,7 +24,10 @@ export function Jobs() {
     handleDeleteJob,
     isLoadingDelete,
     user,
-    pagination
+    pagination,
+    openJobModal,
+    closeJobModal,
+    openModalJob
   } = useJobController();
 
   const pages = useMemo(() => {
@@ -36,8 +39,8 @@ export function Jobs() {
       <BreadcrumbJob />
 
       <div>
-        <div className="flex mb-4">
-          <Button size="sm" className="h-8 gap-1" asChild>
+        <div className="flex mb-4 gap-2">
+          <Button size="sm" className="h-9 gap-1" asChild>
             <Link to="/solicitacoes/novo">
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -45,30 +48,25 @@ export function Jobs() {
               </span>
             </Link>
           </Button>
+
+          <Button size="sm" onClick={openJobModal}>
+            <div className="flex items-center gap-2">
+              <Search className="w-4 h-4" />
+              Filtro
+            </div>
+          </Button>
         </div>
 
-        <Card className="px-6 mb-4">
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1" className="border-0">
-              <AccordionTrigger>
-                <div className="flex items-center gap-2">
-                  <ListFilter className="w-4 h-4" />
-                  Filtro
-                </div>
-              </AccordionTrigger>
-              <AccordionContent>
-                <Search
-                  isLoading={isLoading}
-                  control={control}
-                  dateEndCut={dateEndCut}
-                  dateStartCut={dateStartCut}
-                  handleSubmit={handleSubmit}
-                  day={user?.data.day}
-                />
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
+        <Modal open={openModalJob} onClose={closeJobModal}>
+          <ModalSearch
+            isLoading={isLoading}
+            control={control}
+            dateEndCut={dateEndCut}
+            dateStartCut={dateStartCut}
+            handleSubmit={handleSubmit}
+            day={user?.data.day}
+          />
+        </Modal>
 
         <Card className="min-h-[500px] relative">
           {isLoadingDelete && (

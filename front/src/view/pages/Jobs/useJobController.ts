@@ -22,6 +22,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function useJobController(perPage = 6) {
+  const [openModalJob, setOpenModalJob] = useState(false);
   const [startDate, setStartDate] = useState<string | null | undefined>();
   const [endDate, setEndDate] = useState<string | null | undefined>();
   const { user } = useAuth();
@@ -65,6 +66,14 @@ export function useJobController(perPage = 6) {
     }
   });
 
+  function openJobModal() {
+    setOpenModalJob(true);
+  }
+
+  function closeJobModal() {
+    setOpenModalJob(false);
+  }
+
   async function handleDeleteJob(id: string) {
     try {
       await removeJob(id);
@@ -90,6 +99,7 @@ export function useJobController(perPage = 6) {
 
         return params;
       });
+      setOpenModalJob(false);
     } catch (error) {
       toast.error('Erro ao obter os dados!');
     }
@@ -109,6 +119,9 @@ export function useJobController(perPage = 6) {
     handleDeleteJob,
     isLoadingDelete,
     user,
-    pagination
+    pagination,
+    openJobModal,
+    closeJobModal,
+    openModalJob
   };
 }

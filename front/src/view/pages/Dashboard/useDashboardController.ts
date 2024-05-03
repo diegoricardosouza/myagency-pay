@@ -23,6 +23,7 @@ type FormData = z.infer<typeof schema>
 
 export function useDashboardController() {
   const { user } = useAuth();
+  const [openModalDashboard, setOpenModalDashboard] = useState(false);
 
   // Obtém a data atual
   const dateNow = new Date();
@@ -59,6 +60,14 @@ export function useDashboardController() {
   const jobsChanging = data?.data.filter(job => job.status === 'changing');
   const jobsApproved = data?.data.filter(job => job.status === 'approved');
 
+  function openDashboardModal() {
+    setOpenModalDashboard(true);
+  }
+
+  function closeDashboardModal() {
+    setOpenModalDashboard(false);
+  }
+
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
       const starDate = formatedDate(data.startDate.toISOString());
@@ -73,6 +82,7 @@ export function useDashboardController() {
 
         return params;
       });
+      setOpenModalDashboard(false);
     } catch (error) {
       toast.error('Erro ao obter os dados!');
     }
@@ -91,6 +101,9 @@ export function useDashboardController() {
     handleSubmit,
     isLoading,
     dateStartCut,
-    dateEndCut
+    dateEndCut,
+    openDashboardModal,
+    closeDashboardModal,
+    openModalDashboard
   }
 }
