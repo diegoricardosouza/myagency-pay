@@ -16,7 +16,7 @@ interface SerachProps {
 export function ModalSearch({ control, dateEndCut, dateStartCut, handleSubmit, isLoading, day }: SerachProps) {
   return (
     <>
-      <div className="text-center pb-0">
+      <div className="text-center pb-0 mt-4">
         <p className="text-sm text-muted-foreground">Para contagem das artes mensais, sua data de inicio é sempre dia <strong className="text-primary">{day}</strong>.<br />
           Selecione abaixo a data de início e data de término para verificar as suas solicitações realizadas.</p>
       </div>
