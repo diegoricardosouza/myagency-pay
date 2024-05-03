@@ -31,6 +31,10 @@ export function Dashboard() {
       {/* <BreadcrumbDashboard /> */}
 
       <div>
+        <div className="w-full max-w-[970px] h-[150px] bg-muted mb-5 m-auto">
+          <iframe src="https://inovasite.com/banners-minha-agencia/" className="w-full h-full border-0"></iframe>
+        </div>
+
         <div className="flex mb-4 gap-2">
           <Button size="sm" className="h-9 gap-1" asChild>
             <Link to="/solicitacoes/novo">
