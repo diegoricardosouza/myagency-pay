@@ -11,9 +11,9 @@ export function Login() {
   const { handleSubmit, register, errors, isPending } = useLoginController();
 
   return (
-    <div className="w-full h-screen lg:grid lg:min-h-[600px] lg:grid-cols-2">
-      <div className="flex h-screen items-center justify-center py-12 px-5">
-        <div className="mx-auto grid w-[350px] gap-6">
+    <div className="flex flex-col justify-center w-full h-screen lg:grid lg:min-h-[600px] lg:grid-cols-2">
+      <div className="flex h-screen items-center justify-center py-12 px-5 order-2 pt-0 lg:pt-12">
+        <div className="mx-auto grid w-full max-w-[350px] gap-6">
           <div className="flex flex-col gap-2 text-center">
             <Logo className="w-[168px] ml-auto mr-auto mb-8" />
 
@@ -57,13 +57,11 @@ export function Login() {
         </div>
       </div>
 
-      <div className="hidden bg-muted lg:block">
+      <div className="bg-muted lg:block order-1">
         <img
           src={illustration}
           alt="Image"
-          width="1920"
-          height="1080"
-          className="h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="h-[280px] w-full sm:h-screen object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
     </div>
