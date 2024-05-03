@@ -139,19 +139,19 @@ class JobService
         $dateStart = $year."-". $month."-". $user->day . "T00:00:00.000000Z";
         $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
 
-        if($job->type == "Atualizações") {
+        if($job->type == "Atualizações" && $user->plan->updates) {
             $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id, $dateStart, $dateEnd);
         }
 
-        if($job->type == "Mídia Digital") {
+        if($job->type == "Mídia Digital" && $user->plan->digital_midia) {
             $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id, $dateStart, $dateEnd);
         }
 
-        if($job->type == "Impresso") {
+        if($job->type == "Impresso" && $user->plan->printed) {
             $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id, $dateStart, $dateEnd);
         }
 
-        if($job->type == "Apresentações") {
+        if($job->type == "Apresentações" && $user->plan->presentations) {
             $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id, $dateStart, $dateEnd);
         }
     }
