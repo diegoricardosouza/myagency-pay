@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/view/components/ui/c
 import { NotebookText, Presentation, RefreshCcw, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export function FormatsDashboard() {
+export function Formats() {
   return (
-    <div className="grid flex-1 items-start gap-4 p-4 sm:px-0 sm:py-0 md:gap-8">
-      <div className="mx-auto grid w-full flex-1 auto-rows-max gap-4">
+    <div>
+      <div className="mx-auto grid w-full auto-rows-max gap-4">
         <Card className="relative">
           <CardHeader>
             <CardTitle className="text-center">
@@ -47,6 +47,10 @@ export function FormatsDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      <span className="text-xs text-center block mt-3 text-gray-500">
+        Psiu, não se esqueça de que o prazo para as artes on-line é de até 24h exceto finais de semanas e feriados, mas faremos de tudo pra lhe apresentar o quanto antes tá.
+      </span>
     </div>
   )
 }
