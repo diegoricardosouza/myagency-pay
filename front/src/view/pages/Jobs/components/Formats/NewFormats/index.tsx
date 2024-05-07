@@ -43,10 +43,6 @@ export function NewFormats() {
             JobsAvailable={nJobsAvailable}
           />
 
-          <span className="text-xs text-center block text-gray-500">
-            Psiu, não se esqueça de que o prazo para as artes on-line é de até 24h exceto finais de semanas e feriados, mas faremos de tudo pra lhe apresentar o quanto antes tá.
-          </span>
-
           <div className="flex items-center gap-4">
             <Button variant="outline" size="icon" className="h-7 w-7" asChild>
               <Link to="/solicitacoes/novo">
@@ -282,9 +278,13 @@ export function NewFormats() {
               <div className="flex items-center justify-center gap-2 md:ml-auto md:flex">
                 <Button type="submit" size="sm">
                   {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Cadastrar
+                  Solicitar
                 </Button>
               </div>
+
+              <span className="text-xs block text-gray-500">
+                Psiu, não se esqueça de que o prazo para as artes on-line é de até 24h exceto finais de semanas e feriados, mas faremos de tudo pra lhe apresentar o quanto antes tá.
+              </span>
             </div>
           </form>
         </div>

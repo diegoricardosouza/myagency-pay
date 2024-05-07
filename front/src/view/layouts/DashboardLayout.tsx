@@ -56,7 +56,11 @@ export function DashboardLayout() {
           </div>
         </div>
       </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 w-[1140px] ml-auto mr-auto max-w-[100%] lg:px-0">
+      <main className="flex flex-col gap-4 p-4 md:gap-8 md:p-8 w-[1140px] ml-auto mr-auto max-w-[100%] lg:px-0">
+        <div className="w-full max-w-[970px] h-[150px] bg-muted mb-0 m-auto">
+          <iframe src="https://inovasite.com/banners-minha-agencia/" className="w-full h-full border-0"></iframe>
+        </div>
+
         <Outlet />
       </main>
     </div>

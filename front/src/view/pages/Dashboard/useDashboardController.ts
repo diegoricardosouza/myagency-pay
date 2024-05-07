@@ -27,8 +27,17 @@ export function useDashboardController() {
 
   // Obtém a data atual
   const dateNow = new Date();
-  const dateStartCut = (dateNow.getMonth() + 1) + '-' + user?.data.day + '-' + dateNow.getFullYear();
-  const dateEndCut = (dateNow.getMonth() + 2) + '-' + user?.data.day + '-' + dateNow.getFullYear();
+  const dayNow = dateNow.getDate();
+  let dateStartCut = null;
+  let dateEndCut = null;
+
+  if (dayNow < user!.data.day) {
+    dateStartCut = (dateNow.getMonth()) + '-' + user?.data.day + '-' + dateNow.getFullYear();
+    dateEndCut = (dateNow.getMonth() + 1) + '-' + user?.data.day + '-' + dateNow.getFullYear();
+  } else {
+    dateStartCut = (dateNow.getMonth() + 1) + '-' + user?.data.day + '-' + dateNow.getFullYear();
+    dateEndCut = (dateNow.getMonth() + 2) + '-' + user?.data.day + '-' + dateNow.getFullYear();
+  }
 
   const initStarDate = format(dateStartCut, "yyyy-MM-dd");
   const initEndDate = format(dateEndCut, "yyyy-MM-dd");

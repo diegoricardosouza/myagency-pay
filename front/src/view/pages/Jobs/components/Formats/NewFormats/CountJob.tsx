@@ -43,8 +43,8 @@ export function CountJob({ level, exceeded, JobsAvailable, isLoading }: CountJob
 
           <div className="p-6 bg-red-100 border border-red-300 rounded-md transition-all">
             <p className="text-sm text-center text-red-800">
-              Atualmente, não há solicitações disponíveis, caso você crie uma nova solicitação,
-              <strong> vai ser cobrado avulso</strong>.
+              Atualmente, não há solicitações disponíveis nesta categoria, caso você crie uma nova solicitação,
+              <strong> haverá cobrança adicional em próxima fatura.</strong>.
             </p>
           </div>
         </div>
