@@ -100,7 +100,6 @@ class CommentService
             'data' => Carbon::parse($comment->created_at)->format('d/m/Y'),
             'hora' => Carbon::parse($comment->created_at)->format('H:i:s'),
             'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . $jobId,
-            'files' => implode("\n", $urlFile),
         ]));
     }
 }

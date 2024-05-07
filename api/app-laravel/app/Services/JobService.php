@@ -10,6 +10,7 @@ use App\Models\File;
 use App\Models\Job;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -109,6 +110,7 @@ class JobService
         }
 
         $jobAfterCreation = $this->job->with(['user', 'files'])->where('id', $jobCreated->id)->first();
+        $user = $this->user->with('plan')->where('id', Auth::user()->id)->first();
 
         if($jobAfterCreation->type == "Atualizações") {
             $users_temp = explode(',', env('EMAIL_ATUALIZACOES'));
@@ -119,7 +121,7 @@ class JobService
         } else {
             $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
             foreach ($users_temp as $u) {
-                $this->sendMail($jobAfterCreation, $u);
+                $this->sendMail($jobAfterCreation, $u, $user->plan->name);
             }
         }
 
@@ -132,38 +134,42 @@ class JobService
     {
         $user = $this->user->with(['plan'])->where('id', $userId)->first();
 
-        $month = date('m');
-        $year = date('Y');
-        $dataCorte = $year."-". $month."-". $user->day;
-        $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
-        $dateStart = $year."-". $month."-". $user->day . "T00:00:00.000000Z";
-        $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
+        // $month = date('m');
+        // $year = date('Y');
+        // $dataCorte = $year."-". $month."-". $user->day;
+        // $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
+        // $dateStart = $year."-". $month."-". $user->day . "T00:00:00.000000Z";
+        // $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
 
         if($job->type == "Atualizações" && $user->plan->updates) {
-            $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id, $dateStart, $dateEnd);
+            $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id);
         }
 
         if($job->type == "Mídia Digital" && $user->plan->digital_midia) {
-            $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id, $dateStart, $dateEnd);
+            $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id);
         }
 
         if($job->type == "Impresso" && $user->plan->printed) {
-            $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id, $dateStart, $dateEnd);
+            $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id);
         }
 
         if($job->type == "Apresentações" && $user->plan->presentations) {
-            $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id, $dateStart, $dateEnd);
+            $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id);
         }
     }
 
-    private function countJobs($job, $type, $qtdPlan, $userId, $dateStart, $dateEnd)
+    private function countJobs($job, $type, $qtdPlan, $userId)
     {
         if ($qtdPlan != -1) {
             // Obter o número de solicitações de atualizações para o próximo mês
-            $numAtualizacoes = $this->job->where('user_id', $userId)
-                                        ->where('type', $type)
-                                        ->whereBetween('created_at', [$dateStart, $dateEnd])
-                                        ->count();
+            $user = $this->user->with(['plan'])->where('id', $userId)->first();
+
+
+            // $numAtualizacoes = $this->job->where('user_id', $userId)
+            //                             ->where('type', $type)
+            //                             ->whereBetween('created_at', [$dateStart, $dateEnd])
+            //                             ->count();
+            $numAtualizacoes = $this->calculateNumberJobs($user->day, $userId, $type);
 
             // Verificar se excede a quantidade permitida
             if ($numAtualizacoes > $qtdPlan) {
@@ -220,22 +226,55 @@ class JobService
     {
         $user = $this->user->with(['plan'])->where('id', $userId)->first();
 
-        $month = date('m');
-        $year = date('Y');
-        $dataCorte = $year . "-" . $month . "-" . $user->day;
-        $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
-        $dateStart = $year . "-" . $month . "-" . $user->day . "T00:00:00.000000Z";
-        $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
+        // $day = date('d');
+        // $month = date('m');
+        // $year = date('Y');
+        // $dataCorte = $year . "-" . $month . "-" . $user->day;
 
-        $numAtualizacoes = $this->job->where('user_id', $userId)
-                                ->where('type', $type)
-                                ->whereBetween('created_at', [$dateStart, $dateEnd])
-                                ->count();
+        // if((int)$day < $user->day) {
+        //     $dataAtualObj = date('Y-m-d', strtotime("-1 month", strtotime($dataCorte)));
+        //     $dateStart = $dataAtualObj . "T00:00:00.000000Z";
+        //     $dateEnd = $year . "-" . $month . "-" . $user->day . "T23:59:59.000000Z";
+        // } else {
+        //     $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
+        //     $dateStart = $year . "-" . $month . "-" . $user->day . "T00:00:00.000000Z";
+        //     $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
+        // }
 
-        return $numAtualizacoes;
+        // $numAtualizacoes = $this->job->where('user_id', $userId)
+        //                         ->where('type', $type)
+        //                         ->whereBetween('created_at', [$dateStart, $dateEnd])
+        //                         ->count();
+
+        return $this->calculateNumberJobs($user->day, $userId, $type);
     }
 
-    public function sendMail($job, $emails)
+    public function calculateNumberJobs($userDayCut, $userId, $type)
+    {
+        $day = date('d');
+        $month = date('m');
+        $year = date('Y');
+        $dataCorte = $year . "-" . $month . "-" . $userDayCut;
+
+        if ((int)$day < $userDayCut) {
+            $dataAtualObj = date('Y-m-d', strtotime("-1 month", strtotime($dataCorte)));
+            $dateStart = $dataAtualObj . "T00:00:00.000000Z";
+            $dateEnd = $year . "-" . $month . "-" . $userDayCut . "T23:59:59.000000Z";
+        } else {
+            $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
+            $dateStart = $year . "-" . $month . "-" . $userDayCut . "T00:00:00.000000Z";
+            $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
+        }
+
+        // return $dateStart . "-----------" . $dateEnd;
+
+        return $this->job->where('user_id', $userId)
+                        ->where('type', $type)
+                        ->whereBetween('created_at', [$dateStart, $dateEnd])
+                        ->count();
+    }
+
+    public function sendMail($job, $emails, $plan)
     {
         $urlFile = [];
         foreach($job->files as $file){
@@ -256,7 +295,7 @@ class JobService
             'email' => $job->user->email,
             'whatsapp' => $job->user->whatsapp,
             'files' => implode("\n", $urlFile),
-        ], $job->user->company." - ". $job->phrase." (" . Carbon::parse($job->created_at)->format('Y').$job->ref . ")"));
+        ], $job->user->company." - ". $plan ." - ". $job->phrase." (" . Carbon::parse($job->created_at)->format('Y').$job->ref . ")"));
     }
 
     public function sendMailAtt($job, $emails)

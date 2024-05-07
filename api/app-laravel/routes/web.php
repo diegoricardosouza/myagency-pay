@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\CreateCommentMailAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('/test-email', function () {
+//     $data = [
+//         'data' => "07/05/2024",
+//         'hora' => "11:22:55",
+//         'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . "68778687-fasdfsadf98-sfsfasfdsfkas-798saffa",
+//     ];
+
+//     return new CreateCommentMailAdmin($data);
+// });
