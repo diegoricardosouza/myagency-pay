@@ -50,7 +50,7 @@ export function getImageCommentAdmin(comments: Comments[], userId: string, level
 
     if (commentFiltered && commentFiltered?.length > 0) {
       if (commentFiltered[0].files) {
-        return commentFiltered[0]?.files[0].url;
+        return commentFiltered[0]?.files[0]?.url;
       }
     }
   }
