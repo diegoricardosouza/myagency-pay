@@ -5,6 +5,7 @@ import { jobsService } from "@/app/services/jobs";
 import { UpdateJobParams } from "@/app/services/jobs/update";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -21,6 +22,7 @@ export function useCreateCommentController() {
   const { id } = useParams();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const [openModalComment, setOpenModalComment] = useState(false);
 
   const {
     register,
@@ -49,6 +51,14 @@ export function useCreateCommentController() {
     }
   });
 
+  function openCommentModal() {
+    setOpenModalComment(true);
+  }
+
+  function closeCommentModal() {
+    setOpenModalComment(false);
+  }
+
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
       if(user?.data.level === 'CLIENTE') {
@@ -66,7 +76,12 @@ export function useCreateCommentController() {
         user_id: user!.data.id
       });
       queryClient.invalidateQueries({ queryKey: ['viewjob'] });
-      toast.success('Comentário cadastrado com sucesso!');
+      if (user?.data.level === 'CLIENTE') {
+        toast.success('Comentário cadastrado com sucesso!');
+      } else {
+        openCommentModal();
+      }
+
       reset();
       // navigate(0);
     } catch (error) {
@@ -79,6 +94,9 @@ export function useCreateCommentController() {
     isLoadingCreateComment,
     register,
     handleSubmit,
-    errors
+    errors,
+    id,
+    openModalComment,
+    closeCommentModal
   }
 }

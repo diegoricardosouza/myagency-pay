@@ -102,6 +102,7 @@ export function useViewJobController() {
     handleApprovedStatus,
     changingStatus,
     approvingStatus,
-    approvedStatus
+    approvedStatus,
+    whatsapp: jobData?.data.user.whatsapp
   }
 }

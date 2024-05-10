@@ -60,7 +60,7 @@ export function Dashboard() {
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h2 className="font-bold text-xl mb-2">Pendentes</h2>
+            <h2 className="font-bold text-xl mb-2">Nova Solicitação</h2>
             <ScrollArea className="h-[500px] w-full rounded-md border p-3 bg-white relative">
               {isLoading && (
                 <div className="w-full h-full flex justify-center items-center absolute top-0 left-0 bg-white z-40">
@@ -85,7 +85,7 @@ export function Dashboard() {
           </div>
 
           <div>
-            <h2 className="font-bold text-xl mb-2">Em Alteração</h2>
+            <h2 className="font-bold text-xl mb-2">Ajustes</h2>
             <ScrollArea className="h-[500px] w-full rounded-md border p-3 bg-white">
               {isLoading && (
                 <div className="w-full h-full flex justify-center items-center absolute top-0 left-0 bg-white z-40">
@@ -111,7 +111,7 @@ export function Dashboard() {
           </div>
 
           <div>
-            <h2 className="font-bold text-xl mb-2">Em Aprovação</h2>
+            <h2 className="font-bold text-xl mb-2">Aguardando Aprovação</h2>
             <ScrollArea className="h-[500px] w-full rounded-md border p-3 bg-white">
               {isLoading && (
                 <div className="w-full h-full flex justify-center items-center absolute top-0 left-0 bg-white z-40">

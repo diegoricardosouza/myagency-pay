@@ -25,6 +25,7 @@ export function ViewJob() {
     handleChangingStatus,
     handleApprovingStatus,
     handleApprovedStatus,
+    whatsapp
   } = useViewJobController();
 
   const buttonsRuleNotApproved = jobData?.status !== "approved";
@@ -131,7 +132,9 @@ export function ViewJob() {
                   <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-1">
                     Comentar
                   </h2>
-                  <CreateComment />
+                  <CreateComment
+                    whatsapp={whatsapp!}
+                  />
                 </>
               )}
             </div>
