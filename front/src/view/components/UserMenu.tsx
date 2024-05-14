@@ -26,6 +26,16 @@ export function UserMenu() {
             </DropdownMenuItem>
           </>
         )}
+        {user?.data.level !== 'CLIENTE' && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">
+              <Link to={`/usuarios/edit/${user?.data.id}`}>
+                Meu Perfil
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={signout} className="cursor-pointer">
           Sair
