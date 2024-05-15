@@ -92,6 +92,7 @@ export function NewUser() {
                         className="w-full"
                         {...register('whatsapp')}
                         error={errors?.whatsapp?.message}
+                        placeholder="Ex.: 5541999999999"
                       />
                     </div>
 

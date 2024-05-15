@@ -75,7 +75,7 @@ export function CreateComment({ whatsapp }: CreateCommentProps) {
         </p>
 
         <Button asChild className="max-w-[250px] m-auto">
-          <Link to={`https://api.whatsapp.com/send/?phone=55${numberFormated}&text=Olá%20tudo%20bem?%0DSua%20espera%20acabou!%0DAcesse%20o%20link%20abaixo%20para%20conferir!%0Dhttps://minhaagencia.inovasite.com/solicitacoes/detalhes/${id}`} target="_blank">
+          <Link to={`https://api.whatsapp.com/send/?phone=${numberFormated}&text=Olá%20tudo%20bem?%0DSua%20espera%20acabou!%0DAcesse%20o%20link%20abaixo%20para%20conferir!%0Dhttps://minhaagencia.inovasite.com/solicitacoes/detalhes/${id}`} target="_blank">
             Compartilhar
           </Link>
         </Button>

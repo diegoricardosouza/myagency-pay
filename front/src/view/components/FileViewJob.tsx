@@ -11,9 +11,6 @@ interface FileViewJobProps {
 export function FileViewJob({ id, url, name }: FileViewJobProps) {
   const nameTrated = name.replace("jobs/", "")
 
-  console.log(isImageUrl(url));
-
-
   return (
     <div
       key={id}
@@ -24,14 +21,16 @@ export function FileViewJob({ id, url, name }: FileViewJobProps) {
       <div className="bg-muted w-full rounded-md shadow-md p-2 h-full">
         <div className="flex items-center justify-center h-[92px]">
           {isImageUrl(url) ? (
-            <img src={url} alt="" className="w-full h-[92px] object-cover" />
+            <Link to={url} download target="_blank" className="w-full h-[92px]">
+              <img src={url} alt="" className="w-full h-[92px] object-cover" />
+            </Link>
           ) : <FileCheck2 className="w-12 h-12 m-auto text-primary" />}
         </div>
 
         <div className="flex items-center justify-between mt-1 gap-2">
           <span className="text-xs text-gray-500 ml-0 flex-1 break-all">{nameTrated}</span>
 
-          <Link to={url} download target="_blank">
+          <Link to={url} download target="_blank" className="text-gray-600">
             <Download className="w-4 h-4" />
           </Link>
         </div>

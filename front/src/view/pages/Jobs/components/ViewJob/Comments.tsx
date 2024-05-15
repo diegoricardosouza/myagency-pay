@@ -22,7 +22,7 @@ export function Comments({ id, company, content, files, userId, logo }: Comments
         id !== userId && "justify-start"
       )}>
         {/* <CircleUser className="w-5 h-5" /> */}
-        <Avatar className="h-9 w-9 sm:flex border p-[6px]">
+        <Avatar className="h-9 w-9 sm:flex border">
           <AvatarImage src={logo} alt={company} className="object-contain" />
         </Avatar>
         {company}
