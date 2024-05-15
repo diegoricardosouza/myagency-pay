@@ -23,7 +23,7 @@ export function CountJob({ level, exceeded, JobsAvailable, isLoading }: CountJob
             <p className="text-sm text-center text-green-800">
               Você ainda possui&nbsp;
               <strong>
-                {isNaN(Number(JobsAvailable)) || Number(JobsAvailable) === -1
+                {isNaN(Number(JobsAvailable)) || Number(JobsAvailable) <= -1
                   ? 'Ilimitadas'
                   : Number(JobsAvailable)}
               </strong>
