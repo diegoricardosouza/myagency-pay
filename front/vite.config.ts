@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      registerType: 'autoUpdate',
       manifest: {
         name: 'Minha Agência',
         short_name: 'Minha Agência',
@@ -32,6 +33,11 @@ export default defineConfig({
         ],
         theme_color: '#003f91',
       },
+      workbox: {
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+      }
     }),
   ],
   resolve: {

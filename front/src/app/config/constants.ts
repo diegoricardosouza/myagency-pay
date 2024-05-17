@@ -30,6 +30,10 @@ export const FORMATS_DIGITAL_MIDIA = [
   {
     value: "Telão",
     label: "Telão"
+  },
+  {
+    value: "Outros",
+    label: "Outros"
   }
 ];
 
@@ -49,6 +53,10 @@ export const FORMATS_PRINTED = [
   {
     value: "Cartão de Visita",
     label: "Cartão de Visita"
+  },
+  {
+    value: "Outros",
+    label: "Outros"
   }
 ];
 

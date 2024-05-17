@@ -56,7 +56,7 @@ export function getImageCommentAdmin(comments: Comments[], userId: string, level
   }
 
   if (level !== 'CLIENTE') {
-    const commentFiltered = comments?.filter(c => c.user.id === userId)
+    const commentFiltered = comments?.filter(c => c.user.level === 'ADMIN')
 
     if (commentFiltered && commentFiltered?.length > 0) {
       if (commentFiltered[0].files) {

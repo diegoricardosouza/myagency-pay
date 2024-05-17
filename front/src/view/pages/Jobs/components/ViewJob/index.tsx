@@ -81,7 +81,13 @@ export function ViewJob() {
                 <form
                   onSubmit={handleApprovedStatus}
                 >
-                  <Button name="approved" type="submit" size="sm" disabled={isChangeStatus} className="bg-green-600 hover:bg-green-700">
+                  <Button
+                    name="approved"
+                    type="submit"
+                    size="lg"
+                    disabled={isChangeStatus}
+                    className="bg-green-600 hover:bg-green-700 text-lg rounded-full uppercase font-bold"
+                  >
                     {approvedStatus && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Aprovar
                   </Button>

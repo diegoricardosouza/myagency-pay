@@ -36,7 +36,7 @@ export function Comments({ id, company, content, files, userId, logo }: Comments
           <div className="grid gap-6">
             <div className="grid gap-3">
               <Label>Comentário:</Label>
-              <p>{content}</p>
+              <p className="break-all">{content}</p>
             </div>
 
             <div className="grid gap-3">

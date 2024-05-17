@@ -128,7 +128,7 @@ export function NewFormats() {
                                 </SelectContent>
 
                                 {errors?.format?.message && (
-                                  <div className="flex gap-2 items-center text-red-700">
+                                  <div className="flex gap-2 items-center text-red-700 mt-2">
                                     <span className="text-xs">{errors?.format?.message}</span>
                                   </div>
                                 )}
