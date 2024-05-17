@@ -15,6 +15,7 @@ class CreateCommentMail extends Mailable
     use Queueable, SerializesModels;
 
     public $data;
+    public $subject;
 
     /**
      * Create a new message instance.
@@ -22,6 +23,7 @@ class CreateCommentMail extends Mailable
     public function __construct($data)
     {
         $this->data = $data;
+        $this->subject = $subject;
     }
 
     /**
@@ -30,7 +32,7 @@ class CreateCommentMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Comentário da Solicitação Criada',
+            subject: $this->subject,
             from: new Address('suporte@inovasite.com', 'Comentário da Solicitação Criada'),
         );
     }

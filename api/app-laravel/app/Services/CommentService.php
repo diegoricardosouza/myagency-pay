@@ -6,6 +6,7 @@ use App\Mail\CreateCommentMail;
 use App\Mail\CreateCommentMailAdmin;
 use App\Models\Comment;
 use App\Models\FileComment;
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
@@ -18,6 +19,7 @@ class CommentService
     public function __construct(
         protected Comment $comment,
         protected User $user,
+        protected Job $job,
     ) {
     }
 
@@ -44,12 +46,14 @@ class CommentService
         }
 
         $commentAfterCreation = $this->comment->with(['files', 'job'])->where('id', $commentCreated->id)->first();
+        $job = $this->job->with(['user', 'files'])->where('id', $commentAfterCreation->job->id)->first();
+        $user = $this->user->with('plan')->where('id', $job->user->id)->first();
 
-        // $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
-        // foreach($users_temp as $u) {
-        //     $this->sendMail($u, $commentAfterCreation);
-        // }
-        $this->sendMail(env('EMAIL_SOLICITACOES_SINGLE'), $commentAfterCreation);
+        $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
+        foreach($users_temp as $u) {
+            $this->sendMail($u, $commentAfterCreation, $job, $user->plan->name);
+        }
+        // $this->sendMail(env('EMAIL_SOLICITACOES_SINGLE'), $commentAfterCreation);
 
         if(Auth::user()->level != 'CLIENTE') {
             $user = $this->user->where('id', $commentAfterCreation->job->user_id)->first();
@@ -74,7 +78,7 @@ class CommentService
         $comment->delete();
     }
 
-    public function sendMail($email, $comment)
+    public function sendMail($email, $comment, $job, $plan)
     {
         $urlFile = [];
         foreach ($comment->files as $file) {
@@ -82,11 +86,15 @@ class CommentService
         }
 
         Mail::to($email)->send(new CreateCommentMail([
+            'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . $job->id,
             'data' => Carbon::parse($comment->created_at)->format('d/m/Y'),
             'hora' => Carbon::parse($comment->created_at)->format('H:i:s'),
             'conteudo' => $comment->content,
+            'responsavel' => $job->user->responsible,
+            'email' => $job->user->email,
+            'whatsapp' => $job->user->whatsapp,
             'files' => implode("\n", $urlFile),
-        ]));
+        ], "[AJUSTE]" . $job->user->company . " - " . $plan . " - " . $job->phrase . " (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
     }
 
     public function sendMailAdmin($email, $comment, $jobId)

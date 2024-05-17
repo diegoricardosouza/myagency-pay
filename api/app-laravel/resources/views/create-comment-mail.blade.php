@@ -10,6 +10,11 @@
 </head>
 <body>
     <p>
+        <b>LINK COMPARTILHAVEL</b><br>
+        Url: {{ $data['url'] }}<br>
+    </p>
+
+    <p>
         <b>CRIAÇÃO DO COMENTÁRIO</b><br>
         Data: {{ $data['data'] }}<br>
         Hora: {{ $data['hora'] }}<br>
@@ -18,6 +23,13 @@
     <p>
         <b>CONTEÚDO</b><br>
         {{ $data['conteudo'] }}
+    </p>
+
+    <p>
+        <b>DADOS DO CLIENTE</b><br>
+        Responsável: {{ $data['responsavel'] }}<br>
+        Email: {{ $data['email'] }}<br>
+        WhatsApp: {{ $data['whatsapp'] }}
     </p>
 
     <p>
