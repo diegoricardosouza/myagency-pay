@@ -20,7 +20,7 @@ class CreateCommentMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct($data, $subject)
     {
         $this->data = $data;
         $this->subject = $subject;
