@@ -49,9 +49,11 @@ class CommentService
         $job = $this->job->with(['user', 'files'])->where('id', $commentAfterCreation->job->id)->first();
         $user = $this->user->with('plan')->where('id', $job->user->id)->first();
 
-        $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
-        foreach($users_temp as $u) {
-            $this->sendMail($u, $commentAfterCreation, $job, $user->plan->name);
+        if(Auth::user()->level == 'CLIENTE') {
+            $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
+            foreach ($users_temp as $u) {
+                $this->sendMail($u, $commentAfterCreation, $job, $user->plan->name);
+            }
         }
         // $this->sendMail(env('EMAIL_SOLICITACOES_SINGLE'), $commentAfterCreation);
 
