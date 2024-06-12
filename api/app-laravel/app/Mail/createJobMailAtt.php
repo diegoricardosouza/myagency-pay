@@ -14,13 +14,15 @@ class createJobMailAtt extends Mailable
 {
     use Queueable, SerializesModels;
     public $data;
+    public $subject;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct($data, $subject)
     {
         $this->data = $data;
+        $this->subject = $subject;
     }
 
     /**
@@ -29,8 +31,8 @@ class createJobMailAtt extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Solicitação Criada',
-            from: new Address('suporte@inovasite.com', 'Solicitação Criada'),
+            subject: $this->subject,
+            from: new Address('suporte@inovasite.com', $this->subject),
         );
     }
 

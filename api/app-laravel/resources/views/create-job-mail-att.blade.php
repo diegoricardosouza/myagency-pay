@@ -10,6 +10,11 @@
 </head>
 <body>
     <p>
+        <b>LINK COMPARTILHAVEL</b><br>
+        Url: {{ $data['url'] }}<br>
+    </p>
+
+    <p>
         <b>SOLICITAÇÃO</b><br>
         Ref: {{ $data['ref'] }}<br>
         Data: {{ $data['data'] }}<br>
