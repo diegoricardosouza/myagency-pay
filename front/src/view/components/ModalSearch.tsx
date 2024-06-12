@@ -8,8 +8,8 @@ interface SerachProps {
   handleSubmit(): void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<{ startDate: Date; endDate: Date; }, any>;
-  dateStartCut: string;
-  dateEndCut: string;
+  dateStartCut: string | number | Date | undefined;
+  dateEndCut: string | number | Date | undefined;
   day: number | undefined;
 }
 
@@ -30,7 +30,7 @@ export function ModalSearch({ control, dateEndCut, dateStartCut, handleSubmit, i
             <Controller
               control={control}
               name="startDate"
-              defaultValue={new Date(dateStartCut)}
+              defaultValue={new Date(dateStartCut!)}
               render={({ field: { onChange, value } }) => (
                 <DataPicker
                   label="Data de Início"
@@ -45,7 +45,7 @@ export function ModalSearch({ control, dateEndCut, dateStartCut, handleSubmit, i
             <Controller
               control={control}
               name="endDate"
-              defaultValue={new Date(dateEndCut)}
+              defaultValue={new Date(dateEndCut!)}
               render={({ field: { onChange, value } }) => (
                 <DataPicker
                   label="Data de Término"

@@ -199,14 +199,14 @@ export function ViewJob() {
                       <div className="grid gap-1">
                         <Label>Conteúdos:</Label>
                         <div
-                          className="text-muted-foreground text-sm"
+                          className="text-muted-foreground text-sm break-all comments-content"
                           dangerouslySetInnerHTML={{ __html: jobData?.content as string }}
                         ></div>
                       </div>
                       <div className="grid gap-1">
                         <Label>Observações:</Label>
                         <div
-                          className="text-muted-foreground text-sm"
+                          className="text-muted-foreground text-sm comments-content"
                           dangerouslySetInnerHTML={{ __html: jobData?.obs as string }}
                         ></div>
                       </div>

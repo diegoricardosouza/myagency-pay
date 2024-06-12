@@ -111,8 +111,21 @@
   margin-bottom: var(--ck-spacing-large);
 }
 
-.ck-balloon-panel {
+.ck-content a {
+  color: #1b3af2;
+  text-decoration: underline;
+}
+
+.comments-content a {
+  text-decoration: underline;
+}
+
+/* .ck-balloon-panel {
   display: none !important;
+} */
+
+.ck-powered-by {
+  display: none;
 }
 
 @layer base {

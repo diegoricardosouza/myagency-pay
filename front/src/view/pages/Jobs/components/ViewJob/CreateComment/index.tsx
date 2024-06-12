@@ -3,7 +3,9 @@ import { Modal } from "@/view/components/Modal";
 import { Button } from "@/view/components/ui/button";
 import { Card, CardContent } from "@/view/components/ui/card";
 import { Label } from "@/view/components/ui/label";
-import { Textarea } from "@/view/components/ui/textarea";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import '@ckeditor/ckeditor5-build-classic/build/translations/pt-br';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Loader2 } from "lucide-react";
 import { Controller } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -16,7 +18,6 @@ interface CreateCommentProps {
 export function CreateComment({ whatsapp }: CreateCommentProps) {
   const {
     handleSubmit,
-    register,
     control,
     errors,
     isLoadingCreateComment,
@@ -39,7 +40,28 @@ export function CreateComment({ whatsapp }: CreateCommentProps) {
             <div className="grid gap-6">
               <div className="grid gap-3">
                 <Label>Comentário:</Label>
-                <Textarea {...register('content')} className="h-[150px]" />
+                {/* <Textarea {...register('content')} className="h-[150px]" /> */}
+                <div className="w-full max-w-[258px] sm:max-w-full lg:max-w-[313px]">
+                  <Controller
+                    control={control}
+                    name="content"
+                    defaultValue=""
+                    render={({ field: { onChange, value } }) => (
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={value}
+                        config={{
+                          language: 'pt-br'
+                        }}
+                        onChange={(_event, editor) => {
+                          const data = editor.getData();
+                          onChange(data);
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+
                 {errors?.content?.message && (
                   <div className="flex gap-2 items-center text-red-700">
                     <span className="text-xs">{errors?.content?.message}</span>

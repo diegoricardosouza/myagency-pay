@@ -36,7 +36,12 @@ export function Comments({ id, company, content, files, userId, logo }: Comments
           <div className="grid gap-6">
             <div className="grid gap-3">
               <Label>Comentário:</Label>
-              <p className="break-all">{content}</p>
+              {/* <p className="break-all">{content}</p> */}
+
+              <div
+                className="text-sm break-all comments-content"
+                dangerouslySetInnerHTML={{ __html: content as string }}
+              />
             </div>
 
             <div className="grid gap-3">

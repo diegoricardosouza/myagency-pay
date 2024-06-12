@@ -1,4 +1,5 @@
 import { DashboardLayout } from "@/view/layouts/DashboardLayout";
+import { DashboardV2 } from "@/view/pages/DashboardV2";
 import { Help } from "@/view/pages/Help";
 import { Jobs } from "@/view/pages/Jobs";
 import { FormatsJob } from "@/view/pages/Jobs/components/Formats";
@@ -13,7 +14,6 @@ import User from "@/view/pages/Users";
 import { EditUser } from "@/view/pages/Users/components/EditUser";
 import { NewUser } from "@/view/pages/Users/components/NewUser";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Dashboard } from "../view/pages/Dashboard";
 import { Login } from "../view/pages/Login";
 import { AuthGuard } from "./AuthGuard";
 
@@ -31,7 +31,7 @@ export function Router() {
 
         <Route element={<AuthGuard isPrivate />}>
           <Route element={<DashboardLayout />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<DashboardV2 />} />
             <Route path="/usuarios" element={<User />} />
             <Route path="/usuarios/novo" element={<NewUser />} />
             <Route path="/usuarios/edit/:id" element={<EditUser />} />

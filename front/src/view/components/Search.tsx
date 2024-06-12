@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { Control, Controller } from "react-hook-form";
 
 interface SerachProps {
-  isLoading: boolean;
+  isLoading?: boolean;
   handleSubmit(): void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<{ startDate: Date; endDate: Date; }, any>;
