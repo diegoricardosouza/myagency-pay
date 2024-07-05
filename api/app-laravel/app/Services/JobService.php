@@ -113,16 +113,18 @@ class JobService
         $user = $this->user->with('plan')->where('id', Auth::user()->id)->first();
 
         if($jobAfterCreation->type == "Atualizações") {
-            $users_temp = explode(',', env('EMAIL_ATUALIZACOES'));
-            foreach ($users_temp as $u) {
-                $this->sendMailAtt($jobAfterCreation, $u, $user->plan->name);
-            }
+            // $users_temp = explode(',', env('EMAIL_ATUALIZACOES'));
+            // foreach ($users_temp as $u) {
+            //     $this->sendMailAtt($jobAfterCreation, $u, $user->plan->name);
+            // }
+            $this->sendMailAtt($jobAfterCreation, env('EMAIL_ATUALIZACOES'), $user->plan->name);
 
         } else {
-            $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
-            foreach ($users_temp as $u) {
-                $this->sendMail($jobAfterCreation, $u, $user->plan->name);
-            }
+            // $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
+            // foreach ($users_temp as $u) {
+            //     $this->sendMail($jobAfterCreation, $u, $user->plan->name);
+            // }
+            $this->sendMail($jobAfterCreation, env('EMAIL_SOLICITACOES'), $user->plan->name);
         }
 
         $this->verifyQtdJobs($id, $jobCreated);
@@ -142,23 +144,23 @@ class JobService
         // $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
 
         if($job->type == "Atualizações") {
-            $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id);
+            $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id, $user->plan->name);
         }
 
         if($job->type == "Mídia Digital") {
-            $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id);
+            $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id, $user->plan->name);
         }
 
         if($job->type == "Impresso") {
-            $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id);
+            $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id, $user->plan->name);
         }
 
         if($job->type == "Apresentações") {
-            $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id);
+            $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id, $user->plan->name);
         }
     }
 
-    private function countJobs($job, $type, $qtdPlan, $userId)
+    private function countJobs($job, $type, $qtdPlan, $userId, $planName)
     {
         if ($qtdPlan != -1) {
             // Obter o número de solicitações de atualizações para o próximo mês
@@ -169,7 +171,7 @@ class JobService
             // Verificar se excede a quantidade permitida
             if ($numAtualizacoes > $qtdPlan) {
                 // Enviar e-mail de aviso $job, $emails, $type
-                $this->sendExceededJob($job, env('EMAIL_FINANCEIRO'), $type);
+                $this->sendExceededJob($job, env('EMAIL_FINANCEIRO'), $type, $planName);
             }
         }
     }
@@ -297,7 +299,7 @@ class JobService
         ], $job->user->company . " - " . $plan . " - " . $job->phrase . " (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
     }
 
-    private function sendExceededJob($job, $emails, $type)
+    private function sendExceededJob($job, $emails, $type, $plan)
     {
         $urlFile = [];
         foreach ($job->files as $file) {
@@ -320,6 +322,6 @@ class JobService
             'email' => $job->user->email,
             'whatsapp' => $job->user->whatsapp,
             'files' => implode("\n", $urlFile),
-        ]));
+        ], '[SOLICITAÇÃO EXTRA]' . $job->user->company . " - " . $plan . " - (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
     }
 }
