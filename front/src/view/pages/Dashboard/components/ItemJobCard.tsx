@@ -42,7 +42,7 @@ export function ItemJobCard({ id, name, dataCreated, formats, reference, user, c
 
       <div className="flex-1">
         {user.level !== 'CLIENTE' && (
-          <h2 className="font-semibold">{name}</h2>
+          <h2 className="font-semibold break-w leading-[18px] mb-[5px]">{name}</h2>
         )}
 
         <div>

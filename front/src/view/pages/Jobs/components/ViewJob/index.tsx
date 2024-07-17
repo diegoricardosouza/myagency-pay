@@ -199,14 +199,14 @@ export function ViewJob() {
                       <div className="grid gap-1">
                         <Label>Conteúdos:</Label>
                         <div
-                          className="text-muted-foreground text-sm break-all comments-content"
+                          className="text-muted-foreground text-sm break-w comments-content"
                           dangerouslySetInnerHTML={{ __html: jobData?.content as string }}
                         ></div>
                       </div>
                       <div className="grid gap-1">
                         <Label>Observações:</Label>
                         <div
-                          className="text-muted-foreground text-sm comments-content"
+                          className="text-muted-foreground text-sm break-w comments-content"
                           dangerouslySetInnerHTML={{ __html: jobData?.obs as string }}
                         ></div>
                       </div>
@@ -215,19 +215,21 @@ export function ViewJob() {
                 </CardContent>
               </Card>
 
-              <Card x-chunk="dashboard-07-chunk-0" className="pt-6 mt-6">
-                <CardContent>
-                  <div>
-                    <Label>Arquivos:</Label>
-                  </div>
+              {jobData?.files?.length ? (
+                <Card x-chunk="dashboard-07-chunk-0" className="pt-6 mt-6">
+                  <CardContent>
+                    <div>
+                      <Label>Arquivos:</Label>
+                    </div>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    {jobData?.files?.map((file) => {
-                      return <FileViewJob key={file.id} id={file.id} url={file.url} name={file.name} />
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
+                    <div className="grid grid-cols-2 gap-2">
+                      {jobData?.files?.map((file) => {
+                        return <FileViewJob key={file.id} id={file.id} url={file.url} name={file.name} />
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : null}
             </div>
           </div>
         </div>

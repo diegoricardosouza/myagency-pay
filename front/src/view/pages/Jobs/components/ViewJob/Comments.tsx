@@ -44,15 +44,17 @@ export function Comments({ id, company, content, files, userId, logo }: Comments
               />
             </div>
 
-            <div className="grid gap-3">
-              <Label>Arquivos:</Label>
-              <div className="grid lg:grid-cols-2 gap-2">
-                {files?.map((file) => {
-                  const nameConvert = file.name.replace("comments/", "jobs/")
-                  return <FileViewJob key={file.id} id={file.id} url={file.url} name={nameConvert} />
-                })}
+            {files?.length ? (
+              <div className="grid gap-3">
+                <Label>Arquivos:</Label>
+                <div className="grid lg:grid-cols-2 gap-2">
+                  {files?.map((file) => {
+                    const nameConvert = file.name.replace("comments/", "jobs/")
+                    return <FileViewJob key={file.id} id={file.id} url={file.url} name={nameConvert} />
+                  })}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </CardContent>
       </Card>
