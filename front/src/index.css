@@ -128,6 +128,10 @@
   display: none;
 }
 
+.break-w {
+  word-break: break-word;
+}
+
 @layer base {
   * {
     @apply border-border;

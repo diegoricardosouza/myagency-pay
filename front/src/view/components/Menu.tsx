@@ -16,6 +16,19 @@ export function Menu() {
       {user?.data.level === 'ADMIN' && (
         <>
           <Link
+            to="/atualizacoes"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Atualizações
+          </Link>
+          <Link
+            to="/criacao"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Criação
+          </Link>
+
+          <Link
             to="/usuarios"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >

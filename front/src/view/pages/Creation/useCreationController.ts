@@ -21,7 +21,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-export function useDashboardControllerV2() {
+export function useCreationController() {
   const [openModalJob, setOpenModalJob] = useState(false);
   const [startDate, setStartDate] = useState<string | undefined>();
   const [endDate, setEndDate] = useState<string | undefined>();
@@ -68,11 +68,11 @@ export function useDashboardControllerV2() {
   });
 
   const { data, isFetching, isLoading } = useQuery({
-    queryKey: ['jobs-dash', startDate, endDate],
+    queryKey: ['jobs-creation', startDate, endDate],
     enabled: Boolean(startDate) && Boolean(endDate), // Condição de habilitação
     staleTime: 0,
     queryFn: async () => {
-      const response = await jobsService.getAllNoPagination(startDate, endDate);
+      const response = await jobsService.getAllNoPagination(startDate, endDate, undefined, "Atualizações");
 
       return response;
     },

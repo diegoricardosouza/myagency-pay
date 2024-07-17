@@ -1,4 +1,5 @@
 import { DashboardLayout } from "@/view/layouts/DashboardLayout";
+import { Creation } from "@/view/pages/Creation";
 import { DashboardV2 } from "@/view/pages/DashboardV2";
 import { Help } from "@/view/pages/Help";
 import { Jobs } from "@/view/pages/Jobs";
@@ -10,6 +11,7 @@ import Plans from "@/view/pages/Plans";
 import { EditPlan } from "@/view/pages/Plans/components/EditPlan";
 import { NewPlan } from "@/view/pages/Plans/components/NewPlan";
 import { Profile } from "@/view/pages/Profile";
+import { Updates } from "@/view/pages/Updates";
 import User from "@/view/pages/Users";
 import { EditUser } from "@/view/pages/Users/components/EditUser";
 import { NewUser } from "@/view/pages/Users/components/NewUser";
@@ -44,6 +46,8 @@ export function Router() {
             <Route path="/solicitacoes/detalhes/:id" element={<ViewJob />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/ajuda" element={<Help />} />
+            <Route path="/atualizacoes" element={<Updates />} />
+            <Route path="/criacao" element={<Creation />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>

@@ -5,7 +5,8 @@ import { Button } from "@/view/components/ui/button";
 import { ScrollArea } from "@/view/components/ui/scroll-area";
 import { PlusCircle, Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ItemJobCard } from "./components/ItemJobCard";
+
+import { ItemJobCard } from "@/view/components/ItemJobCard";
 import { useDashboardController } from "./useDashboardController";
 
 

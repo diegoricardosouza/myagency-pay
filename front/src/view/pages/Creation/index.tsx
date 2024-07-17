@@ -6,9 +6,11 @@ import { Button } from "@/view/components/ui/button";
 import { ScrollArea } from "@/view/components/ui/scroll-area";
 import { PlusCircle, Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useDashboardControllerV2 } from "./useDashboardControllerV2";
+import { BreadcrumbCreation } from "./components/BreadcrumbCreation";
+import { useCreationController } from "./useCreationController";
 
-export function DashboardV2() {
+
+export function Creation() {
   const {
     control,
     handleSubmit,
@@ -23,10 +25,12 @@ export function DashboardV2() {
     jobsChanging,
     jobsApproving,
     jobsApproved
-  } = useDashboardControllerV2();
+  } = useCreationController();
 
   return (
     <>
+      <BreadcrumbCreation />
+
       <div>
         <div className="flex mb-4 gap-2">
           <Button size="sm" className="h-9 gap-1" asChild>

@@ -42,8 +42,8 @@ export function useDashboardController() {
   const initStarDate = format(dateStartCut, "yyyy-MM-dd");
   const initEndDate = format(dateEndCut, "yyyy-MM-dd");
 
-  const [startDate, setStartDate] = useState<string | null | undefined>(initStarDate);
-  const [endDate, setEndDate] = useState<string | null | undefined>(initEndDate);
+  const [startDate, setStartDate] = useState<string | undefined>(initStarDate);
+  const [endDate, setEndDate] = useState<string | undefined>(initEndDate);
   const [, setSearchParams] = useSearchParams();
 
   const {

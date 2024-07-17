@@ -70,28 +70,28 @@ export function Profile() {
                 <div className="grid gap-1">
                   <Label>Atualizações:</Label>
                   <p className="text-muted-foreground text-sm">
-                    {user?.data.plan?.updates}
+                    {String(user?.data.plan?.updates) === "-1" ? "ilimitado" : user?.data.plan?.updates}
                   </p>
                 </div>
 
                 <div className="grid gap-1">
                   <Label>Mídia Digital:</Label>
                   <p className="text-muted-foreground text-sm">
-                    {user?.data.plan?.digital_midia}
+                    {String(user?.data.plan?.digital_midia) === "-1" ? "ilimitado" : user?.data.plan?.digital_midia}
                   </p>
                 </div>
 
                 <div className="grid gap-1">
                   <Label>Impresso:</Label>
                   <p className="text-muted-foreground text-sm">
-                    {user?.data.plan?.printed}
+                    {String(user?.data.plan?.printed) === "-1" ? "ilimitado" : user?.data.plan?.printed}
                   </p>
                 </div>
 
                 <div className="grid gap-1">
                   <Label>Apresentações:</Label>
                   <p className="text-muted-foreground text-sm">
-                    {user?.data.plan?.presentations}
+                    {String(user?.data.plan?.presentations) === "-1" ? "ilimitado" : user?.data.plan?.presentations}
                   </p>
                 </div>
               </div>

@@ -35,7 +35,7 @@ export function CustomPagination({ pages, pagination }: CustomPaginationProps) {
 
             if (isEllipsisPosition) {
               return (
-                <PaginationItem>
+                <PaginationItem key={page}>
                   <PaginationEllipsis />
                 </PaginationItem>
               )
