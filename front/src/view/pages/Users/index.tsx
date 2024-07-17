@@ -12,7 +12,7 @@ import { UserItem } from "./components/UserItem"
 import { useUserController } from "./useUserController"
 
 export default function User() {
-  const { users, handleDeleteUser, isLoadingDelete, pagination, isLoading } = useUserController();
+  const { users, handleDeleteUser, isLoadingDelete, pagination, isLoading } = useUserController(50);
 
   const pages = useMemo(() => {
     return generateEllipsisPagination(pagination.currentPage, pagination.totalPages);

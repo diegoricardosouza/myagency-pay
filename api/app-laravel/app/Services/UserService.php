@@ -12,7 +12,7 @@ class UserService
     ) {
     }
 
-    public function getAll($authUserId, $perPage = 6)
+    public function getAll($authUserId, $perPage = 50)
     {
         return $this->user
                     ->with('plan')
