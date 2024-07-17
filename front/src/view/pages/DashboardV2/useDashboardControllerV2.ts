@@ -69,6 +69,7 @@ export function useDashboardControllerV2() {
 
   const { data, isFetching, isLoading } = useQuery({
     queryKey: ['jobs-dash', startDate, endDate],
+    enabled: Boolean(startDate) && Boolean(endDate), // Condição de habilitação
     staleTime: 0,
     queryFn: async () => {
       const response = await jobsService.getAllNoPagination(startDate, endDate);
