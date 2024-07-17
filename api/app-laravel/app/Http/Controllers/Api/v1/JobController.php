@@ -32,7 +32,6 @@ class JobController extends Controller
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
 
-
         return JobResource::collection($this->repository->getAll($this->userLogged, $startDate, $endDate));
     }
 
@@ -40,8 +39,9 @@ class JobController extends Controller
     {
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
+        $type = $request->get('type');
 
-        return JobResource::collection($this->repository->getAllNoPagination($this->userLogged, $startDate, $endDate));
+        return JobResource::collection($this->repository->getAllNoPagination($this->userLogged, $startDate, $endDate, $type));
     }
 
     /**

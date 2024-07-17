@@ -34,67 +34,53 @@ class JobService
 
     public function getAll($user = null, $startDate = null, $endDate = null, $perPage = 6)
     {
-        if($startDate) {
-            $startDate = $startDate. "T00:00:00.000000Z";
-        }
-        if($endDate) {
-            $endDate = $endDate. "T23:59:59.000000Z";
-        }
+        // Formatação de datas
+        $startDate = $startDate ? $startDate . "T00:00:00.000000Z" : null;
+        $endDate = $endDate ? $endDate . "T23:59:59.000000Z" : null;
 
-        if ($user->level == 'CLIENTE') {
-            if($startDate && !empty($endDate)) {
-                return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
-                                ->whereBetween('created_at', [$startDate, $endDate])
-                                ->orderBy('created_at', 'desc')
-                                ->paginate($perPage);
-            }
+        // Query base com relacionamentos e ordenação
+        $query = $this->job->with(['files', 'comments'])->orderBy('created_at', 'desc');
 
-            return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
-                            ->orderBy('created_at', 'desc')
-                            ->paginate($perPage);
+        // Condições para CLIENTE
+        if ($user && $user->level == 'CLIENTE') {
+            $query->where('user_id', $user->id);
         }
 
-        if (!empty($startDate) && !empty($endDate)) {
-            return $this->job->with(['files', 'comments'])->whereBetween('created_at', [$startDate, $endDate])
-                            ->orderBy('created_at', 'desc')
-                            ->paginate($perPage);
+        // Condições de data
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
-        return $this->job->with(['files', 'comments'])
-                        ->orderBy('created_at', 'desc')
-                        ->paginate($perPage);
+        // Retorna os resultados paginados
+        return $query->paginate($perPage);
     }
 
-    public function getAllNoPagination($user = null, $startDate = null, $endDate = null)
+    public function getAllNoPagination($user = null, $startDate = null, $endDate = null, $type = null)
     {
-        if ($startDate) {
-            $startDate = $startDate . "T00:00:00.000000Z";
-        }
-        if ($endDate) {
-            $endDate = $endDate . "T23:59:59.000000Z";
-        }
+        // Formatação de datas
+        $startDate = $startDate ? $startDate . "T00:00:00.000000Z" : null;
+        $endDate = $endDate ? $endDate . "T23:59:59.000000Z" : null;
 
-        if ($user->level == 'CLIENTE') {
-            if ($startDate && !empty($endDate)) {
-                return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
-                    ->whereBetween('created_at', [$startDate, $endDate])
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-            }
+        // Query base com relacionamentos
+        $query = $this->job->with(['files', 'comments'])->orderBy('created_at', 'desc');
 
-            return $this->job->with(['files', 'comments'])->where('user_id', $user->id)
-                ->orderBy('created_at', 'desc')
-                ->get();
+        // Condições para CLIENTE
+        if ($user && $user->level == 'CLIENTE') {
+            $query->where('user_id', $user->id);
         }
 
-        if (!empty($startDate) && !empty($endDate)) {
-            return $this->job->with(['files', 'comments'])->whereBetween('created_at', [$startDate, $endDate])
-                ->orderBy('created_at', 'desc')
-                ->get();
+        // Condições de data
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
-        return $this->job->orderBy('created_at', 'desc')
-                        ->get();
+        // Condição de tipo
+        if ($type) {
+            $query->where('type', $type);
+        }
+
+        // Retorna os resultados
+        return $query->get();
     }
 
     public function createNew($data, $id = null)
