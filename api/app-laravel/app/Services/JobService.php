@@ -55,7 +55,7 @@ class JobService
         return $query->paginate($perPage);
     }
 
-    public function getAllNoPagination($user = null, $startDate = null, $endDate = null, $type = null)
+    public function getAllNoPagination($user = null, $startDate = null, $endDate = null, $type = null, $excludeType = null)
     {
         // Formatação de datas
         $startDate = $startDate ? $startDate . "T00:00:00.000000Z" : null;
@@ -77,6 +77,10 @@ class JobService
         // Condição de tipo
         if ($type) {
             $query->where('type', $type);
+        }
+        // Condição de exclusão de tipo
+        if ($excludeType) {
+            $query->where('type', '!=' , $excludeType);
         }
 
         // Retorna os resultados

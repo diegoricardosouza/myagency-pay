@@ -40,8 +40,9 @@ class JobController extends Controller
         $startDate = $request->get('startDate');
         $endDate = $request->get('endDate');
         $type = $request->get('type');
+        $excludeType = $request->get('excludeType');
 
-        return JobResource::collection($this->repository->getAllNoPagination($this->userLogged, $startDate, $endDate, $type));
+        return JobResource::collection($this->repository->getAllNoPagination($this->userLogged, $startDate, $endDate, $type, $excludeType));
     }
 
     /**
