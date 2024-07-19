@@ -67,11 +67,13 @@ class UserService
     public function delete($id)
     {
         $user = $this->user->findOrFail($id);
+        $newUserId = "9bde441b-6781-4a2c-ad02-7757400bef5a";
 
         if ($user->logo && Storage::exists($user->logo)) {
             Storage::delete($user->logo);
         }
 
+        $user->comments()->update(['user_id' => $newUserId]);
         $user->delete();
     }
 }
