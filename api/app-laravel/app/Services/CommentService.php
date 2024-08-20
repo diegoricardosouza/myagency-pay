@@ -50,9 +50,14 @@ class CommentService
         $user = $this->user->with('plan')->where('id', $job->user->id)->first();
 
         if(Auth::user()->level == 'CLIENTE') {
-            $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
-            foreach ($users_temp as $u) {
-                $this->sendMail($u, $commentAfterCreation, $job, $user->plan->name);
+            // $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
+            // foreach ($users_temp as $u) {
+            //     $this->sendMail($u, $commentAfterCreation, $job, $user->plan->name);
+            // }
+            if ($job->type == "Atualizações") {
+                $this->sendMail(env('EMAIL_ATUALIZACOES'), $commentAfterCreation, $job, $user->plan->name);
+            } else {
+                $this->sendMail(env('EMAIL_SOLICITACOES'), $commentAfterCreation, $job, $user->plan->name);
             }
         }
         // $this->sendMail(env('EMAIL_SOLICITACOES_SINGLE'), $commentAfterCreation);
