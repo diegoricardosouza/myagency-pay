@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->integer('updates')->nullable();
-            $table->integer('digital_midia')->nullable();
-            $table->integer('printed')->nullable();
-            $table->integer('presentations')->nullable();
+            $table->integer('quantity')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
             $table->timestamps();
         });
     }

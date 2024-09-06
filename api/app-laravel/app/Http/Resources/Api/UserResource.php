@@ -23,8 +23,8 @@ class UserResource extends JsonResource
             'level' => $this->level,
             'whatsapp' => $this->whatsapp,
             'day' => $this->day,
-            'logo' => url("storage/{$this->logo}"),
-            'plan' => new PlanResource($this->plan)
+            'cpf' => $this->cpf,
+            'logo' => url("storage/{$this->logo}")
         ];
     }
 }

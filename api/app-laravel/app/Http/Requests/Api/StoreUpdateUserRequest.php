@@ -47,8 +47,14 @@ class StoreUpdateUserRequest extends FormRequest
                 'max:255',
                 Rule::unique('users')->ignore($this->segment(4))
             ],
+            'cpf' => [
+                'required',
+                'min:3',
+                'max:255',
+                Rule::unique('users')->ignore($this->segment(4))
+            ],
             'day' => 'int',
-            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => [
                 'required',
                 'min:6',

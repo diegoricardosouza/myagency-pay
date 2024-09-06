@@ -23,10 +23,8 @@ class StoreUpdatePlanRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:255',
-            'updates' => 'int',
-            'digital_midia' => 'int',
-            'printed' => 'int',
-            'presentations' => 'int',
+            'quantity' => 'required|int',
+            'price' => 'required',
         ];
     }
 }

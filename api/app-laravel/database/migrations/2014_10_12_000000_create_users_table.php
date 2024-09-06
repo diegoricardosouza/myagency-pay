@@ -20,14 +20,13 @@ return new class extends Migration
             $table->enum('level', ['ADMIN', 'EDITOR', 'CLIENTE']);
             $table->string('whatsapp')->nullable();
             $table->integer('day')->nullable();
+            $table->string('cpf')->unique();
             $table->string('logo')->nullable();
-            $table->uuid('plan_id');
+            $table->integer('credits')->default(2);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('plan_id')->references('id')->on('plans');
         });
     }
 
