@@ -1,3 +1,4 @@
+import { AuthLayout } from "@/view/layouts/AuthLayout";
 import { DashboardLayout } from "@/view/layouts/DashboardLayout";
 import { Creation } from "@/view/pages/Creation";
 import { DashboardV2 } from "@/view/pages/DashboardV2";
@@ -11,6 +12,7 @@ import Plans from "@/view/pages/Plans";
 import { EditPlan } from "@/view/pages/Plans/components/EditPlan";
 import { NewPlan } from "@/view/pages/Plans/components/NewPlan";
 import { Profile } from "@/view/pages/Profile";
+import { Register } from "@/view/pages/Register";
 import { Updates } from "@/view/pages/Updates";
 import User from "@/view/pages/Users";
 import { EditUser } from "@/view/pages/Users/components/EditUser";
@@ -27,7 +29,11 @@ export function Router() {
       <Routes>
 
         <Route element={<AuthGuard isPrivate={false} />}>
-          <Route path="/login" element={<Login />} />
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
+
           <Route path="*" element={<NotFound />} />
         </Route>
 

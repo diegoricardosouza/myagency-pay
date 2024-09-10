@@ -24,7 +24,7 @@ class UserService
     {
         $data['password'] = bcrypt($data['password']);
 
-        if($data['logo']){
+        if(!empty($data['logo'])){
             $data['logo'] = $data['logo']->storeAs('users', $data['logo']->hashName());
         }
 

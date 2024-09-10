@@ -2,68 +2,63 @@ import { Button } from "@/view/components/ui/button";
 import { Input } from "@/view/components/ui/input";
 import { Label } from "@/view/components/ui/label";
 
-import illustration from "@/assets/img.jpg";
 import { Logo } from "@/view/components/Logo";
 import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useLoginController } from "./useLoginController";
 
 export function Login() {
   const { handleSubmit, register, errors, isPending } = useLoginController();
 
   return (
-    <div className="flex flex-col justify-center w-full h-screen lg:grid lg:min-h-[600px] lg:grid-cols-2">
-      <div className="flex h-screen items-center justify-center py-12 px-5 order-2 pt-0 lg:pt-12">
-        <div className="mx-auto grid w-full max-w-[350px] gap-6">
-          <div className="flex flex-col gap-2 text-center">
-            <Logo className="w-[168px] ml-auto mr-auto mb-8" />
+    <>
+      <div className="flex flex-col gap-2 text-center">
+        <Logo className="w-[168px] ml-auto mr-auto mb-8" />
 
-            <p className="text-balance text-muted-foreground">
-              Digite seu e-mail abaixo para fazer login
-            </p>
-          </div>
+        <p className="text-balance text-muted-foreground">
+          Digite seu e-mail abaixo para fazer login
+        </p>
+      </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="grid gap-4"
-          >
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                {...register('email')}
-                error={errors?.email?.message}
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                {...register('password')}
-                error={errors?.password?.message}
-              />
-            </div>
-
-            <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Login
-            </Button>
-          </form>
+      <form
+        onSubmit={handleSubmit}
+        className="grid gap-4"
+      >
+        <div className="grid gap-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            {...register('email')}
+            error={errors?.email?.message}
+          />
         </div>
-      </div>
 
-      <div className="bg-muted lg:block order-1">
-        <img
-          src={illustration}
-          alt="Image"
-          className="h-[280px] w-full sm:h-screen object-cover dark:brightness-[0.2] dark:grayscale"
-        />
+        <div className="grid gap-2">
+          <div className="flex items-center">
+            <Label htmlFor="password">Password</Label>
+          </div>
+          <Input
+            id="password"
+            type="password"
+            {...register('password')}
+            error={errors?.password?.message}
+          />
+        </div>
+
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Login
+        </Button>
+      </form>
+
+      <div className="text-center text-sm text-muted-foreground">
+        Não tem uma conta?{" "}
+        <Link to="/register" className="underline">
+          Criar Conta
+        </Link>
       </div>
-    </div>
+    </>
   )
 }

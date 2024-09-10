@@ -2994,6 +2994,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-input/core@npm:^1.0.12":
+  version: 1.0.12
+  resolution: "@react-input/core@npm:1.0.12"
+  peerDependencies:
+    "@types/react": ">=16.8"
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/9e544adabdc49bc00700e0a41a958d0f4f6c3166b48f03bad5af0eeb61dce6e890992d12bca7f17a88c289a4966cf7899a3a39a18020251962d7d0faa45c580a
+  languageName: node
+  linkType: hard
+
+"@react-input/mask@npm:^1.2.5":
+  version: 1.2.5
+  resolution: "@react-input/mask@npm:1.2.5"
+  dependencies:
+    "@react-input/core": "npm:^1.0.12"
+  peerDependencies:
+    "@types/react": ">=16.8"
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/e3a9af2bf85d2ba3879770b526d5c3c8f83b0a06d64165465d495adf1b85aa7159bb1da1c52f9bf39b6481a44228fd659d90dc9c59b55d7ef1f86f7687892546
+  languageName: node
+  linkType: hard
+
 "@remix-run/router@npm:1.15.3":
   version: 1.15.3
   resolution: "@remix-run/router@npm:1.15.3"
@@ -5131,6 +5161,7 @@ __metadata:
     "@radix-ui/react-scroll-area": "npm:^1.0.5"
     "@radix-ui/react-select": "npm:^2.0.0"
     "@radix-ui/react-slot": "npm:^1.0.2"
+    "@react-input/mask": "npm:^1.2.5"
     "@tanstack/react-query": "npm:^5.29.0"
     "@types/node": "npm:^20.12.5"
     "@types/react": "npm:^18.2.66"
