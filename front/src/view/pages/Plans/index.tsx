@@ -42,11 +42,9 @@ export default function Plans() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[230px]">Nome</TableHead>
-                    <TableHead>Atualizações</TableHead>
-                    <TableHead>Mídia Digital</TableHead>
-                    <TableHead>Impresso</TableHead>
-                    <TableHead>Apresentações</TableHead>
+                    <TableHead className="w-[230px]">Nome do Plano</TableHead>
+                    <TableHead>Qtd. Artes</TableHead>
+                    <TableHead>Preço</TableHead>
                     <TableHead className="w-[130px]">
                       Ações
                     </TableHead>

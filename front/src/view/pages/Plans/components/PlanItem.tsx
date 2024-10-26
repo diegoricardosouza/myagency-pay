@@ -6,14 +6,18 @@ import { Link } from "react-router-dom";
 interface PlanItemProps {
   id: string;
   name: string;
-  updates: string;
-  digital_midia: string;
-  printed: string;
-  presentations: string;
+  quantity: string;
+  price: number;
   deleteItem(id: string): void;
 }
 
-export function PlanItem({ id, name, updates, digital_midia, printed, presentations, deleteItem}: PlanItemProps) {
+export function PlanItem({ id, name, quantity, price, deleteItem}: PlanItemProps) {
+  const priceFormated = new Intl.NumberFormat('pt-br', {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2
+  }).format(price)
+
   return (
     <>
       <TableRow>
@@ -21,16 +25,10 @@ export function PlanItem({ id, name, updates, digital_midia, printed, presentati
           {name}
         </TableCell>
         <TableCell className="font-medium">
-          {String(updates) === "-1" ? 'ilimitado' : updates}
+          {quantity}
         </TableCell>
         <TableCell className="font-medium">
-          {String(digital_midia) === "-1" ? 'ilimitado' : digital_midia}
-        </TableCell>
-        <TableCell className="font-medium">
-          {String(printed) === "-1" ? 'ilimitado' : printed}
-        </TableCell>
-        <TableCell className="font-medium">
-          {String(presentations) === "-1" ? 'ilimitado' : presentations}
+          {priceFormated}
         </TableCell>
 
         <TableCell>

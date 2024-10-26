@@ -9,8 +9,8 @@ import { NewFormats } from "@/view/pages/Jobs/components/Formats/NewFormats";
 import { ViewJob } from "@/view/pages/Jobs/components/ViewJob";
 import { NotFound } from "@/view/pages/NotFound";
 import Plans from "@/view/pages/Plans";
-import { EditPlan } from "@/view/pages/Plans/components/EditPlan";
-import { NewPlan } from "@/view/pages/Plans/components/NewPlan";
+import { EditPlan } from "@/view/pages/Plans/EditPlan";
+import { NewPlan } from "@/view/pages/Plans/NewPlan";
 import { Profile } from "@/view/pages/Profile";
 import { Register } from "@/view/pages/Register";
 import { Updates } from "@/view/pages/Updates";
@@ -20,8 +20,6 @@ import { NewUser } from "@/view/pages/Users/components/NewUser";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "../view/pages/Login";
 import { AuthGuard } from "./AuthGuard";
-
-
 
 export function Router() {
   return (
