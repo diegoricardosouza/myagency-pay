@@ -11,14 +11,10 @@ import { z } from "zod";
 const schema = z.object({
   name: z.string()
     .min(1, 'Nome é obrigatório'),
-  updates: z.string()
-    .min(1, 'Atualizações é obrigatório'),
-  digital_midia: z.string()
-    .min(1, 'Mídia Digital é obrigatório'),
-  printed: z.string()
-    .min(1, 'Impresso é obrigatório'),
-  presentations: z.string()
-    .min(1, 'Apresentações é obrigatório'),
+  quantity: z.string()
+    .min(1, 'Quantidade é obrigatório'),
+  price: z.string()
+    .min(1, 'Preço é obrigatório')
 });
 
 type FormData = z.infer<typeof schema>
@@ -56,10 +52,8 @@ export function useEditPlanController() {
   useEffect(() => {
     if (planEditData?.data) {
       setValue("name", planEditData?.data?.name);
-      setValue("updates", String(planEditData?.data?.updates));
-      setValue("digital_midia", String(planEditData?.data?.digital_midia));
-      setValue("printed", String(planEditData?.data?.printed));
-      setValue("presentations", String(planEditData?.data?.presentations));
+      setValue("quantity", String(planEditData?.data?.quantity));
+      setValue("price", String(planEditData?.data?.price));
     }
   }, [planEditData, setValue]);
 
@@ -71,10 +65,14 @@ export function useEditPlanController() {
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
+      const price = data.price;
+      const priceFormated = `${price.slice(0, -2)}.${price.slice(-2)}`;
+
       if(id) {
         await mutateAsync({
           ...data,
           id,
+          price: priceFormated
         });
       }
 
@@ -91,6 +89,6 @@ export function useEditPlanController() {
     handleSubmit,
     control,
     isPending,
-    isLoading,
+    isLoading
   }
 }

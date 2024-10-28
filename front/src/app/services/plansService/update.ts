@@ -3,10 +3,8 @@ import { httpClient } from "../httpClient";
 export interface UpdatePlanParams {
   id: string;
   name: string;
-  updates: string;
-  digital_midia: string;
-  printed: string;
-  presentations: string;
+  quantity: string;
+  price: string;
 }
 
 export async function update({ id, ...params }: UpdatePlanParams) {

@@ -2,10 +2,8 @@ import { httpClient } from "../httpClient";
 
 export interface PlanParams {
   name: string;
-  updates: number;
-  digital_midia: number;
-  printed: number;
-  presentations: number;
+  quantity: string;
+  price: string;
 }
 
 export async function create(params: PlanParams) {

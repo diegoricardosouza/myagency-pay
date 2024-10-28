@@ -1,9 +1,11 @@
+import { InputCurrencyMask } from "@/view/components/InputCurrencyMask";
 import { Spinner } from "@/view/components/Spinner";
 import { Button } from "@/view/components/ui/button";
 import { Card, CardContent } from "@/view/components/ui/card";
 import { Input } from "@/view/components/ui/input";
 import { Label } from "@/view/components/ui/label";
 import { ChevronLeft, Loader2, PlusCircle } from "lucide-react";
+import { Controller } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { BreadcrumbEditPlan } from "./BreadcrumbEditPlan";
 import { useEditPlanController } from "./useEditPlanController";
@@ -15,6 +17,7 @@ export function EditPlan() {
     register,
     isPending,
     isLoading,
+    control
   } = useEditPlanController();
 
   return (
@@ -64,10 +67,6 @@ export function EditPlan() {
                 <CardContent>
                   <div className="grid gap-6">
                     <div className="grid gap-3">
-                      <p className="text-sm text-muted-foreground">-1 = Para ilimitado</p>
-                    </div>
-
-                    <div className="grid gap-3">
                       <Label htmlFor="name">Nome</Label>
                       <Input
                         id="name"
@@ -79,53 +78,34 @@ export function EditPlan() {
                     </div>
 
                     <div className="grid gap-3">
-                      <Label htmlFor="updates">Atualizações</Label>
+                      <Label htmlFor="quantity">Quantidade</Label>
                       <Input
-                        id="updates"
+                        id="quantity"
                         type="number"
                         className="w-full"
-                        {...register('updates')}
-                        error={errors?.updates?.message}
-                        min={-1}
+                        {...register('quantity')}
+                        error={errors?.quantity?.message}
+                        min={0}
                       />
                     </div>
 
                     <div className="grid gap-3">
-                      <Label htmlFor="digital_midia">Mídia Digital</Label>
-                      <Input
-                        id="digital_midia"
-                        type="number"
-                        className="w-full"
-                        {...register('digital_midia')}
-                        error={errors?.digital_midia?.message}
-                        min={-1}
+                      <Label htmlFor="price">Preço</Label>
+                      <Controller
+                        control={control}
+                        name="price"
+                        defaultValue=""
+                        render={({ field: { onChange, value } }) => {
+                          return (
+                            <InputCurrencyMask
+                              value={value}
+                              onChange={onChange}
+                              error={errors.price?.message}
+                            />
+                          )
+                        }}
                       />
                     </div>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="printed">Impresso</Label>
-                      <Input
-                        id="printed"
-                        type="number"
-                        className="w-full"
-                        {...register('printed')}
-                        error={errors?.printed?.message}
-                        min={-1}
-                      />
-                    </div>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="presentations">Apresentações</Label>
-                      <Input
-                        id="presentations"
-                        type="number"
-                        className="w-full"
-                        {...register('presentations')}
-                        error={errors?.presentations?.message}
-                        min={-1}
-                      />
-                    </div>
-
                   </div>
                 </CardContent>
               </Card>

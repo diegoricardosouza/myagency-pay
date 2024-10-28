@@ -10,14 +10,10 @@ import { z } from "zod";
 const schema = z.object({
   name: z.string()
     .min(1, 'Nome é obrigatório'),
-  updates: z.string()
-    .min(1, 'Atualizações é obrigatório'),
-  digital_midia: z.string()
-    .min(1, 'Mídia Digital é obrigatório'),
-  printed: z.string()
-    .min(1, 'Impresso é obrigatório'),
-  presentations: z.string()
-    .min(1, 'Apresentações é obrigatório'),
+  quantity: z.string()
+    .min(1, 'Quantidade é obrigatório'),
+  price: z.string()
+    .min(1, 'Preço é obrigatório')
 });
 
 type FormData = z.infer<typeof schema>
@@ -30,14 +26,12 @@ export function useNewPlanController() {
     register,
     handleSubmit: hookFormSubmit,
     reset,
+    control,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      updates: "0",
-      digital_midia: "0",
-      printed: "0",
-      presentations: "0"
+      quantity: "1"
     }
   });
 
@@ -49,12 +43,13 @@ export function useNewPlanController() {
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
+      const price = data.price;
+      const priceFormated = `${price.slice(0, -2)}.${price.slice(-2)}`;
+
       await mutateAsync({
         ...data,
-        updates: Number(data.updates),
-        digital_midia: Number(data.digital_midia),
-        printed: Number(data.printed),
-        presentations: Number(data.presentations),
+        quantity: data.quantity,
+        price: priceFormated
       });
 
       queryClient.invalidateQueries({ queryKey: ['plans'] });
@@ -70,6 +65,7 @@ export function useNewPlanController() {
     errors,
     register,
     handleSubmit,
-    isPending
+    isPending,
+    control
   }
 }
