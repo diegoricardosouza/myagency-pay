@@ -8,6 +8,7 @@ import { PlusCircle } from "lucide-react"
 import { useMemo } from "react"
 import { Link } from "react-router-dom"
 import { BreadcrumbUser } from "./components/BreadcrumbUser"
+
 import { UserItem } from "./components/UserItem"
 import { useUserController } from "./useUserController"
 
@@ -51,8 +52,8 @@ export default function User() {
                   <TableRow>
                     <TableHead>Empresa</TableHead>
                     <TableHead>Responsável</TableHead>
+                    <TableHead>Créditos</TableHead>
                     <TableHead>Nível</TableHead>
-                    <TableHead className="hidden md:table-cell">Plano</TableHead>
                     <TableHead>
                       Ações
                     </TableHead>

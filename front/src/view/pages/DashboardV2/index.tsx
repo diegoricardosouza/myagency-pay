@@ -25,6 +25,10 @@ export function DashboardV2() {
     jobsApproved
   } = useDashboardControllerV2();
 
+  console.log(dateStartCut);
+  console.log(dateEndCut);
+
+
   return (
     <>
       <div>
@@ -53,7 +57,6 @@ export function DashboardV2() {
             dateEndCut={dateEndCut}
             dateStartCut={dateStartCut}
             handleSubmit={handleSubmit}
-            day={user?.data.day}
           />
         </Modal>
 

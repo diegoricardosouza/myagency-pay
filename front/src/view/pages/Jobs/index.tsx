@@ -34,6 +34,10 @@ export function Jobs() {
     return generateEllipsisPagination(pagination.currentPage, pagination.totalPages);
   }, [pagination.currentPage, pagination.totalPages]);
 
+  console.log(dateStartCut);
+  console.log(dateEndCut);
+
+
   return (
     <>
       <BreadcrumbJob />
@@ -64,7 +68,6 @@ export function Jobs() {
             dateEndCut={dateEndCut}
             dateStartCut={dateStartCut}
             handleSubmit={handleSubmit}
-            day={user?.data.day}
           />
         </Modal>
 

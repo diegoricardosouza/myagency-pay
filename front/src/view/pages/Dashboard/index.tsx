@@ -55,7 +55,6 @@ export function Dashboard() {
             dateEndCut={dateEndCut}
             dateStartCut={dateStartCut}
             handleSubmit={handleSubmit}
-            day={user?.data.day}
           />
         </Modal>
 

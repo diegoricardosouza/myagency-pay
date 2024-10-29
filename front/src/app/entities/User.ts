@@ -7,13 +7,7 @@ export interface User {
   level: string;
   whatsapp: string;
   day: number;
+  cpf: string;
   logo: string;
-  plan: {
-    id: string;
-    name: string;
-    updates: string;
-    digital_midia: string;
-    printed: string;
-    presentations: string;
-  }
+  credits: string;
 }

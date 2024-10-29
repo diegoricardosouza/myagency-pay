@@ -8,9 +8,8 @@ export interface UpdateUserParams {
   email: string;
   level: string;
   whatsapp: string;
-  day: number;
+  cpf: string;
   logo?: File | null | string;
-  plan_id: string;
   password?: string | null;
 }
 

@@ -1,4 +1,3 @@
-import { Plan } from "@/app/entities/Plan"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/view/components/ui/alert-dialog"
 import { Badge } from "@/view/components/ui/badge"
 import { TableCell, TableRow } from "@/view/components/ui/table"
@@ -12,23 +11,26 @@ interface UserItemProps {
   responsible: string;
   logo: string;
   level: string;
-  plan: Plan;
+  credits: string;
   deleteItem(id: string): void;
 }
 
-export function UserItem({ id, company, email, responsible, logo, level, plan, deleteItem }: UserItemProps) {
+export function UserItem({ id, company, email, responsible, logo, level, credits, deleteItem }: UserItemProps) {
   return (
     <>
       <TableRow>
         <TableCell className="hidden sm:table-cell">
           <div className="flex items-center gap-4">
-            <img
-              alt="Product image"
-              className="aspect-square rounded-md object-contain"
-              height="64"
-              src={logo}
-              width="64"
-            />
+            {logo && (
+              <img
+                alt="Product image"
+                className="aspect-square rounded-md object-contain"
+                height="64"
+                src={logo}
+                width="64"
+              />
+            )}
+
             <div className="grid gap-1">
               <p className="text-sm font-medium leading-none">
                 {company}
@@ -43,11 +45,11 @@ export function UserItem({ id, company, email, responsible, logo, level, plan, d
         <TableCell className="font-medium">
           {responsible}
         </TableCell>
+        <TableCell className="font-medium">
+          {credits} Crédito(s)
+        </TableCell>
         <TableCell>
           <Badge variant="outline">{level}</Badge>
-        </TableCell>
-        <TableCell className="hidden md:table-cell">
-          {plan?.name}
         </TableCell>
         <TableCell>
           <div className="flex gap-4">

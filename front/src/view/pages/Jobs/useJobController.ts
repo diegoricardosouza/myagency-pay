@@ -32,17 +32,20 @@ export function useJobController(perPage = 6) {
 
   // Obtém a data atual
   const dateNow = new Date();
-  const dayNow = dateNow.getDate();
-  let dateStartCut = null;
-  let dateEndCut = null;
+  // const dayNow = dateNow.getDate();
+  // let dateStartCut = null;
+  // let dateEndCut = null;
 
-  if (dayNow < user!.data.day) {
-    dateStartCut = (dateNow.getMonth()) + '-' + user?.data.day + '-' + dateNow.getFullYear();
-    dateEndCut = (dateNow.getMonth() + 1) + '-' + user?.data.day + '-' + dateNow.getFullYear();
-  } else {
-    dateStartCut = (dateNow.getMonth() + 1) + '-' + user?.data.day + '-' + dateNow.getFullYear();
-    dateEndCut = (dateNow.getMonth() + 2) + '-' + user?.data.day + '-' + dateNow.getFullYear();
-  }
+  const dateStartCut = (dateNow.getMonth()) + '-' + dateNow.getDate() + '-' + dateNow.getFullYear();
+  const dateEndCut = (dateNow.getMonth() + 1) + '-' + dateNow.getDate() + '-' + dateNow.getFullYear();
+
+  // if (dayNow < user!.data.day) {
+  //   dateStartCut = (dateNow.getMonth()) + '-' + dateNow.getDate() + '-' + dateNow.getFullYear();
+  //   dateEndCut = (dateNow.getMonth() + 1) + '-' + dateNow.getDate() + '-' + dateNow.getFullYear();
+  // } else {
+  //   dateStartCut = (dateNow.getMonth() + 1) + '-' + dateNow.getDate() + '-' + dateNow.getFullYear();
+  //   dateEndCut = (dateNow.getMonth() + 2) + '-' + dateNow.getDate() + '-' + dateNow.getFullYear();
+  // }
 
   const {
     register,
