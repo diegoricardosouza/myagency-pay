@@ -38,5 +38,10 @@ WORKDIR /var/www
 
 # Copy custom configurations PHP
 COPY docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
+# Adiciona configurações personalizadas diretamente no custom.ini
+RUN echo "" >> /usr/local/etc/php/conf.d/custom.ini && \
+    echo "upload_max_filesize = 100M" >> /usr/local/etc/php/conf.d/custom.ini && \
+    echo "post_max_size = 250M" >> /usr/local/etc/php/conf.d/custom.ini && \
+    echo "max_file_uploads = 50" >> /usr/local/etc/php/conf.d/custom.ini
 
 USER $user

@@ -45,13 +45,17 @@ class UserService
     {
         $user = $this->user->findOrFail($id);
 
-        if(!empty($data['logo'])) {
+        if(!empty($data['logo']) && !empty($user->logo)) {
             if (!empty($data['logo']) && Storage::exists($user->logo)) {
                 Storage::delete($user->logo);
                 // $data['logo'] = $data['logo']->storeAs('users', $data['logo']->hashName());
             }
 
             $data['logo'] = $data['logo']->storeAs('users', $data['logo']->hashName());
+        } else {
+            if (!empty($data['logo'])) {
+                $data['logo'] = $data['logo']->storeAs('users', $data['logo']->hashName());
+            }
         }
 
         if(!empty($data['password'])) {

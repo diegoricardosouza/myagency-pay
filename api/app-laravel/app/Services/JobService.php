@@ -10,7 +10,6 @@ use App\Models\File;
 use App\Models\Job;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -100,55 +99,41 @@ class JobService
         }
 
         $jobAfterCreation = $this->job->with(['user', 'files'])->where('id', $jobCreated->id)->first();
-        $user = $this->user->with('plan')->where('id', Auth::user()->id)->first();
 
-        if($jobAfterCreation->type == "Atualizações") {
-            // $users_temp = explode(',', env('EMAIL_ATUALIZACOES'));
-            // foreach ($users_temp as $u) {
-            //     $this->sendMailAtt($jobAfterCreation, $u, $user->plan->name);
-            // }
-            $this->sendMailAtt($jobAfterCreation, env('EMAIL_ATUALIZACOES'), $user->plan->name);
+        $this->sendMail($jobAfterCreation, env('EMAIL_SOLICITACOES'), 'Artes Avulsas');
 
-        } else {
-            // $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
-            // foreach ($users_temp as $u) {
-            //     $this->sendMail($jobAfterCreation, $u, $user->plan->name);
-            // }
-            $this->sendMail($jobAfterCreation, env('EMAIL_SOLICITACOES'), $user->plan->name);
-        }
-
-        $this->verifyQtdJobs($id, $jobCreated);
+        // $this->verifyQtdJobs($id, $jobCreated);
 
         return $jobCreated;
     }
 
-    public function verifyQtdJobs($userId, $job)
-    {
-        $user = $this->user->with(['plan'])->where('id', $userId)->first();
+    // public function verifyQtdJobs($userId, $job)
+    // {
+    //     $user = $this->user->with(['plan'])->where('id', $userId)->first();
 
-        // $month = date('m');
-        // $year = date('Y');
-        // $dataCorte = $year."-". $month."-". $user->day;
-        // $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
-        // $dateStart = $year."-". $month."-". $user->day . "T00:00:00.000000Z";
-        // $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
+    //     // $month = date('m');
+    //     // $year = date('Y');
+    //     // $dataCorte = $year."-". $month."-". $user->day;
+    //     // $dataAtualObj = date('Y-m-d', strtotime("+1 month", strtotime($dataCorte)));
+    //     // $dateStart = $year."-". $month."-". $user->day . "T00:00:00.000000Z";
+    //     // $dateEnd = $dataAtualObj . "T23:59:59.000000Z";
 
-        if($job->type == "Atualizações") {
-            $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id, $user->plan->name);
-        }
+    //     if($job->type == "Atualizações") {
+    //         $this->countJobs($job, 'Atualizações', $user->plan->updates, $user->id, $user->plan->name);
+    //     }
 
-        if($job->type == "Mídia Digital") {
-            $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id, $user->plan->name);
-        }
+    //     if($job->type == "Mídia Digital") {
+    //         $this->countJobs($job, 'Mídia Digital', $user->plan->digital_midia, $user->id, $user->plan->name);
+    //     }
 
-        if($job->type == "Impresso") {
-            $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id, $user->plan->name);
-        }
+    //     if($job->type == "Impresso") {
+    //         $this->countJobs($job, 'Impresso', $user->plan->printed, $user->id, $user->plan->name);
+    //     }
 
-        if($job->type == "Apresentações") {
-            $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id, $user->plan->name);
-        }
-    }
+    //     if($job->type == "Apresentações") {
+    //         $this->countJobs($job, 'Apresentações', $user->plan->presentations, $user->id, $user->plan->name);
+    //     }
+    // }
 
     private function countJobs($job, $type, $qtdPlan, $userId, $planName)
     {
@@ -209,12 +194,12 @@ class JobService
         $comments->files()->delete();
     }
 
-    public function countNumberJobs($userId, $type)
-    {
-        $user = $this->user->with(['plan'])->where('id', $userId)->first();
+    // public function countNumberJobs($userId, $type)
+    // {
+    //     $user = $this->user->with(['plan'])->where('id', $userId)->first();
 
-        return $this->calculateNumberJobs($user->day, $userId, $type);
-    }
+    //     return $this->calculateNumberJobs($user->day, $userId, $type);
+    // }
 
     public function calculateNumberJobs($userDayCut, $userId, $type)
     {
@@ -265,29 +250,29 @@ class JobService
         ], $job->user->company." - ". $plan ." - ". $job->phrase." (" . Carbon::parse($job->created_at)->format('Y').$job->ref . ")"));
     }
 
-    public function sendMailAtt($job, $emails, $plan)
-    {
-        $urlFile = [];
-        foreach($job->files as $file){
-            $urlFile[] = url("storage/{$file->name}");
-        }
+    // public function sendMailAtt($job, $emails, $plan)
+    // {
+    //     $urlFile = [];
+    //     foreach($job->files as $file){
+    //         $urlFile[] = url("storage/{$file->name}");
+    //     }
 
-        Mail::to($emails)->send(new createJobMailAtt([
-            'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . $job->id,
-            'ref' => Carbon::parse($job->created_at)->format('Y').$job->ref,
-            'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
-            'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
-            'site' => $job->site,
-            'page' => $job->page,
-            'frase_destaque' => $job->phrase,
-            'informacoes' => $job->content,
-            'observacoes' => $job->obs,
-            'responsavel' => $job->user->responsible,
-            'email' => $job->user->email,
-            'whatsapp' => $job->user->whatsapp,
-            'files' => implode("\n", $urlFile),
-        ], $job->user->company . " - " . $plan . " - " . $job->phrase . " (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
-    }
+    //     Mail::to($emails)->send(new createJobMailAtt([
+    //         'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . $job->id,
+    //         'ref' => Carbon::parse($job->created_at)->format('Y').$job->ref,
+    //         'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
+    //         'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
+    //         'site' => $job->site,
+    //         'page' => $job->page,
+    //         'frase_destaque' => $job->phrase,
+    //         'informacoes' => $job->content,
+    //         'observacoes' => $job->obs,
+    //         'responsavel' => $job->user->responsible,
+    //         'email' => $job->user->email,
+    //         'whatsapp' => $job->user->whatsapp,
+    //         'files' => implode("\n", $urlFile),
+    //     ], $job->user->company . " - " . $plan . " - " . $job->phrase . " (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
+    // }
 
     private function sendExceededJob($job, $emails, $type, $plan)
     {

@@ -26,7 +26,18 @@ class Job extends Model
         'type',
         'status',
         'user_id',
+        'ref'
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($job) {
+            if (is_null($job->ref)) {
+                // Define o valor de 'ref' como o próximo número sequencial
+                $job->ref = Job::max('ref') + 1;
+            }
+        });
+    }
 
     public function files()
     {

@@ -128,6 +128,6 @@ class JobController extends Controller
     {
         $type = $request->get('type');
 
-        return $this->repository->countNumberJobs($this->userLogged->id, $type);
+        // return $this->repository->countNumberJobs($this->userLogged->id, $type);
     }
 }

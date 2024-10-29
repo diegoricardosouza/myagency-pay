@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
-            $table->string('ref')->nullable();
+            $table->unsignedBigInteger('ref')->nullable()->unique();
             $table->string('site')->nullable();
             $table->string('page')->nullable();
             $table->string('format')->nullable();
