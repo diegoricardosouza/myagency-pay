@@ -14,22 +14,20 @@ export function Menu() {
       </Link>
 
       {user?.data.level === 'ADMIN' && (
-        <>
-          <Link
-            to="/usuarios"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Usuários
-          </Link>
-
-          <Link
-            to="/planos"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Planos
-          </Link>
-        </>
+        <Link
+          to="/usuarios"
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Usuários
+        </Link>
       )}
+
+      <Link
+        to="/planos"
+        className="text-muted-foreground transition-colors hover:text-foreground"
+      >
+        Planos
+      </Link>
 
       <Link
         to="/solicitacoes"

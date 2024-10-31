@@ -25,10 +25,6 @@ export function DashboardV2() {
     jobsApproved
   } = useDashboardControllerV2();
 
-  console.log(dateStartCut);
-  console.log(dateEndCut);
-
-
   return (
     <>
       <div>

@@ -33,18 +33,6 @@ export function useDashboardControllerV2() {
   // Obtém a data atual
   useEffect(() => {
     const dateNow = new Date();
-    // const dayNow = dateNow.getDate();
-
-    // let getDateStartCut, getDateEndCut;
-
-    // if (dayNow < user!.data.day) {
-    //   getDateStartCut = new Date(dateNow.getFullYear(), dateNow.getMonth() -1, user!.data.day);
-    //   getDateEndCut = new Date(dateNow.getFullYear(), dateNow.getMonth(), user!.data.day);
-    // } else {
-    //   getDateStartCut = new Date(dateNow.getFullYear(), dateNow.getMonth(), user!.data.day);
-    //   getDateEndCut = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, user!.data.day);
-    // }
-
     const getDateStartCut = new Date(dateNow.getFullYear(), dateNow.getMonth()-1, dateNow.getDate());
     const getDateEndCut = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate());
 
