@@ -7,6 +7,7 @@ import { FormatsJob } from "@/view/pages/Jobs/Formats";
 import { NewFormats } from "@/view/pages/Jobs/Formats/NewFormats";
 import { ViewJob } from "@/view/pages/Jobs/components/ViewJob";
 import { NotFound } from "@/view/pages/NotFound";
+import { Payment } from "@/view/pages/Payment";
 import Plans from "@/view/pages/Plans";
 import { EditPlan } from "@/view/pages/Plans/EditPlan";
 import { NewPlan } from "@/view/pages/Plans/NewPlan";
@@ -48,6 +49,7 @@ export function Router() {
             <Route path="/solicitacoes/detalhes/:id" element={<ViewJob />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/ajuda" element={<Help />} />
+            <Route path="/pagamento" element={<Payment />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
