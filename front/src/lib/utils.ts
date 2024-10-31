@@ -151,3 +151,36 @@ export function isValidCPF(cpf: string): boolean {
 
   return !(rest(10, 2) !== validator[0] || rest(11, 1) !== validator[1]);
 }
+
+export function converterPrice(price: string | number) {
+  const priceFormated = new Intl.NumberFormat('pt-br', {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2
+  }).format(Number(price))
+
+  return priceFormated;
+}
+
+export function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function getCardBrand(cardNumber: string): string | null {
+  const cardPatterns = {
+    visa: /^4[0-9]{0,}$/,              // Inicia com 4
+    mastercard: /^(5[1-5][0-9]{0,}|2[2-7][0-9]{0,})$/, // Inicia com 51-55 ou 22-27
+    amex: /^3[47][0-9]{0,}$/,           // Inicia com 34 ou 37
+    diners: /^3(?:0[0-5]|[68][0-9])[0-9]{0,}$/, // Inicia com 300-305, 36 ou 38
+    discover: /^6(?:011|5[0-9]{2})[0-9]{0,}$/, // Inicia com 6011 ou 65
+    jcb: /^(?:2131|1800|35[0-9]{0,})$/, // Inicia com 2131, 1800 ou 35
+  };
+
+  for (const brand in cardPatterns) {
+    if (cardPatterns[brand as keyof typeof cardPatterns].test(cardNumber)) {
+      return brand;
+    }
+  }
+  return null;
+}
+
