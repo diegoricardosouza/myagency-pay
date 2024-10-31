@@ -1,11 +1,20 @@
 import { useAuth } from "@/app/hooks/useAuth";
 import coin from "@/assets/icon-coin.gif";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../components/ui/dropdown-menu";
 import { Button } from "./ui/button";
 
 export function UserMenu() {
   const { signout, user } = useAuth();
+  const navigate = useNavigate();
+
+  function handleMyProfile() {
+    navigate(`/usuarios/edit/${user?.data.id}`)
+  }
+
+  function handleMyProfileClient() {
+    navigate(`/perfil`)
+  }
 
   return (
     <>
@@ -25,20 +34,16 @@ export function UserMenu() {
           {user?.data.level === 'CLIENTE' && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer">
-                <Link to="/perfil">
-                  Meu Perfil
-                </Link>
+              <DropdownMenuItem className="cursor-pointer" onSelect={handleMyProfileClient}>
+                Meu Perfil
               </DropdownMenuItem>
             </>
           )}
           {user?.data.level !== 'CLIENTE' && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer">
-                <Link to={`/usuarios/edit/${user?.data.id}`}>
-                  Meu Perfil
-                </Link>
+              <DropdownMenuItem className="cursor-pointer" onSelect={handleMyProfile}>
+                Meu Perfil
               </DropdownMenuItem>
             </>
           )}

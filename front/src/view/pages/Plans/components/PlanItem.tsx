@@ -1,3 +1,4 @@
+import { converterPrice } from "@/lib/utils";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/view/components/ui/alert-dialog";
 import { TableCell, TableRow } from "@/view/components/ui/table";
 import { Edit, Trash2 } from "lucide-react";
@@ -12,12 +13,6 @@ interface PlanItemProps {
 }
 
 export function PlanItem({ id, name, quantity, price, deleteItem}: PlanItemProps) {
-  const priceFormated = new Intl.NumberFormat('pt-br', {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 2
-  }).format(price)
-
   return (
     <>
       <TableRow>
@@ -28,7 +23,7 @@ export function PlanItem({ id, name, quantity, price, deleteItem}: PlanItemProps
           {quantity}
         </TableCell>
         <TableCell className="font-medium">
-          {priceFormated}
+          {converterPrice(price)}
         </TableCell>
 
         <TableCell>

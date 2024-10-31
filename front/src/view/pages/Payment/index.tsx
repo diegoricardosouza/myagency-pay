@@ -1,19 +1,22 @@
 import { converterPrice } from "@/lib/utils";
-import { CardPayment } from "@/view/components/CardPayment";
 import { Spinner } from "@/view/components/Spinner";
+import { Button } from "@/view/components/ui/button";
 import { Card } from "@/view/components/ui/card";
+import { CardPayment } from "@/view/pages/Payment/_components/CardPayment";
+import { ArrowLeft } from "lucide-react";
 import { Suspense } from "react";
+import { Link } from "react-router-dom";
 import { usePaymentController } from "./usePaymentController";
 
 export function Payment() {
   const { plan } = usePaymentController();
 
   return (
-    <div className="flex gap-7">
+    <div className="flex flex-col lg:flex-row gap-7">
       <div className="flex-1">
         <Card className="p-5">
           <h3 className="font-semibold tracking-tight text-2xl mb-5">
-            Checkout
+            Pacote Escolhido
           </h3>
 
           <div className="flex justify-between items-center relative">
@@ -35,6 +38,15 @@ export function Payment() {
                 <p className="font-semibold tracking-tight text-2xl">{converterPrice(Number(plan?.price))}</p>
               </div>
             </Suspense>
+          </div>
+
+          <div className="mt-6">
+            <Button asChild>
+              <Link to="/planos">
+                <ArrowLeft className="mr-2 h-5 w-5" />
+                Escolher outro Pacote
+              </Link>
+            </Button>
           </div>
         </Card>
       </div>
