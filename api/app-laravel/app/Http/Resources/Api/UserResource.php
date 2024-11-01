@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'whatsapp' => $this->whatsapp,
             'day' => $this->day,
             'cpf' => $this->cpf,
-            'logo' => url("storage/{$this->logo}"),
+            'logo' => $this->logo ? url("storage/{$this->logo}") : null,
             'credits' => $this->credits
         ];
     }

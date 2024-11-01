@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\v1\CommentController;
 use App\Http\Controllers\Api\v1\FileCommentController;
 use App\Http\Controllers\Api\v1\FileController;
 use App\Http\Controllers\Api\v1\JobController;
+use App\Http\Controllers\Api\v1\OrderController;
 use App\Http\Controllers\Api\v1\PlanController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::prefix('v1')->group(function() {
         Route::apiResource('/files', FileController::class);
         Route::apiResource('/comments', CommentController::class);
         Route::apiResource('/files-comments', FileCommentController::class);
+        Route::apiResource('/orders', OrderController::class);
     });
 
     // Route::post('/users/{id}', [UserController::class, 'update']);
