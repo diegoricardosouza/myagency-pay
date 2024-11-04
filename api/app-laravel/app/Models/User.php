@@ -62,4 +62,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

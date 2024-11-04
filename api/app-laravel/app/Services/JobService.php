@@ -135,21 +135,21 @@ class JobService
     //     }
     // }
 
-    private function countJobs($job, $type, $qtdPlan, $userId, $planName)
-    {
-        if ($qtdPlan != -1) {
-            // Obter o número de solicitações de atualizações para o próximo mês
-            $user = $this->user->with(['plan'])->where('id', $userId)->first();
+    // private function countJobs($job, $type, $qtdPlan, $userId, $planName)
+    // {
+    //     if ($qtdPlan != -1) {
+    //         // Obter o número de solicitações de atualizações para o próximo mês
+    //         $user = $this->user->with(['plan'])->where('id', $userId)->first();
 
-            $numAtualizacoes = $this->calculateNumberJobs($user->day, $userId, $type);
+    //         $numAtualizacoes = $this->calculateNumberJobs($user->day, $userId, $type);
 
-            // Verificar se excede a quantidade permitida
-            if ($numAtualizacoes > $qtdPlan) {
-                // Enviar e-mail de aviso $job, $emails, $type
-                $this->sendExceededJob($job, env('EMAIL_FINANCEIRO'), $type, $planName);
-            }
-        }
-    }
+    //         // Verificar se excede a quantidade permitida
+    //         if ($numAtualizacoes > $qtdPlan) {
+    //             // Enviar e-mail de aviso $job, $emails, $type
+    //             $this->sendExceededJob($job, env('EMAIL_FINANCEIRO'), $type, $planName);
+    //         }
+    //     }
+    // }
 
     public function update($data, $id)
     {
@@ -274,29 +274,29 @@ class JobService
     //     ], $job->user->company . " - " . $plan . " - " . $job->phrase . " (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
     // }
 
-    private function sendExceededJob($job, $emails, $type, $plan)
-    {
-        $urlFile = [];
-        foreach ($job->files as $file) {
-            $urlFile[] = url("storage/{$file->name}");
-        }
+    // private function sendExceededJob($job, $emails, $type, $plan)
+    // {
+    //     $urlFile = [];
+    //     foreach ($job->files as $file) {
+    //         $urlFile[] = url("storage/{$file->name}");
+    //     }
 
-        Mail::to($emails)->send(new NoticeJobsExceeded([
-            'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . $job->id,
-            'ref' => Carbon::parse($job->created_at)->format('Y') . $job->ref,
-            'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
-            'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
-            'formatos' => $job->format,
-            'outros_formatos' => $job->other_formats,
-            'frase_destaque' => $job->phrase,
-            'informacoes' => $job->content,
-            'observacoes' => $job->obs,
-            'responsavel' => $job->user->responsible,
-            'company' => $job->user->company,
-            'type' => $type,
-            'email' => $job->user->email,
-            'whatsapp' => $job->user->whatsapp,
-            'files' => implode("\n", $urlFile),
-        ], '[SOLICITAÇÃO EXTRA]' . $job->user->company . " - " . $plan . " - (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
-    }
+    //     Mail::to($emails)->send(new NoticeJobsExceeded([
+    //         'url' => env('URL_FRONT') . "/solicitacoes/detalhes/" . $job->id,
+    //         'ref' => Carbon::parse($job->created_at)->format('Y') . $job->ref,
+    //         'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
+    //         'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
+    //         'formatos' => $job->format,
+    //         'outros_formatos' => $job->other_formats,
+    //         'frase_destaque' => $job->phrase,
+    //         'informacoes' => $job->content,
+    //         'observacoes' => $job->obs,
+    //         'responsavel' => $job->user->responsible,
+    //         'company' => $job->user->company,
+    //         'type' => $type,
+    //         'email' => $job->user->email,
+    //         'whatsapp' => $job->user->whatsapp,
+    //         'files' => implode("\n", $urlFile),
+    //     ], '[SOLICITAÇÃO EXTRA]' . $job->user->company . " - " . $plan . " - (" . Carbon::parse($job->created_at)->format('Y') . $job->ref . ")"));
+    // }
 }

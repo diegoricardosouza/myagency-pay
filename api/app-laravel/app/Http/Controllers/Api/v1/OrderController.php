@@ -6,21 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreUpdateOrderRequest;
 use App\Http\Resources\Api\OrderResource;
 use App\Services\OrderService;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    protected $userLogged;
+
     public function __construct(
         protected OrderService $repository,
-    ) {}
+    ) {
+        $this->middleware(function ($request, $next) {
+            $this->userLogged = Auth::user();
+
+            return $next($request);
+        });
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return OrderResource::collection($this->repository->getAll());
+        return OrderResource::collection($this->repository->getAll(50, $this->userLogged));
     }
 
     /**

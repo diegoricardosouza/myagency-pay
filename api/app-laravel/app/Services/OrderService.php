@@ -11,8 +11,15 @@ class OrderService
     ) {
     }
 
-    public function getAll($perPage = 50)
+    public function getAll($perPage = 50, $userLogged = null)
     {
+        if (!empty($userLogged) && $userLogged->level == 'CLIENTE') {
+            return $this->repository
+                        ->where('user_id', $userLogged->id)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate($perPage);
+        }
+
         return $this->repository
                     ->orderBy('created_at', 'desc')
                     ->paginate($perPage);
