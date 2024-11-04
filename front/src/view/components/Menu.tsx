@@ -30,6 +30,20 @@ export function Menu() {
       </Link>
 
       <Link
+        to="/pedidos"
+        className="text-muted-foreground transition-colors hover:text-foreground"
+      >
+        {user?.data.level === 'ADMIN' && (
+          <span>Pedidos</span>
+        )}
+        {user?.data.level === 'CLIENTE' && (
+          <span>Meus Pedidos</span>
+        )}
+      </Link>
+
+
+
+      <Link
         to="/solicitacoes"
         className="text-muted-foreground transition-colors hover:text-foreground"
       >
