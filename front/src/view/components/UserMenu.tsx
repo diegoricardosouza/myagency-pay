@@ -12,10 +12,6 @@ export function UserMenu() {
     navigate(`/usuarios/edit/${user?.data.id}`)
   }
 
-  function handleMyProfileClient() {
-    navigate(`/perfil`)
-  }
-
   return (
     <>
       <div className="flex items-center gap-2">
@@ -31,22 +27,10 @@ export function UserMenu() {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
-          {user?.data.level === 'CLIENTE' && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer" onSelect={handleMyProfileClient}>
-                Meu Perfil
-              </DropdownMenuItem>
-            </>
-          )}
-          {user?.data.level !== 'CLIENTE' && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer" onSelect={handleMyProfile}>
-                Meu Perfil
-              </DropdownMenuItem>
-            </>
-          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="cursor-pointer" onSelect={handleMyProfile}>
+            Meu Perfil
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onSelect={signout} className="cursor-pointer">
             Sair

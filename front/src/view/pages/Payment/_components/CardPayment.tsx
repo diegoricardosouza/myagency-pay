@@ -77,8 +77,8 @@ export function CardPayment({ isLoading }: CardPaymentProps) {
         {paymentMethod === 'card' && (
           <form className="grid gap-6" onSubmit={handleSubmit}>
             <div className="grid gap-2">
-              <Label htmlFor="name">Nome</Label>
-              <Input id="name" {...register('name')} placeholder="Nome Completo" error={errors.name?.message} />
+              <Label htmlFor="name">Nome do Titular</Label>
+              <Input id="name" {...register('name')} placeholder="Digite o nome impresso no cartão" error={errors.name?.message} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="number">Número do Cartão</Label>
@@ -101,6 +101,12 @@ export function CardPayment({ isLoading }: CardPaymentProps) {
                   )}
                   {cardBrand === 'jcb' && (
                     <Icons.jcb className="h-[40px] w-[40px]" />
+                  )}
+                  {cardBrand === 'hipercard' && (
+                    <Icons.hipercard className="h-[40px] w-[40px]" />
+                  )}
+                  {cardBrand === 'elo' && (
+                    <Icons.elo className="h-[40px] w-[40px]" />
                   )}
                   {cardBrand === null && (
                     <CreditCard className="h-[40px] w-[30px]" />
@@ -127,7 +133,7 @@ export function CardPayment({ isLoading }: CardPaymentProps) {
             </div>
             <div className="grid grid-cols-3 gap-4 items-start">
               <div className="grid gap-2">
-                <Label htmlFor="month">Expiração</Label>
+                <Label htmlFor="month">Mês</Label>
                 <Controller
                   control={control}
                   name="mes"
@@ -198,8 +204,8 @@ export function CardPayment({ isLoading }: CardPaymentProps) {
 
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="cvc">CVC</Label>
-                <Input type="number" {...register('cvc')} id="cvc" placeholder="CVC" error={errors.cvc?.message} />
+                <Label htmlFor="cvc">CVV</Label>
+                <Input type="number" {...register('cvc')} id="cvc" placeholder="CVV" error={errors.cvc?.message} />
               </div>
             </div>
 
