@@ -10,6 +10,11 @@ export interface UserParams {
   cpf: string;
   logo: File;
   password: string;
+  address: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  neighborhood: string;
 }
 
 export async function create(params: UserParams) {

@@ -8,7 +8,11 @@ export interface RegisterParams {
   level: string;
   whatsapp: string;
   cpf: string;
-  password: string;
+  address: string;
+  zipcode: string;
+  city: string;
+  state: string;
+  neighborhood: string;
 }
 
 export async function register(params: RegisterParams) {

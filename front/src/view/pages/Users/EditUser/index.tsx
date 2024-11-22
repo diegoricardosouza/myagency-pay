@@ -1,4 +1,5 @@
-import { LEVELS, LevelProps } from "@/app/config/constants";
+import { LevelProps, LEVELS, STATES } from "@/app/config/constants";
+import { useAuth } from "@/app/hooks/useAuth";
 import { InputMask } from "@/view/components/InputMask";
 import { Spinner } from "@/view/components/Spinner";
 import { Button } from "@/view/components/ui/button";
@@ -21,12 +22,18 @@ export function EditUser() {
     isPending,
     linkLogo,
     isLoading,
-    changeLogo
+    changeLogo,
+    id
   } = useEditUserController();
+  const { user } = useAuth();
+  const readOnly = user?.data.level === 'CLIENTE';
 
   return (
     <>
-      <BreadcrumbEditUser />
+      <BreadcrumbEditUser
+        id={id}
+        profileId={user?.data.id}
+      />
 
       <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
         <div className="mx-auto grid max-w-[900px] w-full flex-1 auto-rows-max gap-4">
@@ -39,20 +46,22 @@ export function EditUser() {
                 </Link>
               </Button>
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Editar Usuário
+                {id === user?.data.id ? 'Meu Perfil' : 'Editar Usuário'}
               </h1>
             </div>
 
-            <div>
-              <Button size="sm" className="h-8 gap-1" asChild>
-                <Link to="/usuarios/novo">
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Novo Usuário
-                  </span>
-                </Link>
-              </Button>
-            </div>
+            {user?.data.level !== 'CLIENTE' && (
+              <div>
+                <Button size="sm" className="h-8 gap-1" asChild>
+                  <Link to="/usuarios/novo">
+                    <PlusCircle className="h-3.5 w-3.5" />
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                      Novo Usuário
+                    </span>
+                  </Link>
+                </Button>
+              </div>
+            )}
           </div>
 
           <form
@@ -70,37 +79,58 @@ export function EditUser() {
 
                 <CardContent>
                   <div className="grid gap-6">
-                    <div className="grid gap-3">
-                      <Label htmlFor="name">Nome</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        className="w-full"
-                        {...register('name')}
-                        error={errors?.name?.message}
-                      />
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="grid gap-3">
+                        <Label htmlFor="name">Nome</Label>
+                        <Input
+                          id="name"
+                          type="text"
+                          className="w-full"
+                          {...register('name')}
+                          error={errors?.name?.message}
+                        />
+                      </div>
+
+                      <div className="grid gap-3">
+                        <Label htmlFor="company">Empresa</Label>
+                        <Input
+                          id="company"
+                          type="text"
+                          className="w-full"
+                          {...register('company')}
+                          error={errors?.company?.message}
+                        />
+                      </div>
                     </div>
 
-                    <div className="grid gap-3">
-                      <Label htmlFor="company">Empresa</Label>
-                      <Input
-                        id="company"
-                        type="text"
-                        className="w-full"
-                        {...register('company')}
-                        error={errors?.company?.message}
-                      />
-                    </div>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="grid gap-3">
+                        <Label htmlFor="responsible">Responsável</Label>
+                        <Input
+                          id="responsible"
+                          type="text"
+                          className="w-full"
+                          {...register('responsible')}
+                          error={errors?.responsible?.message}
+                        />
+                      </div>
 
-                    <div className="grid gap-3">
-                      <Label htmlFor="responsible">Responsável</Label>
-                      <Input
-                        id="responsible"
-                        type="text"
-                        className="w-full"
-                        {...register('responsible')}
-                        error={errors?.responsible?.message}
-                      />
+                      <div className="grid gap-3">
+                        <Label htmlFor="whatsapp">Whatsapp</Label>
+                        <Controller
+                          control={control}
+                          name="whatsapp"
+                          defaultValue=""
+                          render={({ field: { onChange, value } }) => (
+                            <InputMask
+                              mask="(__) _____-____"
+                              value={value}
+                              onChange={onChange}
+                              error={errors?.whatsapp?.message}
+                            />
+                          )}
+                        />
+                      </div>
                     </div>
 
                     <div className="grid gap-3">
@@ -111,23 +141,7 @@ export function EditUser() {
                         className="w-full"
                         {...register('email')}
                         error={errors?.email?.message}
-                      />
-                    </div>
-
-                    <div className="grid gap-3">
-                      <Label htmlFor="whatsapp">Whatsapp</Label>
-                      <Controller
-                        control={control}
-                        name="whatsapp"
-                        defaultValue=""
-                        render={({ field: { onChange, value } }) => (
-                          <InputMask
-                            mask="(__) _____-____"
-                            value={value}
-                            onChange={onChange}
-                            error={errors?.whatsapp?.message}
-                          />
-                        )}
+                        readOnly={readOnly}
                       />
                     </div>
 
@@ -143,9 +157,118 @@ export function EditUser() {
                             value={value}
                             onChange={onChange}
                             error={errors?.cpf?.message}
+                            readOnly={readOnly}
                           />
                         )}
                       />
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-3">
+                      <div className="grid gap-3 col-span-2">
+                        <div className="flex items-center">
+                          <Label htmlFor="address">Endereço</Label>
+                        </div>
+                        <Input
+                          id="address"
+                          type="text"
+                          {...register('address')}
+                          error={errors?.address?.message}
+                        />
+                      </div>
+
+                      <div className="grid gap-3">
+                        <div className="flex items-center">
+                          <Label htmlFor="number">Número</Label>
+                        </div>
+                        <Input
+                          id="number"
+                          type="number"
+                          {...register('number')}
+                          error={errors?.number?.message}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-3">
+                      <div className="grid gap-2 col-span-2">
+                        <div className="flex items-center">
+                          <Label htmlFor="neighborhood">Bairro</Label>
+                        </div>
+                        <Input
+                          id="neighborhood"
+                          type="text"
+                          {...register('neighborhood')}
+                          error={errors?.neighborhood?.message}
+                        />
+                      </div>
+
+                      <div className="grid gap-2">
+                        <div className="flex items-center">
+                          <Label htmlFor="zipcode">CEP</Label>
+                        </div>
+                        <Controller
+                          control={control}
+                          name="zipcode"
+                          defaultValue=""
+                          render={({ field: { onChange, value } }) => (
+                            <InputMask
+                              mask="_____-___"
+                              value={value}
+                              onChange={onChange}
+                              error={errors?.zipcode?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-3">
+                      <div className="grid gap-3 col-span-2">
+                        <div className="flex items-center">
+                          <Label htmlFor="city">Cidade</Label>
+                        </div>
+                        <Input
+                          id="city"
+                          type="text"
+                          {...register('city')}
+                          error={errors?.city?.message}
+                        />
+                      </div>
+
+                      <div className="grid gap-3">
+                        <div className="flex items-center">
+                          <Label htmlFor="state">Estado</Label>
+                        </div>
+                        <Controller
+                          control={control}
+                          name="state"
+                          defaultValue=""
+                          render={({ field: { onChange, value } }) => (
+                            <Select
+                              onValueChange={onChange}
+                              value={value}
+                            >
+                              <SelectTrigger
+                                id="state"
+                                aria-label="Selecione o estado"
+                              >
+                                <SelectValue placeholder="Selecione o estado" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {STATES.map((level: LevelProps) => (
+                                  <SelectItem key={level.value} value={level.value}>{level.label}</SelectItem>
+                                ))}
+                              </SelectContent>
+
+                              {errors?.state?.message && (
+                                <div className="flex gap-2 items-center text-red-700">
+                                  <span className="text-xs">{errors?.state?.message}</span>
+                                </div>
+                              )}
+                            </Select>
+                          )}
+                        />
+                      </div>
                     </div>
 
                     <div className="grid gap-3">
@@ -193,38 +316,40 @@ export function EditUser() {
                       />
                     </div>
 
-                    <div className="grid gap-3">
-                      <Label htmlFor="nivel">Nível</Label>
-                      <Controller
-                        control={control}
-                        name="level"
-                        defaultValue=""
-                        render={({ field: { onChange, value } }) => (
-                          <Select
-                            onValueChange={onChange}
-                            value={value}
-                          >
-                            <SelectTrigger
-                              id="nivel"
-                              aria-label="Selecione o nível"
+                    {user?.data.level !== 'CLIENTE' && (
+                      <div className="grid gap-3">
+                        <Label htmlFor="nivel">Nível</Label>
+                        <Controller
+                          control={control}
+                          name="level"
+                          defaultValue=""
+                          render={({ field: { onChange, value } }) => (
+                            <Select
+                              onValueChange={onChange}
+                              value={value}
                             >
-                              <SelectValue placeholder="Selecione o nível" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {LEVELS.map((level: LevelProps) => (
-                                <SelectItem key={level.value} value={level.value}>{level.label}</SelectItem>
-                              ))}
-                            </SelectContent>
+                              <SelectTrigger
+                                id="nivel"
+                                aria-label="Selecione o nível"
+                              >
+                                <SelectValue placeholder="Selecione o nível" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {LEVELS.map((level: LevelProps) => (
+                                  <SelectItem key={level.value} value={level.value}>{level.label}</SelectItem>
+                                ))}
+                              </SelectContent>
 
-                            {errors?.level?.message && (
-                              <div className="flex gap-2 items-center text-red-700">
-                                <span className="text-xs">{errors?.level?.message}</span>
-                              </div>
-                            )}
-                          </Select>
-                        )}
-                      />
-                    </div>
+                              {errors?.level?.message && (
+                                <div className="flex gap-2 items-center text-red-700">
+                                  <span className="text-xs">{errors?.level?.message}</span>
+                                </div>
+                              )}
+                            </Select>
+                          )}
+                        />
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

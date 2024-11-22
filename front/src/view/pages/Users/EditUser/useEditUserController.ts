@@ -1,4 +1,5 @@
 import { ACCEPTED_IMAGE_MIME_TYPES, MAX_FILE_SIZE } from "@/app/config/constants";
+import { useAuth } from "@/app/hooks/useAuth";
 import { usersService } from "@/app/services/usersService";
 import { UpdateUserParams } from "@/app/services/usersService/update";
 import { isValidCPF } from "@/lib/utils";
@@ -22,6 +23,18 @@ const schema = z.object({
     .email('Informe um e-mail válido'),
   whatsapp: z.string()
     .min(1, 'Whatsapp é obrigatório'),
+  address: z.string()
+    .min(1, 'Endereço é de preenchimento obrigatório.'),
+  zipcode: z.string()
+    .min(1, 'CEP é de preenchimento obrigatório.'),
+  city: z.string()
+    .min(1, 'Cidade é de preenchimento obrigatório.'),
+  state: z.string()
+    .min(1, 'Estado é de preenchimento obrigatório.'),
+  number: z.string()
+    .min(1, 'Número é de preenchimento obrigatório.'),
+  neighborhood: z.string()
+    .min(1, 'Bairro é de preenchimento obrigatório.'),
   cpf: z.string()
     .min(1, 'CPF é de preenchimento obrigatório.')
     .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
@@ -52,6 +65,7 @@ export function useEditUserController() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { id } = useParams();
+  const { user } = useAuth();
 
   const { data: userEditData, isLoading } = useQuery({
     queryKey: ['editUser', id],
@@ -87,6 +101,12 @@ export function useEditUserController() {
       setValue("responsible", userEditData?.data?.responsible);
       setValue("whatsapp", userEditData?.data?.whatsapp);
       setValue("cpf", userEditData?.data?.cpf);
+      setValue("address", userEditData?.data?.address);
+      setValue("zipcode", userEditData?.data?.zipcode);
+      setValue("city", userEditData?.data?.city);
+      setValue("state", userEditData?.data?.state);
+      setValue("neighborhood", userEditData?.data?.neighborhood);
+      setValue("number", userEditData?.data?.number);
       setValue("password", null);
       setLogoTemp(userEditData?.data.logo);
     }
@@ -100,7 +120,18 @@ export function useEditUserController() {
 
   const { isPending, mutateAsync } = useMutation({
     mutationFn: async (data: UpdateUserParams) => {
-      return usersService.update(data);
+      let dataFilter;
+      if (user?.data.level === 'CLIENTE') {
+        dataFilter = {
+          ...data,
+          email: user!.data.email,
+          cpf: user!.data.cpf
+        }
+      } else {
+        dataFilter = data
+      }
+
+      return usersService.update(dataFilter);
     }
   });
 
@@ -128,6 +159,7 @@ export function useEditUserController() {
     isPending,
     isLoading,
     linkLogo: logoTemp,
-    changeLogo
+    changeLogo,
+    id
   }
 }

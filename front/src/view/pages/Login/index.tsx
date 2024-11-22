@@ -11,11 +11,11 @@ export function Login() {
   const { handleSubmit, register, errors, isPending } = useLoginController();
 
   return (
-    <>
+    <div className="w-full max-w-[350px] mx-auto">
       <div className="flex flex-col gap-2 text-center">
         <Logo className="w-[168px] ml-auto mr-auto mb-8" />
 
-        <p className="text-balance text-muted-foreground">
+        <p className="text-balance text-muted-foreground mb-8">
           Digite seu e-mail abaixo para fazer login
         </p>
       </div>
@@ -53,12 +53,12 @@ export function Login() {
         </Button>
       </form>
 
-      <div className="text-center text-sm text-muted-foreground">
+      <div className="text-center text-sm text-muted-foreground mt-4">
         Não tem uma conta?{" "}
         <Link to="/register" className="underline">
           Criar Conta
         </Link>
       </div>
-    </>
+    </div>
   )
 }

@@ -168,12 +168,14 @@ export function sleep(ms: number) {
 
 export function getCardBrand(cardNumber: string): string | null {
   const cardPatterns = {
-    visa: /^4[0-9]{0,}$/,              // Inicia com 4
     mastercard: /^(5[1-5][0-9]{0,}|2[2-7][0-9]{0,})$/, // Inicia com 51-55 ou 22-27
     amex: /^3[47][0-9]{0,}$/,           // Inicia com 34 ou 37
     diners: /^3(?:0[0-5]|[68][0-9])[0-9]{0,}$/, // Inicia com 300-305, 36 ou 38
     discover: /^6(?:011|5[0-9]{2})[0-9]{0,}$/, // Inicia com 6011 ou 65
     jcb: /^(?:2131|1800|35[0-9]{0,})$/, // Inicia com 2131, 1800 ou 35
+    hipercard: /^(606282|637095|637568|637599|637609|637612)[0-9]{0,}$/, // Inicia com prefixos do Hipercard
+    elo: /^(4011(78|79)|431274|438935|451416|457393|457631|457632|504175|5067|509[0-9]{0,}|627780|636297|636368|650[0-9]{0,}|6516|6550)[0-9]{0,}$/, // Inicia com prefixos do Elo
+    visa: /^4[0-9]{0,}$/, // Inicia com 4
   };
 
   for (const brand in cardPatterns) {

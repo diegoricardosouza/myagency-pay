@@ -21,6 +21,18 @@ const schema = z.object({
     .email('Informe um e-mail válido'),
   whatsapp: z.string()
     .min(1, 'Whatsapp é obrigatório'),
+  address: z.string()
+    .min(1, 'Endereço é de preenchimento obrigatório.'),
+  zipcode: z.string()
+    .min(1, 'CEP é de preenchimento obrigatório.'),
+  city: z.string()
+    .min(1, 'Cidade é de preenchimento obrigatório.'),
+  state: z.string()
+    .min(1, 'Estado é de preenchimento obrigatório.'),
+  number: z.string()
+    .min(1, 'Número é de preenchimento obrigatório.'),
+  neighborhood: z.string()
+    .min(1, 'Bairro é de preenchimento obrigatório.'),
   cpf: z.string()
     .min(1, 'CPF é de preenchimento obrigatório.')
     .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
