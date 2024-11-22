@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id');
-            $table->enum('status', ['processing', 'canceled', 'finished'])->default('processing');
+            $table->string('transaction_id')->unique();
+            $table->string('payment_method');
+            $table->string('status')->default('pending');
             $table->string('product');
-            $table->string('type_payment');
             $table->decimal('price', 10, 2);
             $table->timestamps();
 

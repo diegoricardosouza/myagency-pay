@@ -23,6 +23,12 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->string('logo')->nullable();
             $table->integer('credits')->default(2);
+            $table->string('address')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('neighborhood')->nullable();
+            $table->string('number')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
