@@ -1,4 +1,5 @@
 import { LEVELS, LevelProps, STATES } from "@/app/config/constants";
+import { InputCepCardMask } from "@/view/components/InputCepCardMask";
 import { InputMask } from "@/view/components/InputMask";
 import { Button } from "@/view/components/ui/button";
 import { Card, CardContent } from "@/view/components/ui/card";
@@ -12,7 +13,7 @@ import { BreadcrumbNewUser } from "./BreadcrumbNewUser";
 import { useNewUserController } from "./useNewUserController";
 
 export function NewUser() {
-  const { handleSubmit, errors, register, control, isPending } = useNewUserController();
+  const { handleSubmit, errors, register, control, isPending, zipcodeValid } = useNewUserController();
 
   return (
     <>
@@ -171,14 +172,16 @@ export function NewUser() {
                           name="zipcode"
                           defaultValue=""
                           render={({ field: { onChange, value } }) => (
-                            <InputMask
-                              mask="_____-___"
+                            <InputCepCardMask
                               value={value}
                               onChange={onChange}
                               error={errors?.zipcode?.message}
                             />
                           )}
                         />
+                        {zipcodeValid && (
+                          <span className="flex gap-2 items-center text-red-700 text-xs">{zipcodeValid}</span>
+                        )}
                       </div>
                     </div>
 

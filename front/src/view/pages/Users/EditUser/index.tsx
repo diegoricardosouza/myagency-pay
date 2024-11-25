@@ -1,5 +1,6 @@
 import { LevelProps, LEVELS, STATES } from "@/app/config/constants";
 import { useAuth } from "@/app/hooks/useAuth";
+import { InputCepCardMask } from "@/view/components/InputCepCardMask";
 import { InputMask } from "@/view/components/InputMask";
 import { Spinner } from "@/view/components/Spinner";
 import { Button } from "@/view/components/ui/button";
@@ -23,7 +24,8 @@ export function EditUser() {
     linkLogo,
     isLoading,
     changeLogo,
-    id
+    id,
+    zipcodeValid
   } = useEditUserController();
   const { user } = useAuth();
   const readOnly = user?.data.level === 'CLIENTE';
@@ -211,14 +213,16 @@ export function EditUser() {
                           name="zipcode"
                           defaultValue=""
                           render={({ field: { onChange, value } }) => (
-                            <InputMask
-                              mask="_____-___"
+                            <InputCepCardMask
                               value={value}
                               onChange={onChange}
                               error={errors?.zipcode?.message}
                             />
                           )}
                         />
+                        {zipcodeValid && (
+                          <span className="flex gap-2 items-center text-red-700 text-xs">{zipcodeValid}</span>
+                        )}
                       </div>
                     </div>
 

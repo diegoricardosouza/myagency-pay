@@ -3,6 +3,7 @@ import { Input } from "@/view/components/ui/input";
 import { Label } from "@/view/components/ui/label";
 
 import { LevelProps, STATES } from "@/app/config/constants";
+import { InputCepCardMask } from "@/view/components/InputCepCardMask";
 import { InputMask } from "@/view/components/InputMask";
 import { Logo } from "@/view/components/Logo";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/view/components/ui/select";
@@ -12,7 +13,7 @@ import { Link } from "react-router-dom";
 import { useRegisterController } from "./useRegisterController";
 
 export function Register() {
-  const { handleSubmit, register, errors, isPending, control } = useRegisterController();
+  const { handleSubmit, register, errors, isPending, control, zipcodeValid } = useRegisterController();
 
   return (
     <>
@@ -156,13 +157,21 @@ export function Register() {
             <div className="flex items-center">
               <Label htmlFor="name">CEP</Label>
             </div>
-            <Input
-              id="name"
-              type="text"
-              placeholder="ex.: 99999-999"
-              {...register('zipcode')}
-              error={errors?.zipcode?.message}
+            <Controller
+              control={control}
+              name="zipcode"
+              defaultValue=""
+              render={({ field: { onChange, value } }) => (
+                <InputCepCardMask
+                  value={value}
+                  onChange={onChange}
+                  error={errors?.zipcode?.message}
+                />
+              )}
             />
+            {zipcodeValid && (
+              <span className="flex gap-2 items-center text-red-700 text-xs">{zipcodeValid}</span>
+            )}
           </div>
         </div>
 

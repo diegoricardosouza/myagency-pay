@@ -5,6 +5,7 @@ import { UpdateUserParams } from "@/app/services/usersService/update";
 import { isValidCPF } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -66,6 +67,7 @@ export function useEditUserController() {
   const queryClient = useQueryClient();
   const { id } = useParams();
   const { user } = useAuth();
+  const [zipcodeValid, setZipcodeValid] = useState('');
 
   const { data: userEditData, isLoading } = useQuery({
     queryKey: ['editUser', id],
@@ -86,10 +88,12 @@ export function useEditUserController() {
     handleSubmit: hookFormSubmit,
     control,
     setValue,
+    watch,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(schema)
   });
+  const zipcode = watch("zipcode");
 
   // Definindo valores padrão após a obtenção dos dados do usuário
   useEffect(() => {
@@ -111,6 +115,39 @@ export function useEditUserController() {
       setLogoTemp(userEditData?.data.logo);
     }
   }, [userEditData, setValue]);
+
+  // Chamada para ViaCEP
+  useEffect(() => {
+    if (zipcode && zipcode.length < 8) {
+      setValue("address", "");
+      setValue("city", "");
+      setValue("state", "");
+      setValue("neighborhood", "");
+      setValue("number", "");
+    }
+    const fetchAddress = async (cep: string) => {
+      setZipcodeValid("");
+
+      if (cep?.length === 8) { // Formato completo do CEP
+        try {
+          const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+          if (!data.erro) {
+            setValue("neighborhood", data.bairro);
+            setValue("city", data.localidade);
+            setValue("state", data.uf);
+            setValue("address", data?.logradouro);
+          } else {
+            console.error("CEP inválido.");
+            setZipcodeValid("CEP inválido.");
+          }
+        } catch (error) {
+          console.error("Erro ao buscar o endereço:", error);
+        }
+      }
+    };
+
+    fetchAddress(zipcode);
+  }, [zipcode, setValue]);
 
   function changeLogo(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -160,6 +197,7 @@ export function useEditUserController() {
     isLoading,
     linkLogo: logoTemp,
     changeLogo,
-    id
+    id,
+    zipcodeValid
   }
 }

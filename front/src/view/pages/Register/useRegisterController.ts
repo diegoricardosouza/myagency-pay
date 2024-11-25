@@ -3,6 +3,8 @@ import { RegisterParams } from "@/app/services/authService/register";
 import { isValidCPF } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -41,15 +43,52 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function useRegisterController() {
+  const [zipcodeValid, setZipcodeValid] = useState('');
   const {
     register,
     handleSubmit: hookFormSubmit,
     control,
     reset,
+    setValue,
+    watch,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(schema)
   });
+  const zipcode = watch("zipcode"); // Observa alterações no CEP
+
+  // Chamada para ViaCEP
+  useEffect(() => {
+    if (zipcode) {
+      setValue("address", "");
+      setValue("city", "");
+      setValue("state", "");
+      setValue("neighborhood", "");
+      setValue("number", "");
+    }
+
+    const fetchAddress = async (cep: string) => {
+      setZipcodeValid("");
+      if (cep?.length === 8) { // Formato completo do CEP
+        try {
+          const { data } = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+          if (!data.erro) {
+            setValue("neighborhood", data.bairro);
+            setValue("city", data.localidade);
+            setValue("state", data.uf);
+            setValue("address", data?.logradouro);
+          } else {
+            console.error("CEP inválido.");
+            setZipcodeValid("CEP inválido.");
+          }
+        } catch (error) {
+          console.error("Erro ao buscar o endereço:", error);
+        }
+      }
+    };
+
+    fetchAddress(zipcode);
+  }, [zipcode, setValue]);
 
   // const { mutateAsync, isPending } = useMutation({
   //   mutationFn: async (data: SigninParams) => {
@@ -86,5 +125,5 @@ export function useRegisterController() {
     }
   });
 
-  return { handleSubmit, register, errors, isPending, control };
+  return { handleSubmit, register, errors, isPending, control, zipcodeValid };
 }
