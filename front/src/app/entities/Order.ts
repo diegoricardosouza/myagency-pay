@@ -4,8 +4,9 @@ export interface Order {
   id: string;
   product: string;
   status: string;
-  type_payment: string;
+  payment_method: string;
   price: number | string;
   date: string;
+  transaction_id: string;
   user: User;
 }

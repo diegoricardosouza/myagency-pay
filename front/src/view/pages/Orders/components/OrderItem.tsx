@@ -8,13 +8,13 @@ import { ptBR } from 'date-fns/locale';
 interface OrderItemProps {
   product: string;
   status: string;
-  type_payment: string;
+  payment_method: string;
   price: number | string;
   date: string;
   user: User;
 }
 
-export function OrderItem({ product, status, type_payment, price, date, user }: OrderItemProps) {
+export function OrderItem({ product, status, payment_method, price, date, user }: OrderItemProps) {
   return (
     <>
       <TableRow>
@@ -45,19 +45,19 @@ export function OrderItem({ product, status, type_payment, price, date, user }: 
           {product}
         </TableCell>
         <TableCell className="uppercase">
-          {status ==='processing' && (
-            <Badge variant="warning" className="text-[11px]">Processando</Badge>
+          {status ==='pending' && (
+            <Badge variant="warning" className="text-[11px]">Aguardando</Badge>
           )}
-          {status ==='canceled' && (
+          {status ==='failed' && (
             <Badge variant="destructive" className="text-[11px]">Cancelado</Badge>
           )}
-          {status ==='finished' && (
+          {status ==='paid' && (
             <Badge variant="success" className="text-[11px]">Finalizado</Badge>
           )}
         </TableCell>
         <TableCell className="font-medium">
-          {type_payment === 'credit_card' && ('Cartão de Crédito')}
-          {type_payment === 'pix' && ('Pix')}
+          {payment_method === 'credit_card' && ('Cartão de Crédito')}
+          {payment_method === 'pix' && ('Pix')}
         </TableCell>
         <TableCell className="font-medium">
           {converterPrice(price)}

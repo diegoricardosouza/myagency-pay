@@ -18,6 +18,12 @@ interface UserMe {
     cpf: string;
     logo: string;
     credits: string;
+    address: string;
+    zipcode: string;
+    city: string;
+    state: string;
+    neighborhood: string;
+    number: string;
   }
 }
 

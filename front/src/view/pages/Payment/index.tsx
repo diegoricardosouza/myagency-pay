@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { usePaymentController } from "./usePaymentController";
 
 export function Payment() {
-  const { plan } = usePaymentController();
+  const { plan, id } = usePaymentController();
 
   return (
     <div className="flex flex-col lg:flex-row gap-7">
@@ -52,7 +52,12 @@ export function Payment() {
       </div>
 
       <div className="w-full max-w-96">
-        <CardPayment />
+        <CardPayment
+          code={id}
+          namePlan={plan?.name}
+          qtd={plan?.quantity}
+          price={plan?.price}
+        />
       </div>
     </div>
   )
