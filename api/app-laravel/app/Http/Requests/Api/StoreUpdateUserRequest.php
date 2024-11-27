@@ -55,6 +55,10 @@ class StoreUpdateUserRequest extends FormRequest
             ],
             'day' => 'int',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'address' => 'required',
+            'zipcode' => 'required',
+            'city' => 'required',
+            'state' => 'required',
             'password' => [
                 'required',
                 'min:6',
@@ -71,11 +75,23 @@ class StoreUpdateUserRequest extends FormRequest
             //     Rule::unique('users')->ignore($this->segment(4))
             // ];
 
-            $rules['password'] = [
-                'nullable',
-                'min:6',
-                'max:100',
+            $rules = [
+                'address' => 'nullable',
+                'zipcode' => 'nullable',
+                'city' => 'nullable',
+                'state' => 'nullable',
+                'password' => [
+                    'nullable',
+                    'min:6',
+                    'max:100',
+                ],
             ];
+
+            // $rules['password'] = [
+            //     'nullable',
+            //     'min:6',
+            //     'max:100',
+            // ];
         }
 
         return $rules;

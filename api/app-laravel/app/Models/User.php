@@ -31,6 +31,12 @@ class User extends Authenticatable
         'cpf',
         'credits',
         'password',
+        'address',
+        'zipcode',
+        'city',
+        'state',
+        'neighborhood',
+        'number'
     ];
 
     /**

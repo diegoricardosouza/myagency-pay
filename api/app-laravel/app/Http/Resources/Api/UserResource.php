@@ -25,7 +25,13 @@ class UserResource extends JsonResource
             'day' => $this->day,
             'cpf' => $this->cpf,
             'logo' => $this->logo ? url("storage/{$this->logo}") : null,
-            'credits' => $this->credits
+            'credits' => $this->credits,
+            'address' => $this->address,
+            'zipcode' => $this->zipcode,
+            'city' => $this->city,
+            'state' => $this->state,
+            'neighborhood' => $this->neighborhood,
+            'number' => $this->number,
         ];
     }
 }

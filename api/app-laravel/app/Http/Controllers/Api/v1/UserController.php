@@ -18,8 +18,11 @@ class UserController extends Controller
     ) {
         $this->middleware(function ($request, $next) {
             $this->userLogged = Auth::user();
-
-            if ($this->userLogged && $this->userLogged->level != 'ADMIN') {
+            // Bloqueia usuários não-administradores para métodos que não sejam o `update`
+            if (
+                $request->route()->getActionMethod() !== 'update' && $request->route()->getActionMethod() !== 'show' &&
+                ($this->userLogged && $this->userLogged->level != 'ADMIN')
+            ) {
                 return response()->json([
                     'error' => 'Unauthorized'
                 ], Response::HTTP_UNAUTHORIZED);
