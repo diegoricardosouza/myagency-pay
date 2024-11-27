@@ -9,4 +9,9 @@ export interface Order {
   date: string;
   transaction_id: string;
   user: User;
+  qrcode?: string;
+  qrcode_url?: string;
+  expires_at_qrcode?: string;
+  brand?: string;
+  last_four_digits?: string;
 }

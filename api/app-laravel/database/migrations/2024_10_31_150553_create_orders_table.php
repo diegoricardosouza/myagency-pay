@@ -19,6 +19,11 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('product');
             $table->decimal('price', 10, 2);
+            $table->string('qrcode')->nullable();
+            $table->string('qrcode_url')->nullable();
+            $table->string('expires_at_qrcode')->nullable();
+            $table->string('brand')->nullable();
+            $table->string('last_four_digits')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
