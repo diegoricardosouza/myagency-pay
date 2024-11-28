@@ -9,6 +9,13 @@ export function usePaymentController() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('plan')
 
+  // console.log(id);
+
+  if(!id) {
+    navigate("/planos");
+  }
+
+
   const { data, isLoading } = useQuery({
     queryKey: ['editPlanPayment', id],
     staleTime: 0,
@@ -25,6 +32,7 @@ export function usePaymentController() {
 
   return {
     plan: data?.data,
-    isLoading
+    isLoading,
+    id
   }
 }

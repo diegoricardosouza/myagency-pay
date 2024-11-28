@@ -28,7 +28,7 @@ export default function Orders() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[300px]">Cliente</TableHead>
+                    <TableHead className="w-[230px]">Cliente</TableHead>
                     <TableHead>Pacote</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Forma de Pagamento</TableHead>
@@ -38,6 +38,7 @@ export default function Orders() {
                     <TableHead className="w-[150px]">
                       Data
                     </TableHead>
+                    <TableHead />
                   </TableRow>
                 </TableHeader>
 

@@ -4,8 +4,11 @@ import { Badge } from "@/view/components/ui/badge";
 import { TableCell, TableRow } from "@/view/components/ui/table";
 import { formatRelative } from "date-fns";
 import { ptBR } from 'date-fns/locale';
+import { Eye } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface OrderItemProps {
+  id: string;
   product: string;
   status: string;
   payment_method: string;
@@ -14,7 +17,7 @@ interface OrderItemProps {
   user: User;
 }
 
-export function OrderItem({ product, status, payment_method, price, date, user }: OrderItemProps) {
+export function OrderItem({ product, status, payment_method, price, date, user, id }: OrderItemProps) {
   return (
     <>
       <TableRow>
@@ -24,46 +27,51 @@ export function OrderItem({ product, status, payment_method, price, date, user }
               <img
                 alt="Product image"
                 className="aspect-square rounded-md object-contain"
-                height="64"
+                height="50"
                 src={user.logo}
-                width="64"
+                width="50"
               />
             )}
 
             <div className="grid gap-1">
-              <p className="text-sm font-medium leading-none">
-                {user.company}
+              <p className="text-xs font-medium leading-none">
+                {user.responsible}
               </p>
-              <p className="text-sm text-muted-foreground">
-                {user.email}
+              <p className="text-xs text-muted-foreground">
+                {user.company}
               </p>
             </div>
           </div>
         </TableCell>
 
-        <TableCell className="font-medium">
+        <TableCell className="font-medium text-xs">
           {product}
         </TableCell>
         <TableCell className="uppercase">
           {status ==='pending' && (
-            <Badge variant="warning" className="text-[11px]">Aguardando</Badge>
+            <Badge variant="warning" className="px-[5px] pt-[4px] pb-[3px] text-[9px] leading-[1]">Aguardando</Badge>
           )}
           {status ==='failed' && (
-            <Badge variant="destructive" className="text-[11px]">Cancelado</Badge>
+            <Badge variant="destructive" className="px-[5px] pt-[4px] pb-[3px] text-[9px] leading-[1]">Falha</Badge>
           )}
           {status ==='paid' && (
-            <Badge variant="success" className="text-[11px]">Finalizado</Badge>
+            <Badge variant="success" className="px-[5px] pt-[4px] pb-[3px] text-[9px] leading-[1]">Finalizado</Badge>
           )}
         </TableCell>
-        <TableCell className="font-medium">
+        <TableCell className="font-medium text-xs">
           {payment_method === 'credit_card' && ('Cartão de Crédito')}
           {payment_method === 'pix' && ('Pix')}
         </TableCell>
-        <TableCell className="font-medium">
+        <TableCell className="font-medium text-xs">
           {converterPrice(price)}
         </TableCell>
-        <TableCell className="font-medium">
+        <TableCell className="font-medium text-xs">
           {formatRelative(date, new Date(), { locale: ptBR })}
+        </TableCell>
+        <TableCell className="font-medium text-xs">
+          <Link to={`/pedidos/detalhes/${id}`}>
+            <Eye className="w-4 h-4" />
+          </Link>
         </TableCell>
       </TableRow>
     </>

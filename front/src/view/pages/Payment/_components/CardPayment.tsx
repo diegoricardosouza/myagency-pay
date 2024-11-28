@@ -5,22 +5,28 @@ import { Controller } from "react-hook-form";
 import { Icons } from "../../../components/Icons";
 import { InputCreditCardMask } from "../../../components/InputCreditCardMask";
 import { Button } from "../../../components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
 import { useCardPaymentController } from "../useCardPaymentController";
+import { usePixPaymentController } from "../usePixPaymentController";
 
 interface CardPaymentProps {
   isLoading?: boolean;
+  namePlan: string | undefined;
+  qtd: string | undefined;
+  price: number | undefined;
+  code: string | null;
 }
 
-export function CardPayment({ isLoading }: CardPaymentProps) {
+export function CardPayment({ isLoading, namePlan, price, qtd, code }: CardPaymentProps) {
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [cardBrand, setCardBrand] = useState<string | null>(null);
 
-  const { control, register, handleSubmit, errors } = useCardPaymentController();
+  const { control, register, handleSubmit, errors, isLoadingCard } = useCardPaymentController(namePlan, price, qtd, code);
+  const { handleSubmitPix, isLoadingPix } = usePixPaymentController(namePlan, price, qtd, code);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, ""); // Remove qualquer caractere não numérico
@@ -163,7 +169,7 @@ export function CardPayment({ isLoading }: CardPaymentProps) {
 
                       {errors?.mes?.message && (
                         <div className="flex gap-2 items-center text-red-700">
-                          <span className="text-xs">{errors?.mes?.message}</span>
+                        <span className="text-xs">{errors?.mes?.message}</span>
                         </div>
                       )}
                     </Select>
@@ -211,17 +217,22 @@ export function CardPayment({ isLoading }: CardPaymentProps) {
 
             <div className="grid gap-2">
               <Button className="w-full" disabled={isLoading} type="submit">
-                {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                {!isLoading && <span>Pagar</span>}
+                {isLoadingCard && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                {!isLoadingCard && <span>Pagar</span>}
               </Button>
             </div>
           </form>
         )}
       </CardContent>
       {paymentMethod === 'pix' && (
-        <CardFooter>
-          <Button className="w-full">Pagar</Button>
-        </CardFooter>
+        <CardContent>
+          <form onSubmit={handleSubmitPix}>
+            <Button type="submit" className="w-full">
+              {isLoadingPix && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+              {!isLoadingPix && <span>Pagar</span>}
+            </Button>
+          </form>
+        </CardContent>
       )}
     </Card>
   )

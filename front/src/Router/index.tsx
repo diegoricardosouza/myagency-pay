@@ -9,12 +9,14 @@ import { ViewJob } from "@/view/pages/Jobs/components/ViewJob";
 import { NotFound } from "@/view/pages/NotFound";
 
 import Orders from "@/view/pages/Orders";
+import { ShowOrder } from "@/view/pages/Orders/ShowOrder";
 import { Payment } from "@/view/pages/Payment";
 import Plans from "@/view/pages/Plans";
 import { EditPlan } from "@/view/pages/Plans/EditPlan";
 import { NewPlan } from "@/view/pages/Plans/NewPlan";
 import { Profile } from "@/view/pages/Profile";
 import { Register } from "@/view/pages/Register";
+import { SuccessOrder } from "@/view/pages/SuccessOrder";
 import User from "@/view/pages/Users";
 import { EditUser } from "@/view/pages/Users/EditUser";
 import { NewUser } from "@/view/pages/Users/NewUser";
@@ -53,6 +55,8 @@ export function Router() {
             <Route path="/ajuda" element={<Help />} />
             <Route path="/pagamento" element={<Payment />} />
             <Route path="/pedidos" element={<Orders />} />
+            <Route path="/pedidos/detalhes/:id" element={<ShowOrder />} />
+            <Route path="/pedido-realizado/:id" element={<SuccessOrder />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>

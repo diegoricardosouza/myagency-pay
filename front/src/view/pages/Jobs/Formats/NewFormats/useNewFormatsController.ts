@@ -66,6 +66,7 @@ export function useNewFormatsController() {
       });
 
       queryClient.invalidateQueries({ queryKey: ['jobs', 'jobs-count'] });
+      queryClient.invalidateQueries({ queryKey: ['users', 'me'] });
       toast.success('Solicitação cadastrada com sucesso!');
       reset();
       navigate("/solicitacoes");

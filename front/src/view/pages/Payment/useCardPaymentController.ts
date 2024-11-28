@@ -1,6 +1,9 @@
+import { useAuth } from "@/app/hooks/useAuth";
+import { paymentsService } from "@/app/services/paymentsService";
+import { CreditCardParams } from "@/app/services/paymentsService/creditCard";
 import { plansService } from "@/app/services/plansService";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -16,15 +19,20 @@ const schema = z.object({
   ano: z.string()
     .min(1, 'Ano é obrigatório.'),
   cvc: z.string()
-    .min(1, 'CVC é obrigatório.'),
+    .min(1, 'CVV é obrigatório.'),
 });
 
 type FormData = z.infer<typeof schema>
 
-export function useCardPaymentController() {
+export function useCardPaymentController(namePlan: string | undefined, price: number | undefined, qtd: string | undefined, code: string | null) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('plan')
+  const id = searchParams.get('plan');
+  const { user } = useAuth();
+  const phoneUser = user?.data.whatsapp.replace(/\D/g, "")
+
+  // console.log(user?.data);
+
 
   const { data, isLoading } = useQuery({
     queryKey: ['editPlanPayment', id],
@@ -49,12 +57,69 @@ export function useCardPaymentController() {
     resolver: zodResolver(schema)
   });
 
-  const handleSubmit = hookFormSubmit((data) => {
-    try {
-      console.log(data);
+  const { isPending: isLoadingCard, mutateAsync } = useMutation({
+    mutationFn: async (data: CreditCardParams) => {
+      return paymentsService.creditCard(data);
+    }
+  });
 
+  const handleSubmit = hookFormSubmit(async (data) => {
+    try {
+      const dataRequest = {
+        items: [
+          {
+            code: code!,
+            amount: Number(price) * 100,
+            description: namePlan!,
+            quantity: qtd!,
+          }
+        ],
+        customer: {
+          name: user!.data.name,
+          email: user!.data.email,
+          document: user!.data.cpf.replace(/\D/g, ""),
+          type: "individual",
+          phones: {
+            mobile_phone: {
+              country_code: "55",
+              area_code: phoneUser!.slice(0, 2),
+              number: phoneUser!.slice(2)
+            }
+          }
+        },
+        payments: [
+          {
+            payment_method: "credit_card",
+            credit_card: {
+              recurrence_cycle: "first",
+              installments: 1,
+              statement_descriptor: "INOVASITEPAY",
+              card: {
+                number: data!.card,
+                holder_name: data!.name,
+                exp_month: Number(data!.mes),
+                exp_year: Number(data!.ano),
+                cvv: data!.cvc,
+                billing_address: {
+                  line_1: `${user!.data.number}, ${user!.data.address}, ${user!.data.neighborhood}`,
+                  zip_code: user!.data.zipcode,
+                  city: user!.data.city,
+                  state: user!.data.state,
+                  country: "BR",
+                },
+              },
+            },
+          }
+        ]
+      }
+
+      const response = await mutateAsync(dataRequest);
+      toast.success('Pagamento Realizado!');
+      navigate(`/pedido-realizado/${response[0].id}`);
     } catch (error) {
-      toast.error('Erro ao obter os dados!');
+      toast.error('Falha ao pagar por Cartão de Crédito!');
+      console.log(error);
+
     }
   });
 
@@ -64,6 +129,7 @@ export function useCardPaymentController() {
     handleSubmit,
     control,
     register,
-    errors
+    errors,
+    isLoadingCard
   }
 }
