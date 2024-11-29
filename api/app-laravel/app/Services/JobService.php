@@ -12,6 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class JobService
 {
@@ -99,6 +100,12 @@ class JobService
         }
 
         $jobAfterCreation = $this->job->with(['user', 'files'])->where('id', $jobCreated->id)->first();
+
+        if(Auth::user()->credits > 0) {
+            $jobAfterCreation->user()->update([
+                'credits' => (Auth::user()->credits - 1)
+            ]);
+        }
 
         $this->sendMail($jobAfterCreation, env('EMAIL_SOLICITACOES'), 'Artes Avulsas');
 

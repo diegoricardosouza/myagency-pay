@@ -71,6 +71,7 @@ class PagarMeService
 
             $response = json_decode($response->getBody()->getContents(), true);
             $status = $response['status'];
+            $amount = $data['items'][0]['amount'] / 100;
 
             //cadastra o pedido no bd
             if ($response) {
@@ -80,7 +81,8 @@ class PagarMeService
                     "status" => $status,
                     "product" => $response['items'][0]['description'],
                     "payment_method" => "credit_card",
-                    "price" => $response['amount'] / 100,
+                    "price" => (int) $amount,
+                    "quantity" => (int) $response['items'][0]['quantity'],
                     "brand" => $response['charges'][0]['last_transaction']['card']['brand'],
                     "last_four_digits" => $response['charges'][0]['last_transaction']['card']['last_four_digits'],
                 ]);
@@ -98,6 +100,8 @@ class PagarMeService
     {
         // $card = $data['payments'][0]['pix']['expires_in'];
         // dd($card);
+        // dd($data['items'][0]['amount'] / 100);
+
         try {
             $response = $this->client->post('https://api.pagar.me/core/v5/orders', [
                 'json' => [
@@ -116,6 +120,7 @@ class PagarMeService
 
             $response = json_decode($response->getBody()->getContents(), true);
             $status = $response['status'];
+            $amount = $data['items'][0]['amount'] / 100;
 
             //cadastra o pedido no bd
             if($response) {
@@ -125,7 +130,8 @@ class PagarMeService
                     "status" => $status,
                     "product" => $response['items'][0]['description'],
                     "payment_method" => "pix",
-                    "price" => $response['amount'] / 100,
+                    "price" => (int) $amount,
+                    "quantity" => (int) $response['items'][0]['quantity'],
                     "qrcode" => $response['charges'][0]['last_transaction']['qr_code'],
                     "qrcode_url" => $response['charges'][0]['last_transaction']['qr_code_url'],
                     "expires_at_qrcode" => $response['charges'][0]['last_transaction']['expires_at'],
@@ -138,42 +144,4 @@ class PagarMeService
             return ['error' => $e->getMessage()];
         }
     }
-
-    // public function createCreditCardTransaction(array $data)
-    // {
-    //     try {
-    //         return $this->client->transactions()->create([
-    //             'amount' => $data['amount'] * 100, // centavos
-    //             'payment_method' => 'credit_card',
-    //             'card_holder_name' => $data['card_holder_name'],
-    //             'card_number' => $data['card_number'],
-    //             'card_cvv' => $data['card_cvv'],
-    //             'card_expiration_date' => $data['card_expiration'],
-    //             'customer' => [
-    //                 'name' => $data['customer_name'],
-    //                 'email' => $data['customer_email']
-    //             ]
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         Log::error('Erro no pagamento de cartão: ' . $e->getMessage());
-    //         throw $e;
-    //     }
-    // }
-
-    // public function createPixTransaction(array $data)
-    // {
-    //     try {
-    //         return $this->client->transactions()->create([
-    //             'amount' => $data['amount'] * 100, // centavos
-    //             'payment_method' => 'pix',
-    //             'customer' => [
-    //                 'name' => $data['customer_name'],
-    //                 'email' => $data['customer_email']
-    //             ]
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         Log::error('Erro no pagamento PIX: ' . $e->getMessage());
-    //         throw $e;
-    //     }
-    // }
 }

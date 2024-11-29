@@ -24,24 +24,20 @@ class StoreUpdateOrderRequest extends FormRequest
     {
         $rules = [
             'user_id' => 'required',
-            'status' => [
-                'required',
-                Rule::in(['processing', 'canceled', 'finished'])
-            ],
+            'status' => 'required',
+            'transaction_id' => 'required',
             'product' => 'required',
-            'type_payment' => 'required',
+            'payment_method' => 'required',
             'price' => 'required',
         ];
 
         if ($this->method() === 'PATCH' || $this->method() === 'PUT') {
             $rules = [
                 'user_id' => 'nullable',
-                'status' => [
-                    'nullable',
-                    Rule::in(['processing', 'canceled', 'finished'])
-                ],
+                'status' => 'nullable',
+                'transaction_id' => 'nullable',
                 'product' => 'nullable',
-                'type_payment' => 'nullable',
+                'payment_method' => 'nullable',
                 'price' => 'nullable',
             ];
         }

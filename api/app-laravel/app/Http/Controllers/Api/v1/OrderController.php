@@ -106,4 +106,9 @@ class OrderController extends Controller
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }
+
+    public function getByTransactionId(string $id) {
+        $order = $this->repository->getByTransactionId($id);
+        return new OrderResource($order);
+    }
 }

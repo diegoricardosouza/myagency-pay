@@ -35,6 +35,21 @@ class OrderService
         return $this->repository->findOrFail($id);
     }
 
+    public function getByTransactionId($id)
+    {
+        $order = $this->repository->with('user')->where('transaction_id', $id)->first();
+
+        return $order;
+    }
+
+    public function updateByTransactionId($id, $data)
+    {
+        $order = $this->repository->where('transaction_id', $id)->first();
+        $order->update($data);
+
+        return $order;
+    }
+
     public function update($data, $id)
     {
         $order = $this->repository->findOrFail($id);

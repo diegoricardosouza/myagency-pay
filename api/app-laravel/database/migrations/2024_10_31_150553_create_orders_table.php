@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('product');
             $table->decimal('price', 10, 2);
+            $table->integer('quantity')->nullable();
             $table->string('qrcode')->nullable();
             $table->string('qrcode_url')->nullable();
             $table->string('expires_at_qrcode')->nullable();
