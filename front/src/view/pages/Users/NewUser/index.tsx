@@ -127,10 +127,10 @@ export function NewUser() {
                     <div className="grid gap-4 lg:grid-cols-3">
                       <div className="grid gap-3 col-span-2">
                         <div className="flex items-center">
-                          <Label htmlFor="name">Endereço</Label>
+                          <Label htmlFor="address">Endereço</Label>
                         </div>
                         <Input
-                          id="name"
+                          id="address"
                           type="text"
                           {...register('address')}
                           error={errors?.address?.message}
@@ -139,10 +139,10 @@ export function NewUser() {
 
                       <div className="grid gap-3">
                         <div className="flex items-center">
-                          <Label htmlFor="name">Número</Label>
+                          <Label htmlFor="number">Número</Label>
                         </div>
                         <Input
-                          id="name"
+                          id="number"
                           type="number"
                           {...register('number')}
                           error={errors?.number?.message}
@@ -153,10 +153,10 @@ export function NewUser() {
                     <div className="grid gap-4 lg:grid-cols-3">
                       <div className="grid gap-2 col-span-2">
                         <div className="flex items-center">
-                          <Label htmlFor="name">Bairro</Label>
+                          <Label htmlFor="neighborhood">Bairro</Label>
                         </div>
                         <Input
-                          id="name"
+                          id="neighborhood"
                           type="text"
                           {...register('neighborhood')}
                           error={errors?.neighborhood?.message}
@@ -165,7 +165,7 @@ export function NewUser() {
 
                       <div className="grid gap-2">
                         <div className="flex items-center">
-                          <Label htmlFor="name">CEP</Label>
+                          <Label htmlFor="zipcode">CEP</Label>
                         </div>
                         <Controller
                           control={control}
@@ -188,10 +188,10 @@ export function NewUser() {
                     <div className="grid gap-4 lg:grid-cols-3">
                       <div className="grid gap-3 col-span-2">
                         <div className="flex items-center">
-                          <Label htmlFor="name">Cidade</Label>
+                          <Label htmlFor="city">Cidade</Label>
                         </div>
                         <Input
-                          id="name"
+                          id="city"
                           type="text"
                           {...register('city')}
                           error={errors?.city?.message}
@@ -200,7 +200,7 @@ export function NewUser() {
 
                       <div className="grid gap-3">
                         <div className="flex items-center">
-                          <Label htmlFor="name">Estado</Label>
+                          <Label htmlFor="state">Estado</Label>
                         </div>
                         <Controller
                           control={control}
@@ -212,7 +212,7 @@ export function NewUser() {
                               value={value}
                             >
                               <SelectTrigger
-                                id="nivel"
+                                id="state"
                                 aria-label="Selecione o estado"
                               >
                                 <SelectValue placeholder="Selecione o estado" />

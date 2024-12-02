@@ -2,7 +2,6 @@ import { ACCEPTED_IMAGE_MIME_TYPES, MAX_FILE_SIZE } from "@/app/config/constants
 import { useAuth } from "@/app/hooks/useAuth";
 import { usersService } from "@/app/services/usersService";
 import { UpdateUserParams } from "@/app/services/usersService/update";
-import { isValidCPF } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -37,8 +36,8 @@ const schema = z.object({
   neighborhood: z.string()
     .min(1, 'Bairro é de preenchimento obrigatório.'),
   cpf: z.string()
-    .min(1, 'CPF é de preenchimento obrigatório.')
-    .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
+    .min(1, 'CPF é de preenchimento obrigatório.'),
+    // .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
   password: z.string()
     .min(3, "A senha deve conter pelo menos 3 dígitos")
     .optional()

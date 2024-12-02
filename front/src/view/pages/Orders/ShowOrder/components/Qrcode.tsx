@@ -1,5 +1,6 @@
 import { Button } from "@/view/components/ui/button";
 import { Input } from "@/view/components/ui/input";
+import { Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface QrcodeProps {
@@ -32,10 +33,52 @@ export function Qrcode({ qrcodeUrl, qrcodeUrlImg }: QrcodeProps) {
 
   return (
     <div className="mt-5">
-      <h4 className="font-semibold leading-none tracking-tight">QrCode</h4>
+      <h4 className="font-semibold leading-none tracking-tight mb-4">Escaneie este código QR para pagar</h4>
+
+      <div className="px-7 mb-8">
+        <ul className="flex flex-col gap-2">
+          <li className="text-sm font-light">
+            <strong className="font-bold">1. </strong>
+            <span className="text-muted-foreground">
+              Acesse seu Internet Banking ou app de pagamentos.
+            </span>
+          </li>
+          <li className="text-sm font-light">
+            <strong className="font-bold">2. </strong>
+            <span className="text-muted-foreground">
+              Escolha pagar via Pix.
+            </span>
+          </li>
+          <li className="text-sm font-light">
+            <strong className="font-bold">3. </strong>
+            <span className="text-muted-foreground">
+              Escaneie o seguinte código:
+            </span>
+          </li>
+        </ul>
+      </div>
+
       <img src={qrcodeUrlImg} alt="Qrcode" className="mx-auto" />
 
+      <div className="mt-8 mb-4">
+        <p className="flex text-sm font-light items-center gap-[6px]">
+          <Clock className="w-4 h-4" />
+          <span className="text-muted-foreground">
+            Pague e será creditado na hora.
+          </span>
+        </p>
+      </div>
+
+      <div className="mb-5">
+        <hr />
+      </div>
+
       <div>
+        <h4 className="font-semibold leading-none tracking-tight mb-3">Ou copie este código para fazer o pagamento</h4>
+        <p className="text-sm font-light text-muted-foreground mb-3">
+          Escolha pagar via PIX pelo seu Internet Banking ou app de pagamentos. Depois, cole o seguinte código:
+        </p>
+
         <div className="flex gap-3">
           <Input
             ref={inputRef}

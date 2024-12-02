@@ -62,7 +62,7 @@ export function ShowOrder() {
               )}
             </div>
 
-            {data?.data.qrcode && (
+            {(data?.data.qrcode && data?.data.status === 'pending') && (
               <Qrcode qrcodeUrl={data?.data.qrcode} qrcodeUrlImg={data?.data.qrcode_url} />
             )}
 
