@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -42,6 +43,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function useRegisterController() {
+  const navigate = useNavigate();
   const [zipcodeValid, setZipcodeValid] = useState('');
   const {
     register,
@@ -119,6 +121,7 @@ export function useRegisterController() {
       // signin(token);
       toast.success("Usuário cadastrado com sucesso!");
       reset();
+      navigate(`/login`);
     } catch {
       toast.error("Credenciais inválidas");
     }
