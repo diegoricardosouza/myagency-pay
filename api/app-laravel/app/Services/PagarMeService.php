@@ -36,13 +36,18 @@ class PagarMeService
         $installments = $data['payments'][0]['credit_card']['installments'];
         $card = $data['payments'][0]['credit_card']['card'];
         $billing = $data['payments'][0]['credit_card']['card']['billing_address'];
-
-        // dd($billing);
+        $customItems = [
+            'code' => $data['items'][0]['code'],
+            'amount' => $data['items'][0]['amount'],
+            'description' => $data['items'][0]['description'],
+            'quantity' => 1,
+        ];
+        // dd($data['items']);
 
         try {
             $response = $this->client->post('https://api.pagar.me/core/v5/orders', [
                 'json' => [
-                    'items' => $data['items'],
+                    'items' => [$customItems],
                     'customer' => $data['customer'],
                     'payments' => [
                         [
@@ -81,8 +86,8 @@ class PagarMeService
                     "status" => $status,
                     "product" => $response['items'][0]['description'],
                     "payment_method" => "credit_card",
-                    "price" => (int) $amount,
-                    "quantity" => (int) $response['items'][0]['quantity'],
+                    "price" => $amount,
+                    "quantity" => (int) $data['items'][0]['quantity'],
                     "brand" => $response['charges'][0]['last_transaction']['card']['brand'],
                     "last_four_digits" => $response['charges'][0]['last_transaction']['card']['last_four_digits'],
                 ]);
@@ -101,11 +106,18 @@ class PagarMeService
         // $card = $data['payments'][0]['pix']['expires_in'];
         // dd($card);
         // dd($data['items'][0]['amount'] / 100);
+        $customItems = [
+            'code' => $data['items'][0]['code'],
+            'amount' => $data['items'][0]['amount'],
+            'description' => $data['items'][0]['description'],
+            'quantity' => 1,
+        ];
+        // dd([$data['items'][0], $customItems]);
 
         try {
             $response = $this->client->post('https://api.pagar.me/core/v5/orders', [
                 'json' => [
-                    'items' => $data['items'],
+                    'items' => [$customItems],
                     'customer' => $data['customer'],
                     'payments' => [
                         [
@@ -130,8 +142,8 @@ class PagarMeService
                     "status" => $status,
                     "product" => $response['items'][0]['description'],
                     "payment_method" => "pix",
-                    "price" => (int) $amount,
-                    "quantity" => (int) $response['items'][0]['quantity'],
+                    "price" => $amount,
+                    "quantity" => (int) $data['items'][0]['quantity'],
                     "qrcode" => $response['charges'][0]['last_transaction']['qr_code'],
                     "qrcode_url" => $response['charges'][0]['last_transaction']['qr_code_url'],
                     "expires_at_qrcode" => $response['charges'][0]['last_transaction']['expires_at'],
