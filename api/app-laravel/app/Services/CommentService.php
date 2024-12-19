@@ -47,7 +47,7 @@ class CommentService
 
         $commentAfterCreation = $this->comment->with(['files', 'job'])->where('id', $commentCreated->id)->first();
         $job = $this->job->with(['user', 'files'])->where('id', $commentAfterCreation->job->id)->first();
-        $user = $this->user->with('plan')->where('id', $job->user->id)->first();
+        // $user = $this->user->with('plan')->where('id', $job->user->id)->first();
 
         if(Auth::user()->level == 'CLIENTE') {
             // $users_temp = explode(',', env('EMAIL_SOLICITACOES'));
@@ -55,9 +55,9 @@ class CommentService
             //     $this->sendMail($u, $commentAfterCreation, $job, $user->plan->name);
             // }
             if ($job->type == "Atualizações") {
-                $this->sendMail(env('EMAIL_ATUALIZACOES'), $commentAfterCreation, $job, $user->plan->name);
+                $this->sendMail(env('EMAIL_ATUALIZACOES'), $commentAfterCreation, $job, 'AVULSO');
             } else {
-                $this->sendMail(env('EMAIL_SOLICITACOES'), $commentAfterCreation, $job, $user->plan->name);
+                $this->sendMail(env('EMAIL_SOLICITACOES'), $commentAfterCreation, $job, 'AVULSO');
             }
         }
         // $this->sendMail(env('EMAIL_SOLICITACOES_SINGLE'), $commentAfterCreation);
