@@ -4,7 +4,7 @@ import { ModalSearch } from "@/view/components/ModalSearch";
 import { Spinner } from "@/view/components/Spinner";
 import { Button } from "@/view/components/ui/button";
 import { ScrollArea } from "@/view/components/ui/scroll-area";
-import { PlusCircle, Search } from "lucide-react";
+import { CircleDollarSign, PlusCircle, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDashboardControllerV2 } from "./useDashboardControllerV2";
 
@@ -29,14 +29,27 @@ export function DashboardV2() {
     <>
       <div>
         <div className="flex mb-4 gap-2">
-          <Button size="sm" className="h-9 gap-1" asChild>
-            <Link to="/solicitacoes/novo">
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Nova Solicitação
-              </span>
-            </Link>
-          </Button>
+          {(user?.data.level !== 'ADMIN' && Number(user!.data.credits) === 0) && (
+            <Button size="sm" className="h-9 gap-1 bg-red-500 hover:bg-red-500/80" asChild>
+              <Link to="/planos">
+                <CircleDollarSign className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Comprar Créditos
+                </span>
+              </Link>
+            </Button>
+          )}
+
+          {(user?.data.level === 'ADMIN' || Number(user!.data.credits) > 0) && (
+            <Button size="sm" className="h-9 gap-1" asChild>
+              <Link to="/solicitacoes/novo">
+                <PlusCircle className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Nova Solicitação
+                </span>
+              </Link>
+            </Button>
+          )}
 
           <Button size="sm" onClick={openJobModal}>
             <div className="flex items-center gap-2">
