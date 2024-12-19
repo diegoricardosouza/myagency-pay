@@ -115,44 +115,6 @@ export function Register() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
-          <div className="grid gap-2 col-span-2">
-            <div className="flex items-center">
-              <Label htmlFor="name">Endereço</Label>
-            </div>
-            <Input
-              id="name"
-              type="text"
-              {...register('address')}
-              error={errors?.address?.message}
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              <Label htmlFor="name">Número</Label>
-            </div>
-            <Input
-              id="name"
-              type="number"
-              {...register('number')}
-              error={errors?.number?.message}
-            />
-          </div>
-        </div>
-
-        <div className="grid gap-4 lg:grid-cols-3">
-          <div className="grid gap-2 col-span-2">
-            <div className="flex items-center">
-              <Label htmlFor="name">Bairro</Label>
-            </div>
-            <Input
-              id="name"
-              type="text"
-              {...register('neighborhood')}
-              error={errors?.neighborhood?.message}
-            />
-          </div>
-
           <div className="grid gap-2">
             <div className="flex items-center">
               <Label htmlFor="name">CEP</Label>
@@ -173,15 +135,53 @@ export function Register() {
               <span className="flex gap-2 items-center text-red-700 text-xs">{zipcodeValid}</span>
             )}
           </div>
+
+          <div className="grid gap-2 col-span-2">
+            <div className="flex items-center">
+              <Label htmlFor="address">Endereço</Label>
+            </div>
+            <Input
+              id="address"
+              type="text"
+              {...register('address')}
+              error={errors?.address?.message}
+            />
+          </div>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
           <div className="grid gap-2 col-span-2">
             <div className="flex items-center">
-              <Label htmlFor="name">Cidade</Label>
+              <Label htmlFor="neighborhood">Bairro</Label>
             </div>
             <Input
-              id="name"
+              id="neighborhood"
+              type="text"
+              {...register('neighborhood')}
+              error={errors?.neighborhood?.message}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <div className="flex items-center">
+              <Label htmlFor="number">Número</Label>
+            </div>
+            <Input
+              id="number"
+              type="number"
+              {...register('number')}
+              error={errors?.number?.message}
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-2 col-span-2">
+            <div className="flex items-center">
+              <Label htmlFor="city">Cidade</Label>
+            </div>
+            <Input
+              id="city"
               type="text"
               {...register('city')}
               error={errors?.city?.message}
@@ -190,7 +190,7 @@ export function Register() {
 
           <div className="grid gap-2">
             <div className="flex items-center">
-              <Label htmlFor="name">Estado</Label>
+              <Label htmlFor="state">Estado</Label>
             </div>
             <Controller
               control={control}
@@ -202,7 +202,7 @@ export function Register() {
                   value={value}
                 >
                   <SelectTrigger
-                    id="nivel"
+                    id="state"
                     aria-label="Selecione o estado"
                   >
                     <SelectValue placeholder="Selecione o estado" />

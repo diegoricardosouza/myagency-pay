@@ -115,6 +115,7 @@ export function useNewUserController() {
     try {
       await mutateAsync({
         ...data,
+        credits: 0
       });
 
       queryClient.invalidateQueries({ queryKey: ['users'] });

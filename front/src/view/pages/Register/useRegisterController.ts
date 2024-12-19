@@ -111,7 +111,8 @@ export function useRegisterController() {
       const newData = {
         ...data,
         whatsapp: whats,
-        level: 'CLIENTE'
+        level: 'CLIENTE',
+        credits: 0
       }
 
       await mutateAsync(newData);

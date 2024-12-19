@@ -13,6 +13,7 @@ export interface RegisterParams {
   city: string;
   state: string;
   neighborhood: string;
+  credits: string | number;
 }
 
 export async function register(params: RegisterParams) {

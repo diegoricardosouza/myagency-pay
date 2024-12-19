@@ -15,6 +15,7 @@ export interface UserParams {
   city: string;
   state: string;
   neighborhood: string;
+  credits: string | number;
 }
 
 export async function create(params: UserParams) {
