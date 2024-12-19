@@ -1,13 +1,14 @@
 import { converterPrice } from "@/lib/utils";
 import { Spinner } from "@/view/components/Spinner";
 import { Badge } from "@/view/components/ui/badge";
+import { Button } from "@/view/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/view/components/ui/card";
 import { BreadcrumbOrder } from "./components/BreadcrumbOrder";
 import { Qrcode } from "./components/Qrcode";
 import { useSuccessOrderController } from "./useSuccessOrderController";
 
 export function SuccessOrder() {
-  const { data, isLoading } = useSuccessOrderController();
+  const { data, isLoading, handleRefresh } = useSuccessOrderController();
 
   return (
     <>
@@ -60,7 +61,15 @@ export function SuccessOrder() {
             </div>
 
             {data?.data.qrcode && (
-              <Qrcode qrcodeUrl={data?.data.qrcode} qrcodeUrlImg={data?.data.qrcode_url} />
+              <div>
+                <Qrcode qrcodeUrl={data?.data.qrcode} qrcodeUrlImg={data?.data.qrcode_url} />
+
+                <div className="flex justify-center">
+                  <Button className="mt-3 bg-green-600 hover:bg-green-600/80" onClick={handleRefresh}>
+                    Clique aqui se já realizou o pagamento
+                  </Button>
+                </div>
+              </div>
             )}
 
             {data?.data.brand && (

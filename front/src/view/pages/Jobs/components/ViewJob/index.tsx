@@ -56,6 +56,17 @@ export function ViewJob() {
             </div>
 
             <div className="flex flex-col gap-1 lg:flex-row">
+              {(jobData?.status === "approved" && user?.data.level === 'ADMIN') && (
+                <form
+                  onSubmit={handleChangingStatus}
+                >
+                  <Button type="submit" size="sm" disabled={isChangeStatus} className="bg-green-600 hover:bg-green-700">
+                    {changingStatus && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Reabrir Solicitação
+                  </Button>
+                </form>
+              )}
+
               {(buttonsRuleNotApproved && buttonsRuleChanging && userNotBelongsJob && userRoleNotClient) && (
                 <form
                   onSubmit={handleChangingStatus}

@@ -21,8 +21,15 @@ export function useSuccessOrderController() {
     }
   });
 
+  function handleRefresh() {
+    console.log('chegou refresh');
+    navigate("/pedidos", { replace: true });
+    window.location.reload();
+  }
+
   return {
     data,
-    isLoading
+    isLoading,
+    handleRefresh
   }
 }
