@@ -125,44 +125,6 @@ export function NewUser() {
                     </div>
 
                     <div className="grid gap-4 lg:grid-cols-3">
-                      <div className="grid gap-3 col-span-2">
-                        <div className="flex items-center">
-                          <Label htmlFor="address">Endereço</Label>
-                        </div>
-                        <Input
-                          id="address"
-                          type="text"
-                          {...register('address')}
-                          error={errors?.address?.message}
-                        />
-                      </div>
-
-                      <div className="grid gap-3">
-                        <div className="flex items-center">
-                          <Label htmlFor="number">Número</Label>
-                        </div>
-                        <Input
-                          id="number"
-                          type="number"
-                          {...register('number')}
-                          error={errors?.number?.message}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid gap-4 lg:grid-cols-3">
-                      <div className="grid gap-2 col-span-2">
-                        <div className="flex items-center">
-                          <Label htmlFor="neighborhood">Bairro</Label>
-                        </div>
-                        <Input
-                          id="neighborhood"
-                          type="text"
-                          {...register('neighborhood')}
-                          error={errors?.neighborhood?.message}
-                        />
-                      </div>
-
                       <div className="grid gap-2">
                         <div className="flex items-center">
                           <Label htmlFor="zipcode">CEP</Label>
@@ -182,6 +144,44 @@ export function NewUser() {
                         {zipcodeValid && (
                           <span className="flex gap-2 items-center text-red-700 text-xs">{zipcodeValid}</span>
                         )}
+                      </div>
+
+                      <div className="grid gap-3 col-span-2">
+                        <div className="flex items-center">
+                          <Label htmlFor="address">Endereço</Label>
+                        </div>
+                        <Input
+                          id="address"
+                          type="text"
+                          {...register('address')}
+                          error={errors?.address?.message}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-3">
+                      <div className="grid gap-2 col-span-2">
+                        <div className="flex items-center">
+                          <Label htmlFor="neighborhood">Bairro</Label>
+                        </div>
+                        <Input
+                          id="neighborhood"
+                          type="text"
+                          {...register('neighborhood')}
+                          error={errors?.neighborhood?.message}
+                        />
+                      </div>
+
+                      <div className="grid gap-3">
+                        <div className="flex items-center">
+                          <Label htmlFor="number">Número</Label>
+                        </div>
+                        <Input
+                          id="number"
+                          type="number"
+                          {...register('number')}
+                          error={errors?.number?.message}
+                        />
                       </div>
                     </div>
 
