@@ -8,6 +8,7 @@ import { NewFormats } from "@/view/pages/Jobs/Formats/NewFormats";
 import { ViewJob } from "@/view/pages/Jobs/components/ViewJob";
 import { NotFound } from "@/view/pages/NotFound";
 
+import { Iframe } from "@/view/pages/Iframe";
 import Orders from "@/view/pages/Orders";
 import { ShowOrder } from "@/view/pages/Orders/ShowOrder";
 import { Payment } from "@/view/pages/Payment";
@@ -34,6 +35,8 @@ export function Router() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
+
+          <Route path="/iframe" element={<Iframe />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>
