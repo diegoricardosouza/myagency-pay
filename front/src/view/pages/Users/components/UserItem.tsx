@@ -11,7 +11,7 @@ interface UserItemProps {
   responsible: string;
   logo: string;
   level: string;
-  credits: string;
+  credits: string | number;
   deleteItem(id: string): void;
 }
 

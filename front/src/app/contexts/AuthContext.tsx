@@ -17,7 +17,7 @@ interface UserMe {
     day: number;
     cpf: string;
     logo: string;
-    credits: string;
+    credits: string | number;
     address: string;
     zipcode: string;
     city: string;

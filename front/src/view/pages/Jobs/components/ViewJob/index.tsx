@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/view/components/ui/card";
 
 import { FileViewJob } from "@/view/components/FileViewJob";
 import { Spinner } from "@/view/components/Spinner";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/view/components/ui/alert-dialog";
 import { Label } from "@/view/components/ui/label";
 import { ScrollArea } from "@/view/components/ui/scroll-area";
 import { ChevronLeft, Loader2 } from "lucide-react";
@@ -89,20 +90,33 @@ export function ViewJob() {
                 </form>
               )}
               {(buttonsRuleNotApproved && userNotBelongsJob) && (
-                <form
-                  onSubmit={handleApprovedStatus}
-                >
-                  <Button
-                    name="approved"
-                    type="submit"
-                    size="lg"
-                    disabled={isChangeStatus}
-                    className="bg-green-600 hover:bg-green-700 text-lg rounded-full uppercase font-bold"
-                  >
-                    {approvedStatus && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Aprovar
-                  </Button>
-                </form>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <div
+                      className="bg-green-600 hover:bg-green-700 text-lg rounded-full uppercase font-bold text-white px-4 py-2 cursor-pointer"
+                    >
+                      Aprovar
+                    </div>
+                  </AlertDialogTrigger>
+
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Deseja realmente aprovar?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Essa ação não pode ser desfeita.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <form onSubmit={handleApprovedStatus}>
+                        <AlertDialogAction name="approved" type="submit" disabled={isChangeStatus}>
+                          {approvedStatus && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                          Confirmar
+                        </AlertDialogAction>
+                      </form>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               )}
             </div>
           </div>
