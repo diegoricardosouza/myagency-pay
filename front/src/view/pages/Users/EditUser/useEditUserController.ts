@@ -37,6 +37,7 @@ const schema = z.object({
     .min(1, 'Bairro é de preenchimento obrigatório.'),
   cpf: z.string()
     .min(1, 'CPF é de preenchimento obrigatório.'),
+  credits: z.string(),
     // .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
   password: z.string()
     .min(3, "A senha deve conter pelo menos 3 dígitos")
@@ -104,6 +105,7 @@ export function useEditUserController() {
       setValue("responsible", userEditData?.data?.responsible);
       setValue("whatsapp", userEditData?.data?.whatsapp);
       setValue("cpf", userEditData?.data?.cpf);
+      setValue("credits", String(userEditData?.data?.credits));
       setValue("address", userEditData?.data?.address);
       setValue("zipcode", userEditData?.data?.zipcode);
       setValue("city", userEditData?.data?.city);
@@ -180,7 +182,8 @@ export function useEditUserController() {
         });
       }
 
-      queryClient.invalidateQueries({ queryKey: ['editUser'] });
+      queryClient.invalidateQueries({ queryKey: ['users', 'me'] });
+      // queryClient.invalidateQueries({ queryKey: ['editUser'] });
       toast.success('Usuário atualizado com sucesso!');
     } catch (error) {
       toast.error('Erro ao cadastrar o usuário');
@@ -197,6 +200,7 @@ export function useEditUserController() {
     linkLogo: logoTemp,
     changeLogo,
     id,
-    zipcodeValid
+    zipcodeValid,
+    user
   }
 }

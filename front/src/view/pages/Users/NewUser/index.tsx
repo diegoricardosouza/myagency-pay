@@ -107,21 +107,36 @@ export function NewUser() {
                       />
                     </div>
 
-                    <div className="grid gap-3">
-                      <Label htmlFor="cpf">CPF</Label>
-                      <Controller
-                        control={control}
-                        name="cpf"
-                        defaultValue=""
-                        render={({ field: { onChange, value } }) => (
-                          <InputMask
-                            mask="___.___.___-__"
-                            value={value}
-                            onChange={onChange}
-                            error={errors?.cpf?.message}
-                          />
-                        )}
-                      />
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="grid gap-2">
+                        <Label htmlFor="cpf">CPF</Label>
+                        <Controller
+                          control={control}
+                          name="cpf"
+                          defaultValue=""
+                          render={({ field: { onChange, value } }) => (
+                            <InputMask
+                              mask="___.___.___-__"
+                              value={value}
+                              onChange={onChange}
+                              error={errors?.cpf?.message}
+                            />
+                          )}
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="creditos">Créditos</Label>
+                        <Input
+                          id="creditos"
+                          type="number"
+                          className="w-full"
+                          {...register('credits')}
+                          error={errors?.credits?.message}
+                          defaultValue={0}
+                          min={0}
+                        />
+                      </div>
                     </div>
 
                     <div className="grid gap-4 lg:grid-cols-3">

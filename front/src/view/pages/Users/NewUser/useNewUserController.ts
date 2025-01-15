@@ -36,6 +36,7 @@ const schema = z.object({
     .min(1, 'Bairro é de preenchimento obrigatório.'),
   cpf: z.string()
     .min(1, 'CPF é de preenchimento obrigatório.'),
+  credits: z.string(),
     // .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
   password: z.string()
     .min(3, 'A senha deve conter pelo menos 3 dígitos'),
@@ -115,7 +116,7 @@ export function useNewUserController() {
     try {
       await mutateAsync({
         ...data,
-        credits: 0
+        credits: data.credits ? Number(data.credits) : 0,
       });
 
       queryClient.invalidateQueries({ queryKey: ['users'] });
