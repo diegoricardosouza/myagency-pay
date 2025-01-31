@@ -242,7 +242,7 @@ class JobService
 
         Mail::to($emails)->send(new CreateJobMail([
             'url' => env('URL_FRONT')."/solicitacoes/detalhes/".$job->id,
-            'ref' => Carbon::parse($job->created_at)->format('Y').$job->ref,
+            'ref' => 'ART'.Carbon::parse($job->created_at)->format('Y').$job->ref,
             'data' => Carbon::parse($job->created_at)->format('d/m/Y'),
             'hora' => Carbon::parse($job->created_at)->format('H:i:s'),
             'formatos' => $job->format,

@@ -16,7 +16,7 @@ class JobResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'referencia' => $this->created_at->format('Y'). $this->created_at->format('m') .$this->ref,
+            'referencia' => 'ART'.$this->created_at->format('Y'). $this->ref,
             'site' => $this->site,
             'page' => $this->page,
             'format' => $this->format,

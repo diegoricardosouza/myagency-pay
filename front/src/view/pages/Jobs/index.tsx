@@ -124,9 +124,12 @@ export function Jobs() {
                 </TableHeader>
 
                 <TableBody>
-                  {jobs?.map((job) => (
-                    <JobItem key={job.id} {...job} deleteItem={handleDeleteJob} user={user} jobuser={job.user} />
-                  ))}
+                  {jobs?.map((job) => {
+                    console.log(job);
+
+
+                    return <JobItem key={job.id} {...job} deleteItem={handleDeleteJob} user={user} jobuser={job.user} />
+                  })}
                 </TableBody>
               </Table>
             )}
