@@ -10,8 +10,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Minha Agência',
-        short_name: 'Minha Agência',
+        name: 'Artes',
+        short_name: 'Artes',
         start_url: '/',
         display: 'standalone',
         background_color: '#003f91',
