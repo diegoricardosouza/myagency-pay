@@ -49,11 +49,11 @@ export function Router() {
               <Route path="/usuarios" element={<User />} />
               <Route path="/usuarios/novo" element={<NewUser />} />
               <Route path="/usuarios/edit/:id" element={<EditUser />} />
-              <Route path="/planos" element={<Plans />} />
               <Route path="/planos/novo" element={<NewPlan />} />
               <Route path="/planos/edit/:id" element={<EditPlan />} />
             </Route>
 
+            <Route path="/planos" element={<Plans />} />
             <Route path="/solicitacoes" element={<Jobs />} />
             <Route path="/solicitacoes/novo" element={<FormatsJob />} />
             <Route path="/solicitacoes/:formats" element={<NewFormats />} />
