@@ -37,7 +37,7 @@ const schema = z.object({
         .min(1, 'CPF é de preenchimento obrigatório.'),
         // .refine((cpf) => isValidCPF(cpf), { message: "CPF inválido" }),
   password: z.string()
-            .min(3, 'A senha deve conter pelo menos 3 dígitos'),
+            .min(6, 'A senha deve conter pelo menos 6 dígitos'),
 });
 
 type FormData = z.infer<typeof schema>
