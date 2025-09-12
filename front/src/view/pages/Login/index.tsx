@@ -11,7 +11,7 @@ export function Login() {
   const { handleSubmit, register, errors, isPending } = useLoginController();
 
   return (
-    <div className="w-full max-w-[350px] mx-auto">
+    <div className="w-full max-w-[350px] mx-auto mt-4 lg:mt-0">
       <div className="flex flex-col gap-2 text-center">
         <Logo className="w-[168px] ml-auto mr-auto mb-8" />
 

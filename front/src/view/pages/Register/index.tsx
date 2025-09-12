@@ -17,7 +17,7 @@ export function Register() {
 
   return (
     <>
-      <div className="flex flex-col gap-2 text-center">
+      <div className="flex flex-col gap-2 text-center mt-5 lg:mt-0">
         <Logo className="w-[168px] ml-auto mr-auto mb-8" />
 
         <p className="text-balance text-muted-foreground">
@@ -114,8 +114,8 @@ export function Register() {
           />
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <div className="grid gap-2">
+        <div className="lg:grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-2 mb-2 lg:mb-0">
             <div className="flex items-center">
               <Label htmlFor="name">CEP</Label>
             </div>
@@ -149,8 +149,8 @@ export function Register() {
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <div className="grid gap-2 col-span-2">
+        <div className="lg:grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-2 col-span-2 mb-2 lg:mb-0">
             <div className="flex items-center">
               <Label htmlFor="neighborhood">Bairro</Label>
             </div>
@@ -175,7 +175,7 @@ export function Register() {
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="lg:grid gap-4 lg:grid-cols-3">
           <div className="grid gap-2 col-span-2">
             <div className="flex items-center">
               <Label htmlFor="city">Cidade</Label>
@@ -188,7 +188,7 @@ export function Register() {
             />
           </div>
 
-          <div className="grid gap-2">
+          <div className="grid gap-2 mt-2 lg:mt-0">
             <div className="flex items-center">
               <Label htmlFor="state">Estado</Label>
             </div>
