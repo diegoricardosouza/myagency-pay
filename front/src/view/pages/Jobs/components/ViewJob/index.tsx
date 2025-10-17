@@ -124,7 +124,7 @@ export function ViewJob() {
           <StatusJob status={jobData?.status} />
 
           <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
-            <div>
+            <div className="lg:col-span-2">
               <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-1">
                 Comentários
               </h2>
@@ -169,13 +169,15 @@ export function ViewJob() {
                 </>
               )}
             </div>
+          </div>
 
-            <div>
-              <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-1">
-                Dados da solicitação
-              </h2>
+          <div>
+            <h2 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 mb-1">
+              Dados da solicitação
+            </h2>
 
-              <Card x-chunk="dashboard-07-chunk-0" className="pt-6">
+            <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
+              <Card x-chunk="dashboard-07-chunk-0" className="pt-6 lg:col-span-2">
                 <CardContent>
                   <div className="grid gap-6">
                     {user?.data.level !== 'CLIENTE' && (
@@ -241,7 +243,7 @@ export function ViewJob() {
               </Card>
 
               {jobData?.files?.length ? (
-                <Card x-chunk="dashboard-07-chunk-0" className="pt-6 mt-6">
+                <Card x-chunk="dashboard-07-chunk-0" className="pt-6 mt-0">
                   <CardContent>
                     <div>
                       <Label>Arquivos:</Label>
@@ -256,6 +258,7 @@ export function ViewJob() {
                 </Card>
               ) : null}
             </div>
+
           </div>
         </div>
       </div>

@@ -186,3 +186,18 @@ export function getCardBrand(cardNumber: string): string | null {
   return null;
 }
 
+export function identifyFileExtension(urlImage: string) {
+  const nameFile = urlImage?.split('/').pop();
+
+  if (nameFile) {
+    const extension = nameFile.split('.').pop()?.toLowerCase();
+
+    if (extension === 'pdf') {
+      return 'pdf';
+    } else if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'].includes(extension!)) {
+      return 'image';
+    }
+  }
+
+  return 'unknown';
+}
