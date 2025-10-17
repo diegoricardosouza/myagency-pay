@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Mail\NotifyPayMail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class WebhookService
 {
@@ -96,6 +98,9 @@ class WebhookService
         ], $user->id);
 
         // Exemplo: Enviar email de confirmação
+        Mail::to('financeiro@inovasite.com')->send(new NotifyPayMail([
+            'url' => env('URL_FRONT') . "/pedidos",
+        ], 'Novo pedido realizado no artes!'));
         // Mail::to($order->user)->send(new PaymentConfirmedMail($order));
     }
 
