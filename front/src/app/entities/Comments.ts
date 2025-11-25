@@ -6,4 +6,5 @@ export interface Comments {
   content: string;
   user: User;
   files?: Files[]
+  date?: string;
 }

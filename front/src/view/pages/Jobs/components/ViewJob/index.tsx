@@ -152,6 +152,7 @@ export function ViewJob() {
                     files={comment?.files}
                     userId={user!.data.id}
                     logo={comment.user.logo}
+                    date={comment.date ?? ''}
                   />
                 ))}
               </ScrollArea>
