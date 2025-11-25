@@ -1,5 +1,5 @@
 import { Files } from "@/app/entities/Jobs";
-import { cn } from "@/lib/utils";
+import { cn, extractYouTubeId } from "@/lib/utils";
 import { FileViewJob } from "@/view/components/FileViewJob";
 import { Avatar, AvatarImage } from "@/view/components/ui/avatar";
 import { Card, CardContent } from "@/view/components/ui/card";
@@ -16,23 +16,6 @@ interface CommentsProps {
   logo: string;
   date: string;
 }
-
-// Função para extrair ID do YouTube de várias URLs
-const extractYouTubeId = (url: string): string | null => {
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&?/]+)/,
-    /youtube\.com\/watch\?.*v=([^&]+)/
-  ];
-
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match && match[1]) {
-      return match[1];
-    }
-  }
-
-  return null;
-};
 
 export function Comments({ id, company, content, files, userId, logo, date }: CommentsProps) {
   // Processar conteúdo HTML para converter oembed em iframe

@@ -26,7 +26,9 @@ export function ViewJob() {
     handleChangingStatus,
     handleApprovingStatus,
     handleApprovedStatus,
-    whatsapp
+    whatsapp,
+    processedContent,
+    processedContentObs
   } = useViewJobController();
 
   const buttonsRuleNotApproved = jobData?.status !== "approved";
@@ -228,14 +230,14 @@ export function ViewJob() {
                         <Label>Conteúdos:</Label>
                         <div
                           className="text-muted-foreground text-sm break-w comments-content"
-                          dangerouslySetInnerHTML={{ __html: jobData?.content as string }}
+                          dangerouslySetInnerHTML={{ __html: processedContent }}
                         ></div>
                       </div>
                       <div className="grid gap-1">
                         <Label>Observações:</Label>
                         <div
                           className="text-muted-foreground text-sm break-w comments-content"
-                          dangerouslySetInnerHTML={{ __html: jobData?.obs as string }}
+                          dangerouslySetInnerHTML={{ __html: processedContentObs }}
                         ></div>
                       </div>
                     </div>

@@ -1,8 +1,9 @@
 import { useAuth } from "@/app/hooks/useAuth";
 import { jobsService } from "@/app/services/jobs";
 import { UpdateJobParams } from "@/app/services/jobs/update";
+import { extractYouTubeId } from "@/lib/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -46,6 +47,91 @@ export function useViewJobController() {
 
   // console.log("user:", user!.data.id);
 
+  const processedContent = useMemo(() => {
+      if (!jobData?.data.content) return '';
+
+      // Criar um elemento temporário para processar o HTML
+      const temp = document.createElement('div');
+      temp.innerHTML = jobData?.data.content;
+
+      // Encontrar todas as tags oembed
+      const oembeds = temp.querySelectorAll('oembed');
+
+      oembeds.forEach(oembed => {
+        const url = oembed.getAttribute('url');
+
+        if (url) {
+          // Extrair ID do vídeo do YouTube
+          const youtubeId = extractYouTubeId(url);
+
+          if (youtubeId) {
+            // Criar iframe do YouTube
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('width', '100%');
+            iframe.setAttribute('height', '315');
+            iframe.setAttribute('src', `https://www.youtube.com/embed/${youtubeId}`);
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+            iframe.setAttribute('allowfullscreen', 'true');
+            iframe.style.maxWidth = '560px';
+            iframe.style.borderRadius = '8px';
+
+            // Substituir oembed pelo iframe
+            const figure = oembed.closest('figure');
+            if (figure) {
+              figure.replaceWith(iframe);
+            } else {
+              oembed.replaceWith(iframe);
+            }
+          }
+        }
+      });
+
+      return temp.innerHTML;
+    }, [jobData?.data.content]);
+
+  const processedContentObs = useMemo(() => {
+      if (!jobData?.data.obs) return '';
+
+      // Criar um elemento temporário para processar o HTML
+      const temp = document.createElement('div');
+      temp.innerHTML = jobData?.data.obs;
+
+      // Encontrar todas as tags oembed
+      const oembeds = temp.querySelectorAll('oembed');
+
+      oembeds.forEach(oembed => {
+        const url = oembed.getAttribute('url');
+
+        if (url) {
+          // Extrair ID do vídeo do YouTube
+          const youtubeId = extractYouTubeId(url);
+
+          if (youtubeId) {
+            // Criar iframe do YouTube
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('width', '100%');
+            iframe.setAttribute('height', '315');
+            iframe.setAttribute('src', `https://www.youtube.com/embed/${youtubeId}`);
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+            iframe.setAttribute('allowfullscreen', 'true');
+            iframe.style.maxWidth = '560px';
+            iframe.style.borderRadius = '8px';
+
+            // Substituir oembed pelo iframe
+            const figure = oembed.closest('figure');
+            if (figure) {
+              figure.replaceWith(iframe);
+            } else {
+              oembed.replaceWith(iframe);
+            }
+          }
+        }
+      });
+
+      return temp.innerHTML;
+    }, [jobData?.data.obs]);
 
   const handleChangingStatus = hookFormSubmit(async () => {
     try {
@@ -103,6 +189,8 @@ export function useViewJobController() {
     changingStatus,
     approvingStatus,
     approvedStatus,
-    whatsapp: jobData?.data.user.whatsapp
+    whatsapp: jobData?.data.user.whatsapp,
+    processedContent,
+    processedContentObs
   }
 }
