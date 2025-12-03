@@ -21,10 +21,8 @@ export function ViewJob() {
     changingStatus,
     user,
     isChangeStatus,
-    approvingStatus,
     approvedStatus,
     handleChangingStatus,
-    handleApprovingStatus,
     handleApprovedStatus,
     whatsapp,
     processedContent,
@@ -32,7 +30,7 @@ export function ViewJob() {
   } = useViewJobController();
 
   const buttonsRuleNotApproved = jobData?.status !== "approved";
-  const buttonsRuleApproving = jobData?.status !== "approving";
+  // const buttonsRuleApproving = jobData?.status !== "approving";
   const buttonsRuleChanging = jobData?.status !== "changing";
   const userRoleNotClient = user?.data.level !== "CLIENTE";
   // const userRoleClient = user?.data.level === "CLIENTE";
@@ -81,7 +79,7 @@ export function ViewJob() {
                 </form>
               )}
 
-              {(buttonsRuleNotApproved && userRoleNotClient && buttonsRuleApproving) && (
+              {/* {(buttonsRuleNotApproved && userRoleNotClient && buttonsRuleApproving) && (
                 <form
                   onSubmit={handleApprovingStatus}
                 >
@@ -90,7 +88,7 @@ export function ViewJob() {
                     Mandar para aprovação
                   </Button>
                 </form>
-              )}
+              )} */}
               {(buttonsRuleNotApproved && userNotBelongsJob) && (
                 <AlertDialog>
                   <AlertDialogTrigger>

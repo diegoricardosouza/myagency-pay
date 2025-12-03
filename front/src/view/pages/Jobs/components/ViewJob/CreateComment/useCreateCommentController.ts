@@ -61,6 +61,12 @@ export function useCreateCommentController() {
 
   const handleSubmit = hookFormSubmit(async (data) => {
     try {
+      await mutateAsync({
+        ...data,
+        job_id: id!,
+        user_id: user!.data.id
+      });
+
       if(user?.data.level === 'CLIENTE') {
         await mutateChangeStatus({
           id: id!,
@@ -70,11 +76,15 @@ export function useCreateCommentController() {
         reset();
       }
 
-      await mutateAsync({
-        ...data,
-        job_id: id!,
-        user_id: user!.data.id
-      });
+      if (user?.data.level === 'ADMIN') {
+        await mutateChangeStatus({
+          id: id!,
+          status: "approving"
+        });
+        queryClient.invalidateQueries({ queryKey: ['viewjob'] });
+        reset();
+      }
+
       queryClient.invalidateQueries({ queryKey: ['viewjob'] });
       if (user?.data.level === 'CLIENTE') {
         toast.success('Comentário cadastrado com sucesso!');
